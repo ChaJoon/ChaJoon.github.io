@@ -162,8 +162,10 @@
 
   /* ---------- Skills ---------- */
   section.skills { padding: 40px 0 44px; border-top: 1px solid var(--rule); }
-  section.skills .section-title { margin-bottom: 12px; }
+  section.skills .section-title, section.projects .section-title { margin-bottom: 12px; }
   .section-hint { margin: 0; font-size: 14px; color: var(--muted); }
+  /* keep the first project's trace clear of the line above it */
+  section.projects .section-hint { margin-bottom: 22px; }
   .skills-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px 40px; margin-top: 24px; }
   @media (max-width: 600px) { .skills-grid { grid-template-columns: 1fr; } }
   .skill-cat h3 { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--gold); margin: 0 0 6px; font-weight: 600; letter-spacing: 0; }
@@ -234,7 +236,6 @@
     font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted);
     border: 1px solid var(--rule); padding: 3px 8px; border-radius: 3px; white-space: nowrap;
   }
-  .chip.grade { color: var(--copper); border-color: var(--copper); }
   .p-body { color: var(--ink); font-size: 15px; max-width: 60ch; }
   .p-body .callout { color: var(--scope); }
 
@@ -386,6 +387,7 @@
   <!-- data-wave picks the divider waveform: breath, clock, resonance, classes, ringdown, gain -->
   <section class="projects" id="projects">
     <h2 class="section-title">ENGINEERING PROJECTS — 2023–2026</h2>
+    <p class="section-hint">All six projects were graded first class.</p>
 
     <article class="project" id="p-rfid" data-skills="antenna hfss kicad flex-pcb cpp" data-wave="breath">
       <div class="p-media hardware">
@@ -394,7 +396,6 @@
       <div class="p-content">
         <div class="p-head">
           <h3>Wireless RFID E-Textile Sensor System</h3>
-          <span class="chip grade">85%</span>
         </div>
         <div class="chips">
           <span class="chip">ANSYS HFSS</span><span class="chip">KiCad</span><span class="chip">C++</span><span class="chip">RFID</span>
@@ -410,7 +411,6 @@
       <div class="p-content">
         <div class="p-head">
           <h3>NISC Processor Design on FPGA</h3>
-          <span class="chip grade">78%</span>
         </div>
         <div class="chips">
           <span class="chip">SystemVerilog</span><span class="chip">Questa</span><span class="chip">Intel Quartus</span><span class="chip">DE1-SoC</span>
@@ -426,7 +426,6 @@
       <div class="p-content">
         <div class="p-head">
           <h3>NEM Resonator Characterisation</h3>
-          <span class="chip grade">71%</span>
         </div>
         <div class="chips">
           <span class="chip">Python</span><span class="chip">COMSOL</span><span class="chip">Lock-in amplifier</span><span class="chip">MATLAB</span>
@@ -442,7 +441,6 @@
       <div class="p-content">
         <div class="p-head">
           <h3>Fake News Detection using Machine Learning</h3>
-          <span class="chip grade">74%</span>
         </div>
         <div class="chips">
           <span class="chip">Python</span><span class="chip">scikit-learn</span><span class="chip">pandas</span><span class="chip">NumPy</span>
@@ -458,7 +456,6 @@
       <div class="p-content">
         <div class="p-head">
           <h3>3D-Printed Sensor Package for a Piezoelectric Accelerometer</h3>
-          <span class="chip grade">71%</span>
         </div>
         <div class="chips">
           <span class="chip">SolidWorks</span><span class="chip">3D printing</span><span class="chip">NI Multisim</span><span class="chip">LCR meter</span>
@@ -477,7 +474,6 @@
       <div class="p-content">
         <div class="p-head">
           <h3>Signal Conditioning for an Engine Vibration Accelerometer</h3>
-          <span class="chip grade">70%</span>
         </div>
         <div class="chips">
           <span class="chip">NI Multisim</span><span class="chip">Analogue design</span><span class="chip">Manual calculation</span>

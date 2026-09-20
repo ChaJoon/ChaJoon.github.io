@@ -15,32 +15,43 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+  /* ---------- Tokens ---------- */
   :root {
     box-sizing: border-box;
     padding-top: env(safe-area-inset-top, 0px);
     padding-bottom: env(safe-area-inset-bottom, 0px);
+    --nav-h: 58px; /* overwritten by script with the measured header height */
     --bg: #F3F1EC; --surface: #FFFFFF; --surface-2: #EAE7DE; --ink: #1B1D1F; --muted: #63666A;
     --gold: #9C6B1E; --copper: #9B4A20; --scope: #2E7D53; --rule: rgba(27,29,31,0.14);
     --shadow: 0 1px 2px rgba(0,0,0,0.06);
+    --glow: none;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
       --bg: #14171A; --surface: #1B1F22; --surface-2: #22262A; --ink: #EDEAE3; --muted: #9AA0A3;
       --gold: #DDAB57; --copper: #E4855A; --scope: #7FDCA4; --rule: rgba(237,234,227,0.12);
       --shadow: 0 1px 2px rgba(0,0,0,0.4);
+      --glow: drop-shadow(0 0 3px rgba(127,220,164,0.55));
     }
   }
   :root[data-theme="dark"] {
     --bg: #14171A; --surface: #1B1F22; --surface-2: #22262A; --ink: #EDEAE3; --muted: #9AA0A3;
     --gold: #DDAB57; --copper: #E4855A; --scope: #7FDCA4; --rule: rgba(237,234,227,0.12);
     --shadow: 0 1px 2px rgba(0,0,0,0.4);
+    --glow: drop-shadow(0 0 3px rgba(127,220,164,0.55));
   }
   :root[data-theme="light"] {
     --bg: #F3F1EC; --surface: #FFFFFF; --surface-2: #EAE7DE; --ink: #1B1D1F; --muted: #63666A;
     --gold: #9C6B1E; --copper: #9B4A20; --scope: #2E7D53; --rule: rgba(27,29,31,0.14);
     --shadow: 0 1px 2px rgba(0,0,0,0.06);
+    --glow: none;
   }
-  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+
+  /* ---------- Base ---------- */
+  /* Anchor targets stop below the sticky header instead of underneath it */
+  html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + var(--nav-h) + 16px); }
+  @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+  html:has(dialog[open]) { overflow: hidden; }
   * { box-sizing: border-box; }
   html, body { height: auto; margin: 0; background: var(--bg); }
   body {
@@ -53,7 +64,9 @@
   .mono { font-family: 'IBM Plex Mono', monospace; }
   a { color: var(--copper); }
   .wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--scope); outline-offset: 2px; }
 
+  /* ---------- Header + nav ---------- */
   header.site {
     position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10;
     background: var(--bg); border-bottom: 1px solid var(--rule);
@@ -63,27 +76,71 @@
     display: flex; justify-content: space-between; align-items: center; gap: 12px;
   }
   .nav-row .name { font-size: 15px; font-weight: 600; flex-shrink: 0; }
-  .nav-row nav { display: flex; gap: 18px; align-items: center; }
-  .nav-row nav a { font-size: 13px; text-decoration: none; color: var(--muted); white-space: nowrap; }
-  .nav-row nav a:hover { color: var(--ink); }
+  .nav-row nav { position: relative; display: flex; gap: 18px; align-items: center; }
+  .nav-row nav a { font-size: 13px; text-decoration: none; color: var(--muted); white-space: nowrap; transition: color .2s; }
+  .nav-row nav a:hover, .nav-row nav a[aria-current="true"] { color: var(--ink); }
   .nav-row nav a.cv-link {
     color: var(--ink); border: 1px solid var(--rule); padding: 5px 10px; border-radius: 3px;
     font-family: 'IBM Plex Mono', monospace; font-size: 11px; flex-shrink: 0;
   }
+  /* Active-section marker: sits on the header's bottom rule */
+  .nav-indicator {
+    position: absolute; left: 0; bottom: -16px; height: 2px; width: 0;
+    background: var(--scope); opacity: 0; pointer-events: none;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .nav-indicator { transition: transform .35s cubic-bezier(.3,.7,.2,1), width .35s cubic-bezier(.3,.7,.2,1), opacity .2s; }
+  }
+  @media (max-width: 720px) {
+    .nav-row nav { gap: 14px; }
+  }
   @media (max-width: 520px) {
+    .nav-row { padding: 14px 16px; }
     .nav-row .name { font-size: 12px; }
-    .nav-row nav { gap: 10px; }
-    .nav-row nav a:not(.cv-link) { display: none; }
+    .nav-row nav { gap: 12px; }
+    .nav-row nav a { font-size: 12px; }
     .nav-row nav a.cv-link { font-size: 10px; padding: 5px 8px; }
+    .cv-long { display: none; }
+  }
+  @media (max-width: 359px) {
+    .nav-row .name { display: none; }
+    .nav-row { justify-content: flex-end; }
   }
 
+  /* ---------- Section titles + arrival cue ---------- */
+  .section-title {
+    position: relative; width: fit-content;
+    font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 400;
+    letter-spacing: 0.04em; color: var(--muted); margin-bottom: 28px;
+  }
+  .section-title::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: -6px; height: 2px;
+    background: var(--scope); opacity: 0; transform-origin: left center;
+  }
+  .section-title.arrive { animation: arrive-text 1.6s ease-out; }
+  .section-title.arrive::after { animation: arrive-line 1.6s ease-out; }
+  @keyframes arrive-text { 0%, 55% { color: var(--scope); } 100% { color: var(--muted); } }
+  @keyframes arrive-line {
+    0% { opacity: 1; transform: scaleX(0); }
+    35% { opacity: 1; transform: scaleX(1); }
+    100% { opacity: 0; transform: scaleX(1); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    @keyframes arrive-line { 0%, 55% { opacity: 1; } 100% { opacity: 0; } }
+  }
+
+  /* ---------- Hero ---------- */
   .hero { padding: 56px 0 48px; }
   .hero-grid {
     display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 40px; align-items: center;
   }
+  /* Grid items default to min-width:auto, which lets an image's intrinsic size push a
+     column wider than the page on narrow screens. */
+  .hero-grid > *, .project > * { min-width: 0; }
   .hero-photo-frame {
     border: 1px solid var(--rule); padding: 10px; background: var(--surface);
     box-shadow: var(--shadow); transform: rotate(-1.2deg);
+    margin-inline: 6px; /* the rotation widens the box; keeps it off the page edge */
   }
   .hero-photo-frame img { display: block; width: 100%; height: auto; }
   .hero-cap { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); margin-top: 10px; padding-left: 4px; }
@@ -95,17 +152,68 @@
 
   @media (max-width: 720px) {
     .hero-grid { grid-template-columns: 1fr; }
-    .hero-photo-frame { order: -1; max-width: 320px; margin: 0 auto; transform: rotate(-0.8deg); }
+    .hero-photo-frame { order: -1; max-width: min(320px, 100% - 12px); margin: 0 auto; transform: rotate(-0.8deg); }
     .hero h1 { font-size: 28px; }
-    .nav-row nav { gap: 14px; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-photo-frame { animation: settle 0.6s ease-out; }
+    @keyframes settle { from { opacity: 0; transform: rotate(-1.2deg) translateY(8px); } to { opacity: 1; transform: rotate(-1.2deg) translateY(0); } }
   }
 
-  section.projects { padding: 8px 0 40px; }
-  .section-title { font-size: 12px; letter-spacing: 0.04em; color: var(--muted); margin-bottom: 28px; font-family: 'IBM Plex Mono', monospace; }
+  /* ---------- Skills ---------- */
+  section.skills { padding: 40px 0 44px; border-top: 1px solid var(--rule); }
+  section.skills .section-title { margin-bottom: 12px; }
+  .section-hint { margin: 0; font-size: 14px; color: var(--muted); }
+  .skills-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px 40px; margin-top: 24px; }
+  @media (max-width: 600px) { .skills-grid { grid-template-columns: 1fr; } }
+  .skill-cat h3 { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--gold); margin: 0 0 6px; font-weight: 600; letter-spacing: 0; }
+  .skill-cat p { margin: 0; font-size: 14px; color: var(--muted); line-height: 1.75; }
+
+  /* A skill with project evidence on this page: toggles highlighting of those projects */
+  .skill {
+    font: inherit; color: var(--ink); background: none; border: 0; margin: 0; padding: 0 2px;
+    border-radius: 2px; cursor: pointer; text-align: inherit;
+    text-decoration: underline dotted var(--scope); text-decoration-thickness: 1.5px; text-underline-offset: 4px;
+    transition: background-color .2s, color .2s;
+  }
+  .skill:hover { background: color-mix(in srgb, var(--scope) 14%, transparent); }
+  .skill[aria-pressed="true"] { background: var(--scope); color: var(--bg); text-decoration-color: transparent; }
+
+  .skill-status { margin: 22px 0 0; min-height: 1.6em; font-size: 14px; color: var(--muted); }
+  .skill-status:not(:empty) { border-left: 2px solid var(--scope); padding-left: 12px; }
+  .skill-status strong { color: var(--ink); font-weight: 600; }
+  .text-btn {
+    font: inherit; color: var(--copper); background: none; border: 0; padding: 0;
+    text-decoration: underline; cursor: pointer;
+  }
+
+  /* Floating reminder while a skill is selected and the skills list is off screen */
+  .skill-bar {
+    position: fixed; left: 50%; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 20;
+    display: flex; align-items: center; gap: 12px; max-width: calc(100vw - 32px);
+    padding: 8px 8px 8px 14px; border-radius: 4px; font-size: 13px;
+    background: var(--ink); color: var(--bg); box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+    transform: translate(-50%, 160%); visibility: hidden;
+  }
+  .skill-bar.is-shown { transform: translate(-50%, 0); visibility: visible; }
+  .skill-bar strong { font-weight: 600; }
+  .skill-bar button {
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--bg); background: none;
+    border: 1px solid color-mix(in srgb, var(--bg) 45%, transparent); padding: 4px 8px; border-radius: 3px; cursor: pointer;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .skill-bar { transition: transform .3s cubic-bezier(.3,.7,.2,1), visibility 0s linear .3s; }
+    .skill-bar.is-shown { transition-delay: 0s; }
+  }
+
+  /* ---------- Projects ---------- */
+  section.projects { padding: 40px 0 40px; border-top: 1px solid var(--rule); }
 
   .project {
+    position: relative;
     display: grid; grid-template-columns: 300px 1fr; gap: 28px;
     padding: 32px 0; border-top: 1px solid var(--rule);
+    transition: opacity .35s ease;
   }
   .project:last-child { border-bottom: 1px solid var(--rule); }
   .project.reverse { grid-template-columns: 1fr 300px; }
@@ -116,7 +224,7 @@
   }
   .p-media img {
     width: 100%; height: auto; display: block; border: 1px solid var(--rule);
-    background: var(--surface); loading: lazy;
+    background: var(--surface); transition: border-color .2s;
   }
   .p-media.hardware img { background: var(--surface-2); padding: 6px; }
   .p-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 8px; flex-wrap: wrap; }
@@ -130,22 +238,83 @@
   .p-body { color: var(--ink); font-size: 15px; max-width: 60ch; }
   .p-body .callout { color: var(--scope); }
 
-  section.skills { padding: 40px 0 48px; border-top: 1px solid var(--rule); }
-  .skills-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px 40px; margin-top: 24px; }
-  @media (max-width: 600px) { .skills-grid { grid-template-columns: 1fr; } }
-  .skill-cat h4 { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--gold); margin: 0 0 6px; font-weight: 600; }
-  .skill-cat p { margin: 0; font-size: 14px; color: var(--muted); }
+  /* Click-to-enlarge wrapper (added by script) */
+  .zoom { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; }
+  .zoom:hover img { border-color: var(--ink); }
 
-  footer { padding: 40px 0 60px; border-top: 1px solid var(--rule); }
-  footer .foot-row { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; }
-  footer .foot-line { font-size: 13px; color: var(--muted); }
-  footer a { color: var(--ink); }
+  /* Skill highlighting */
+  .projects.is-filtering .project:not(.is-match) { opacity: .35; }
+  .projects.is-filtering .project:not(.is-match) .trace { color: var(--muted); }
 
-  @media (prefers-reduced-motion: no-preference) {
-    .hero-photo-frame { animation: settle 0.6s ease-out; }
-    @keyframes settle { from { opacity: 0; transform: rotate(-1.2deg) translateY(8px); } to { opacity: 1; transform: rotate(-1.2deg) translateY(0); } }
+  /* ---------- Scope traces: each project divider is a waveform from that project ---------- */
+  .project.has-trace { border-top-color: transparent; }
+  .trace {
+    position: absolute; top: -12px; left: 0; right: 0; height: 24px;
+    display: flex; align-items: center; color: var(--scope); pointer-events: none;
+    transition: color .35s ease;
   }
-  a:focus-visible, button:focus-visible { outline: 2px solid var(--scope); outline-offset: 2px; }
+  .trace svg { flex: none; width: 240px; max-width: 50%; height: 24px; overflow: visible; }
+  .trace path { fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .trace-tail { flex: 1; height: 1px; background: linear-gradient(90deg, currentColor, var(--rule) 30%); transform-origin: left center; }
+  .project.is-match .trace svg { filter: var(--glow); }
+
+  /* Motion layer: only active when the script adds .motion (never under reduced motion) */
+  .motion .trace path { stroke-dasharray: 1 2; stroke-dashoffset: 1; }
+  .motion .trace-tail { transform: scaleX(0); }
+  .motion .trace.is-on path { stroke-dashoffset: 0; transition: stroke-dashoffset 1s cubic-bezier(.35,.6,.25,1); }
+  .motion .trace.is-on .trace-tail { transform: scaleX(1); transition: transform .7s cubic-bezier(.3,.7,.2,1) .8s; }
+  .motion .project .p-media, .motion .project .p-content { opacity: 0; transform: translateY(10px); }
+  .motion .project.is-visible .p-media,
+  .motion .project.is-visible .p-content { opacity: 1; transform: none; transition: opacity .6s ease .2s, transform .6s ease .2s; }
+  .motion .project.is-visible .p-content { transition-delay: .3s; }
+
+  /* ---------- Image viewer ---------- */
+  .viewer {
+    padding: 0; border: 1px solid var(--rule); background: var(--surface); color: var(--ink);
+    max-width: min(94vw, 1000px); max-height: 92vh;
+  }
+  .viewer::backdrop { background: rgba(10,12,14,0.72); }
+  .viewer img { display: block; max-width: 100%; max-height: calc(92vh - 64px); width: auto; height: auto; margin: 0 auto; }
+  .viewer-bar { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 10px 14px; border-top: 1px solid var(--rule); }
+  .viewer-cap { margin: 0; font-size: 13px; color: var(--muted); }
+  .viewer-close {
+    flex-shrink: 0; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--ink);
+    background: none; border: 1px solid var(--rule); padding: 5px 10px; border-radius: 3px; cursor: pointer;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .viewer[open] { animation: viewer-in .22s ease-out; }
+    @keyframes viewer-in { from { opacity: 0; transform: scale(.97); } }
+  }
+
+  /* ---------- Contact ---------- */
+  footer.contact { padding: 40px 0 60px; border-top: 1px solid var(--rule); }
+  .contact-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 24px 40px; align-items: end; }
+  @media (max-width: 720px) { .contact-grid { grid-template-columns: 1fr; } }
+  .email-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .email {
+    font-family: 'Space Grotesk', sans-serif; font-size: clamp(18px, 5.2vw, 24px); font-weight: 500;
+    color: var(--ink); text-decoration: underline; text-decoration-color: var(--rule);
+    text-underline-offset: 5px; overflow-wrap: anywhere; transition: text-decoration-color .2s;
+  }
+  .email:hover { text-decoration-color: var(--copper); }
+  .copy-btn {
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--ink); background: none;
+    border: 1px solid var(--rule); padding: 5px 10px; border-radius: 3px; cursor: pointer;
+  }
+  .copy-btn:hover { border-color: var(--ink); }
+  .copy-status { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--scope); }
+  .contact-links { margin-top: 12px; font-size: 14px; color: var(--muted); }
+  .contact-links a { color: var(--ink); }
+  footer .foot-line { font-size: 13px; color: var(--muted); }
+
+  /* ---------- Print: never print half-revealed content ---------- */
+  @media print {
+    .motion .project .p-media, .motion .project .p-content { opacity: 1 !important; transform: none !important; }
+    .motion .trace path { stroke-dashoffset: 0 !important; }
+    .motion .trace-tail { transform: none !important; }
+    .projects.is-filtering .project { opacity: 1 !important; }
+    .skill-bar { display: none; }
+  }
 </style>
 </head>
 <body>
@@ -153,11 +322,12 @@
 <header class="site">
   <div class="nav-row">
     <span class="name mono">S. ZULKEPLI</span>
-    <nav>
-      <a href="#projects">Projects</a>
+    <nav aria-label="Sections">
       <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
       <a href="#contact">Contact</a>
-      <a class="cv-link" href="cv.pdf" download>Download CV</a>
+      <a class="cv-link" href="cv.pdf" download aria-label="Download CV (PDF)"><span class="cv-long">Download </span>CV</a>
+      <span class="nav-indicator" aria-hidden="true"></span>
     </nav>
   </div>
 </header>
@@ -170,7 +340,7 @@
       <p class="lead">Six projects, one habit: work it out from first principles when nobody has documented it yet.</p>
       <div class="contact-line">
         <a href="mailto:syazwanzulkepli72@gmail.com">syazwanzulkepli72@gmail.com</a> &nbsp;·&nbsp;
-        +44 (0) 7379 798069 &nbsp;·&nbsp;
+        <a href="tel:+447379798069">+44 (0) 7379 798069</a> &nbsp;·&nbsp;
         <a href="https://www.linkedin.com/in/syazwan-s-d-zulkepli-7080a2224">linkedin.com/in/syazwan-s-d-zulkepli</a>
       </div>
     </div>
@@ -184,10 +354,40 @@
 </div>
 
 <div class="wrap">
-  <section class="projects" id="projects">
-    <div class="section-title">ENGINEERING PROJECTS — 2023–2026</div>
+  <!--
+    Skills: a <button class="skill" data-skill="key"> highlights every project whose
+    data-skills list contains that key. Text outside buttons has no project on this page.
+    data-label is the short name shown in the status line (defaults to the button text).
+  -->
+  <section class="skills" id="skills">
+    <h2 class="section-title">TECHNICAL SKILLS</h2>
+    <p class="section-hint">Select an underlined skill to highlight the projects where I used it.</p>
+    <div class="skills-grid">
+      <div class="skill-cat">
+        <h3>RF, ANALOGUE &amp; PCB</h3>
+        <p><button type="button" class="skill" data-skill="antenna">Antenna design</button> and simulation (ANSYS HFSS), <button type="button" class="skill" data-skill="analogue" data-label="Analogue circuit design">analogue circuit design</button> (op-amps, instrumentation and charge amplifiers), impedance matching, <button type="button" class="skill" data-skill="kicad">KiCad</button> schematic capture and PCB layout, <button type="button" class="skill" data-skill="flex-pcb" data-label="Flexible PCB fabrication">flexible PCB fabrication</button>.</p>
+      </div>
+      <div class="skill-cat">
+        <h3>DIGITAL &amp; EMBEDDED</h3>
+        <p><button type="button" class="skill" data-skill="rtl">SystemVerilog/Verilog</button> RTL design, <button type="button" class="skill" data-skill="fpga" data-label="FPGA implementation">FPGA implementation and verification</button> (Intel Quartus, Questa, Cyclone V), <button type="button" class="skill" data-skill="cpp" data-label="C/C++">embedded C/C++</button>, I2C/SPI/UART protocols.</p>
+      </div>
+      <div class="skill-cat">
+        <h3>SIMULATION &amp; INSTRUMENTATION</h3>
+        <p><button type="button" class="skill" data-skill="hfss">ANSYS HFSS</button>, <button type="button" class="skill" data-skill="comsol">COMSOL</button>, <button type="button" class="skill" data-skill="solidworks">SolidWorks</button>, <button type="button" class="skill" data-skill="multisim">NI Multisim</button>/LTSpice; oscilloscopes, signal generators, <button type="button" class="skill" data-skill="lockin" data-label="Lock-in amplifiers">lock-in amplifiers</button>, <button type="button" class="skill" data-skill="lcr">LCR meters</button>.</p>
+      </div>
+      <div class="skill-cat">
+        <h3>PROGRAMMING</h3>
+        <p><button type="button" class="skill" data-skill="python">Python</button> (NumPy, pandas, scikit-learn), <button type="button" class="skill" data-skill="matlab">MATLAB</button>/Simulink, <button type="button" class="skill" data-skill="cpp" data-label="C/C++">C/C++</button>.</p>
+      </div>
+    </div>
+    <p class="skill-status" id="skill-status" aria-live="polite"></p>
+  </section>
 
-    <article class="project">
+  <!-- data-wave picks the divider waveform: breath, clock, resonance, classes, ringdown, gain -->
+  <section class="projects" id="projects">
+    <h2 class="section-title">ENGINEERING PROJECTS — 2023–2026</h2>
+
+    <article class="project" id="p-rfid" data-skills="antenna hfss kicad flex-pcb cpp" data-wave="breath">
       <div class="p-media hardware">
         <img src="p1-hardware.jpg" alt="Fabricated capaciflector and flexible PCB, and the capaciflector integrated with the RFID tag" loading="lazy">
       </div>
@@ -203,7 +403,7 @@
       </div>
     </article>
 
-    <article class="project reverse">
+    <article class="project reverse" id="p-nisc" data-skills="rtl fpga" data-wave="clock">
       <div class="p-media">
         <img src="p2-architecture.png" alt="NISC processor architecture block diagram" loading="lazy">
       </div>
@@ -219,7 +419,7 @@
       </div>
     </article>
 
-    <article class="project">
+    <article class="project" id="p-nem" data-skills="comsol lockin python matlab" data-wave="resonance">
       <div class="p-media">
         <img src="p3-comsol.png" alt="COMSOL Euler-Bernoulli beam simulation showing the first bending mode of the NEM resonator" loading="lazy">
       </div>
@@ -235,7 +435,7 @@
       </div>
     </article>
 
-    <article class="project reverse">
+    <article class="project reverse" id="p-fakenews" data-skills="python" data-wave="classes">
       <div class="p-media">
         <img src="p4-classification.png" alt="Classification report showing precision, recall and F1 score for the SVC model" loading="lazy">
       </div>
@@ -251,7 +451,7 @@
       </div>
     </article>
 
-    <article class="project">
+    <article class="project" id="p-piezo" data-skills="solidworks multisim analogue lcr" data-wave="ringdown">
       <div class="p-media hardware">
         <img src="p5-hardware.jpg" alt="27mm piezoelectric disc beside its 3D-printed housing" loading="lazy">
       </div>
@@ -270,7 +470,7 @@
       </div>
     </article>
 
-    <article class="project reverse">
+    <article class="project reverse" id="p-signal" data-skills="multisim analogue" data-wave="gain">
       <div class="p-media">
         <img src="p6-circuit.png" alt="Initial differential amplifier circuit in NI Multisim that exposed the loading problem" loading="lazy">
       </div>
@@ -287,43 +487,321 @@
     </article>
 
   </section>
-
-  <section class="skills" id="skills">
-    <div class="section-title">TECHNICAL SKILLS</div>
-    <div class="skills-grid">
-      <div class="skill-cat">
-        <h4>RF, ANALOGUE &amp; PCB</h4>
-        <p>Antenna design and simulation (ANSYS HFSS), analogue circuit design (op-amps, instrumentation and charge amplifiers), impedance matching, KiCad schematic capture and PCB layout, flexible PCB fabrication.</p>
-      </div>
-      <div class="skill-cat">
-        <h4>DIGITAL &amp; EMBEDDED</h4>
-        <p>SystemVerilog/Verilog RTL design, FPGA implementation and verification (Intel Quartus, Questa, Cyclone V), embedded C/C++, I2C/SPI/UART protocols.</p>
-      </div>
-      <div class="skill-cat">
-        <h4>SIMULATION &amp; INSTRUMENTATION</h4>
-        <p>ANSYS HFSS, COMSOL, SolidWorks, NI Multisim/LTSpice; oscilloscopes, signal generators, lock-in amplifiers, LCR meters.</p>
-      </div>
-      <div class="skill-cat">
-        <h4>PROGRAMMING</h4>
-        <p>Python (NumPy, pandas, scikit-learn), MATLAB/Simulink, C/C++.</p>
-      </div>
-    </div>
-  </section>
 </div>
 
-<footer id="contact">
-  <div class="wrap foot-row">
-    <div>
-      <div class="foot-line">Southampton, England, UK — open to relocation.</div>
-      <div class="foot-line">UK Graduate Route visa — unrestricted right to work, no sponsorship required.</div>
-    </div>
-    <div class="foot-line">
-      <a href="mailto:syazwanzulkepli72@gmail.com">Email</a> &nbsp;·&nbsp;
-      <a href="https://www.linkedin.com/in/syazwan-s-d-zulkepli-7080a2224">LinkedIn</a> &nbsp;·&nbsp;
-      <a href="cv.pdf" download>CV (PDF)</a>
+<footer class="contact" id="contact">
+  <div class="wrap">
+    <h2 class="section-title">CONTACT</h2>
+    <div class="contact-grid">
+      <div>
+        <div class="email-row">
+          <a class="email" href="mailto:syazwanzulkepli72@gmail.com">syazwanzulkepli72@gmail.com</a>
+          <button type="button" class="copy-btn" data-copy="syazwanzulkepli72@gmail.com">Copy email</button>
+          <span class="copy-status" role="status"></span>
+        </div>
+        <div class="contact-links">
+          <a href="tel:+447379798069">+44 (0) 7379 798069</a> &nbsp;·&nbsp;
+          <a href="https://www.linkedin.com/in/syazwan-s-d-zulkepli-7080a2224">LinkedIn</a> &nbsp;·&nbsp;
+          <a href="cv.pdf" download>CV (PDF)</a>
+        </div>
+      </div>
+      <div>
+        <div class="foot-line">Southampton, England, UK — open to relocation.</div>
+        <div class="foot-line">UK Graduate Route visa — unrestricted right to work, no sponsorship required.</div>
+      </div>
     </div>
   </div>
 </footer>
+
+<div class="skill-bar" id="skill-bar">
+  <span>Projects using <strong data-bar-label></strong></span>
+  <button type="button">Clear</button>
+</div>
+
+<dialog class="viewer" id="viewer" aria-label="Enlarged project image">
+  <img alt="">
+  <div class="viewer-bar">
+    <p class="viewer-cap"></p>
+    <button type="button" class="viewer-close">Close</button>
+  </div>
+</dialog>
+
+<script>
+(() => {
+  'use strict';
+
+  const root = document.documentElement;
+  const canObserve = 'IntersectionObserver' in window;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- Sticky header height -> anchor scroll offset (--nav-h) ---------- */
+  function initHeaderOffset() {
+    const header = document.querySelector('header.site');
+    const update = () => root.style.setProperty('--nav-h', header.offsetHeight + 'px');
+    update();
+    if ('ResizeObserver' in window) new ResizeObserver(update).observe(header);
+  }
+
+  /* ---------- Nav: active-section marker + arrival cue on the target's title ---------- */
+  function initNav() {
+    const nav = document.querySelector('.nav-row nav');
+    const indicator = nav.querySelector('.nav-indicator');
+    const links = [...nav.querySelectorAll('a[href^="#"]')];
+    const sections = links.map(a => document.querySelector(a.hash));
+    const lastId = sections[sections.length - 1].id;
+    let bandId = null;     // section crossing a thin band 40% down the viewport
+    let atBottom = false;  // page scrolled to the end: the last section is current
+
+    function render() {
+      const id = atBottom ? lastId : bandId;
+      const current = links.find(a => a.hash === '#' + id);
+      links.forEach(a => (a === current ? a.setAttribute('aria-current', 'true') : a.removeAttribute('aria-current')));
+      if (!current) { indicator.style.opacity = '0'; return; }
+      indicator.style.width = current.offsetWidth + 'px';
+      indicator.style.transform = `translateX(${current.offsetLeft}px)`;
+      indicator.style.opacity = '1';
+    }
+
+    const band = new IntersectionObserver(entries => {
+      entries.forEach(({ target, isIntersecting }) => {
+        if (isIntersecting) bandId = target.id;
+        else if (bandId === target.id) bandId = null;
+      });
+      render();
+    }, { rootMargin: '-40% 0px -59% 0px' });
+    sections.forEach(s => band.observe(s));
+
+    const sentinel = document.createElement('div');
+    sentinel.style.height = '1px';
+    sentinel.setAttribute('aria-hidden', 'true');
+    document.body.append(sentinel);
+    new IntersectionObserver(([entry]) => { atBottom = entry.isIntersecting; render(); }).observe(sentinel);
+
+    // Flash the destination's title once it is fully on screen, so the eye knows where it landed
+    const titles = sections.map(s => s.querySelector('.section-title') || s);
+    let pending = null;
+    const flash = el => { el.classList.remove('arrive'); void el.offsetWidth; el.classList.add('arrive'); };
+    const arrival = new IntersectionObserver(entries => {
+      entries.forEach(({ target, isIntersecting }) => {
+        if (isIntersecting && target === pending) { flash(target); pending = null; }
+      });
+    }, { threshold: 1 });
+    titles.forEach(t => arrival.observe(t));
+    links.forEach((a, i) => a.addEventListener('click', () => {
+      const r = titles[i].getBoundingClientRect();
+      if (r.top >= 0 && r.bottom <= window.innerHeight) { pending = null; flash(titles[i]); }
+      else pending = titles[i];
+    }));
+
+    window.addEventListener('resize', render);
+  }
+
+  /* ---------- Project dividers: oscilloscope traces, one waveform per project ---------- */
+  const WAVE_W = 240, WAVE_H = 24, MID = 12, SAMPLES = 120;
+  const sample = f => Array.from({ length: SAMPLES + 1 }, (_, i) => [i / SAMPLES * WAVE_W, f(i / SAMPLES)]);
+  const WAVES = {
+    breath:    () => sample(t => MID - 7 * Math.sin(Math.PI * t) * Math.sin(4 * Math.PI * t)),          // slow respiration signal
+    clock:     () => {                                                                                   // digital logic pulses
+      const pts = [[0, MID]];
+      for (let k = 0; k < 5; k++) {
+        const x = (0.1 + k * 0.17) * WAVE_W, w = 0.085 * WAVE_W;
+        pts.push([x, MID], [x, MID - 8], [x + w, MID - 8], [x + w, MID]);
+      }
+      return [...pts, [WAVE_W, MID]];
+    },
+    resonance: () => sample(t => MID - 9 / (1 + ((t - 0.55) / 0.035) ** 2)),                              // Lorentzian resonance peak
+    classes:   () => sample(t => MID - 8 * Math.exp(-(((t - 0.3) / 0.09) ** 2))                           // two class distributions
+                                     - 6 * Math.exp(-(((t - 0.68) / 0.09) ** 2))),
+    ringdown:  () => sample(t => MID - 9 * Math.exp(-4.5 * t) * Math.sin(14 * Math.PI * t)),             // impulse ring-down
+    gain:      () => sample(t => MID - (t < 0.5 ? 2 : 8) * Math.sin(16 * Math.PI * t)),                  // small signal, then amplified
+  };
+  const toPath = pts => pts.map(([x, y], i) => `${i ? 'L' : 'M'}${x.toFixed(1)} ${y.toFixed(2)}`).join('');
+
+  function buildTrace(kind) {
+    const NS = 'http://www.w3.org/2000/svg';
+    const trace = document.createElement('div');
+    trace.className = 'trace';
+    trace.setAttribute('aria-hidden', 'true');
+    const svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('viewBox', `0 0 ${WAVE_W} ${WAVE_H}`);
+    const path = document.createElementNS(NS, 'path');
+    path.setAttribute('d', toPath(WAVES[kind]()));
+    path.setAttribute('pathLength', '1'); // lets CSS draw it with a dash offset of 1 -> 0
+    svg.append(path);
+    const tail = document.createElement('span');
+    tail.className = 'trace-tail';
+    trace.append(svg, tail);
+    return trace;
+  }
+
+  function initProjects() {
+    const projects = [...document.querySelectorAll('.project[data-wave]')];
+    projects.forEach(p => {
+      if (!WAVES[p.dataset.wave]) return;
+      p.prepend(buildTrace(p.dataset.wave));
+      p.classList.add('has-trace');
+    });
+
+    const sweep = p => {
+      const trace = p.querySelector('.trace');
+      if (!trace) return;
+      trace.classList.remove('is-on');
+      void trace.getBoundingClientRect(); // restart the transition
+      trace.classList.add('is-on');
+    };
+    if (!canObserve) return { replay() {}, clearPending() {} };
+
+    const onScreen = new Set();
+    const pendingSweep = new Set();
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(({ target: p, isIntersecting }) => {
+        if (!isIntersecting) { onScreen.delete(p); return; }
+        onScreen.add(p);
+        if (!p.classList.contains('is-visible')) { p.classList.add('is-visible'); sweep(p); }
+        else if (pendingSweep.delete(p)) sweep(p);
+      });
+    }, { threshold: 0.2 });
+    projects.forEach(p => io.observe(p));
+
+    return {
+      // Re-trigger a project's trace now if visible, otherwise when it next scrolls into view
+      replay: p => (onScreen.has(p) ? sweep(p) : pendingSweep.add(p)),
+      clearPending: () => pendingSweep.clear(),
+    };
+  }
+
+  /* ---------- Skills -> projects highlighting ---------- */
+  function initSkills(projectsApi) {
+    const buttons = [...document.querySelectorAll('.skill[data-skill]')];
+    const list = document.querySelector('section.projects');
+    const projects = [...list.querySelectorAll('.project[data-skills]')];
+    const status = document.getElementById('skill-status');
+    const bar = document.getElementById('skill-bar');
+    const barLabel = bar.querySelector('[data-bar-label]');
+    let active = null;
+    const inView = new Set(['skills']); // sections where the floating bar would be redundant or in the way
+
+    const labelFor = key => {
+      const b = buttons.find(btn => btn.dataset.skill === key);
+      return b.dataset.label || b.textContent.trim();
+    };
+
+    function renderStatus(matches) {
+      status.replaceChildren();
+      if (!active) return;
+      const name = document.createElement('strong');
+      name.textContent = labelFor(active);
+      status.append(name, ' appears in ');
+      matches.forEach((p, i) => {
+        if (i) status.append(i === matches.length - 1 ? ' and ' : ', ');
+        const link = document.createElement('a');
+        link.href = '#' + p.id;
+        link.textContent = p.querySelector('h3').textContent;
+        status.append(link);
+      });
+      const clear = document.createElement('button');
+      clear.type = 'button';
+      clear.className = 'text-btn';
+      clear.textContent = 'Clear';
+      clear.addEventListener('click', () => {
+        const pressed = buttons.find(b => b.dataset.skill === active);
+        select(null);
+        pressed.focus();
+      });
+      status.append('. ', clear);
+    }
+
+    function updateBar() {
+      bar.classList.toggle('is-shown', Boolean(active) && inView.size === 0);
+      if (active) barLabel.textContent = labelFor(active);
+    }
+
+    function select(key) {
+      active = key === active ? null : key;
+      buttons.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.skill === active)));
+      const matches = active ? projects.filter(p => p.dataset.skills.split(/\s+/).includes(active)) : [];
+      list.classList.toggle('is-filtering', Boolean(active));
+      projects.forEach(p => p.classList.toggle('is-match', matches.includes(p)));
+      projectsApi.clearPending();
+      matches.forEach(projectsApi.replay);
+      renderStatus(matches);
+      updateBar();
+    }
+
+    buttons.forEach(b => {
+      b.setAttribute('aria-pressed', 'false');
+      b.addEventListener('click', () => select(b.dataset.skill));
+    });
+    bar.querySelector('button').addEventListener('click', () => select(null));
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && active && !document.querySelector('dialog[open]')) select(null);
+    });
+    if (canObserve) {
+      const watch = new IntersectionObserver(entries => {
+        entries.forEach(e => (e.isIntersecting ? inView.add(e.target.id) : inView.delete(e.target.id)));
+        updateBar();
+      });
+      ['skills', 'contact'].forEach(id => watch.observe(document.getElementById(id)));
+    }
+  }
+
+  /* ---------- Click-to-enlarge project images (native <dialog>: focus + Esc handled by the browser) ---------- */
+  function initViewer() {
+    const dialog = document.getElementById('viewer');
+    if (typeof dialog.showModal !== 'function') return;
+    const big = dialog.querySelector('img');
+    const caption = dialog.querySelector('.viewer-cap');
+    document.querySelectorAll('.p-media img').forEach(img => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'zoom';
+      btn.setAttribute('aria-label', 'Enlarge image: ' + img.alt);
+      img.replaceWith(btn);
+      btn.append(img);
+      btn.addEventListener('click', () => {
+        big.src = img.currentSrc || img.src;
+        big.alt = img.alt;
+        caption.textContent = img.alt;
+        dialog.showModal();
+      });
+    });
+    dialog.querySelector('.viewer-close').addEventListener('click', () => dialog.close());
+    dialog.addEventListener('click', e => { if (e.target === dialog) dialog.close(); }); // backdrop click
+  }
+
+  /* ---------- Copy email ---------- */
+  function initCopy() {
+    document.querySelectorAll('.copy-btn[data-copy]').forEach(btn => {
+      const out = btn.parentElement.querySelector('.copy-status');
+      let timer;
+      btn.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(btn.dataset.copy);
+          out.textContent = 'Copied';
+        } catch {
+          // Clipboard API unavailable: select the address so it can be copied manually
+          const range = document.createRange();
+          range.selectNodeContents(btn.parentElement.querySelector('.email'));
+          const sel = window.getSelection();
+          sel.removeAllRanges();
+          sel.addRange(range);
+          out.textContent = 'Selected: press Ctrl+C or ⌘C';
+        }
+        clearTimeout(timer);
+        timer = setTimeout(() => { out.textContent = ''; }, 2500);
+      });
+    });
+  }
+
+  initHeaderOffset();
+  if (canObserve && !reduceMotion) root.classList.add('motion');
+  const projectsApi = initProjects();
+  if (canObserve) initNav();
+  initSkills(projectsApi);
+  initViewer();
+  initCopy();
+})();
+</script>
 
 </body>
 </html>

@@ -1,0 +1,240 @@
+{
+ "sub": {
+  "n": 269,
+  "cipher_rank": [
+   0.1301,
+   0.1004,
+   0.0929,
+   0.0892,
+   0.0706,
+   0.0632,
+   0.0558,
+   0.052,
+   0.0483,
+   0.0483,
+   0.0446,
+   0.0409,
+   0.0335,
+   0.0297,
+   0.0186,
+   0.0149,
+   0.0149,
+   0.0149,
+   0.0112,
+   0.0112,
+   0.0074,
+   0.0074,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "english_rank": [
+   0.1238,
+   0.09,
+   0.0811,
+   0.0761,
+   0.0686,
+   0.0682,
+   0.0649,
+   0.0634,
+   0.0576,
+   0.0428,
+   0.0426,
+   0.0293,
+   0.0262,
+   0.0242,
+   0.0233,
+   0.0218,
+   0.021,
+   0.0204,
+   0.0164,
+   0.0163,
+   0.0096,
+   0.008,
+   0.0014,
+   0.0013,
+   0.0013,
+   0.0004
+  ],
+  "ioc_cipher": 0.0666,
+  "ioc_english": 0.0649,
+  "ioc_random": 0.0385
+ },
+ "xor": [
+  {
+   "L": 1,
+   "per_char": -4.1864,
+   "printable": 0.5
+  },
+  {
+   "L": 2,
+   "per_char": -1.3147,
+   "printable": 1.0
+  },
+  {
+   "L": 3,
+   "per_char": -4.1864,
+   "printable": 0.5
+  },
+  {
+   "L": 4,
+   "per_char": -1.3147,
+   "printable": 1.0
+  },
+  {
+   "L": 5,
+   "per_char": -4.149,
+   "printable": 0.5
+  },
+  {
+   "L": 6,
+   "per_char": -1.3147,
+   "printable": 1.0
+  },
+  {
+   "L": 7,
+   "per_char": -4.0066,
+   "printable": 0.5333
+  },
+  {
+   "L": 8,
+   "per_char": -1.3147,
+   "printable": 1.0
+  },
+  {
+   "L": 9,
+   "per_char": -4.1356,
+   "printable": 0.5
+  },
+  {
+   "L": 10,
+   "per_char": -1.3147,
+   "printable": 1.0
+  }
+ ],
+ "trans": {
+  "n": 84,
+  "rail": [
+   {
+    "rails": 2,
+    "best": -6.3117
+   },
+   {
+    "rails": 3,
+    "best": -6.8439
+   },
+   {
+    "rails": 4,
+    "best": -6.8854
+   },
+   {
+    "rails": 5,
+    "best": -6.3233
+   },
+   {
+    "rails": 6,
+    "best": -7.035
+   },
+   {
+    "rails": 7,
+    "best": -6.6219
+   },
+   {
+    "rails": 8,
+    "best": -6.9237
+   },
+   {
+    "rails": 9,
+    "best": -6.9645
+   },
+   {
+    "rails": 10,
+    "best": -6.9698
+   },
+   {
+    "rails": 11,
+    "best": -6.752
+   },
+   {
+    "rails": 12,
+    "best": -6.8435
+   },
+   {
+    "rails": 13,
+    "best": -6.7834
+   },
+   {
+    "rails": 14,
+    "best": -6.8472
+   },
+   {
+    "rails": 15,
+    "best": -6.9106
+   },
+   {
+    "rails": 16,
+    "best": -6.7957
+   },
+   {
+    "rails": 17,
+    "best": -6.6811
+   },
+   {
+    "rails": 18,
+    "best": -6.8573
+   },
+   {
+    "rails": 19,
+    "best": -6.9916
+   },
+   {
+    "rails": 20,
+    "best": -7.0711
+   }
+  ],
+  "columnar": [
+   {
+    "L": 2,
+    "best": -6.3117
+   },
+   {
+    "L": 3,
+    "best": -6.765
+   },
+   {
+    "L": 4,
+    "best": -6.5695
+   },
+   {
+    "L": 5,
+    "best": -6.7375
+   },
+   {
+    "L": 6,
+    "best": -4.1265
+   },
+   {
+    "L": 7,
+    "best": -6.2962
+   },
+   {
+    "L": 8,
+    "best": -6.021
+   },
+   {
+    "L": 9,
+    "best": -6.1121
+   }
+  ],
+  "english_ref_mean": -4.0602,
+  "english_ref_min": -4.387,
+  "english_ref_max": -3.7366,
+  "as_given": -7.6352
+ },
+ "english_ref": {
+  "n_windows": 100,
+  "window_letters": 84
+ },
+ "_about": "Summary statistics behind the cryptanalysis figures (tools/crypto_figures.py). Numbers only: no keys, ciphertext or plaintext. English reference: prose from the NLTK Gutenberg corpus."
+}

@@ -3,11 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
 <title>Syazwan Zulkepli — Engineering Portfolio</title>
 <meta name="description" content="MEng Electrical & Electronic Engineering graduate (2:1, University of Southampton). Hands-on projects in RF/antenna design, FPGA and digital design, analogue circuits, and embedded systems.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Syazwan Zulkepli — Engineering Portfolio">
-<meta property="og:description" content="MEng Electrical & Electronic Engineering graduate. Six projects, one habit: work it out from first principles when nobody has documented it yet.">
+<meta property="og:description" content="MEng Electrical & Electronic Engineering graduate. One habit across every project: work it out from first principles when nobody has documented it yet.">
 <meta property="og:image" content="https://chajoon.github.io/hero.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔧</text></svg>">
@@ -16,35 +17,24 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   /* ---------- Tokens ---------- */
+  /* Light values pass WCAG AA (4.5:1) on --bg, --surface and --surface-2 */
   :root {
     box-sizing: border-box;
     padding-top: env(safe-area-inset-top, 0px);
     padding-bottom: env(safe-area-inset-bottom, 0px);
     --nav-h: 58px; /* overwritten by script with the measured header height */
     --bg: #F3F1EC; --surface: #FFFFFF; --surface-2: #EAE7DE; --ink: #1B1D1F; --muted: #63666A;
-    --gold: #9C6B1E; --copper: #9B4A20; --scope: #2E7D53; --rule: rgba(27,29,31,0.14);
+    --gold: #8A5D15; --copper: #9B4A20; --scope: #286E49; --rule: rgba(27,29,31,0.14);
     --shadow: 0 1px 2px rgba(0,0,0,0.06);
     --glow: none;
   }
   @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
+    :root {
       --bg: #14171A; --surface: #1B1F22; --surface-2: #22262A; --ink: #EDEAE3; --muted: #9AA0A3;
       --gold: #DDAB57; --copper: #E4855A; --scope: #7FDCA4; --rule: rgba(237,234,227,0.12);
       --shadow: 0 1px 2px rgba(0,0,0,0.4);
       --glow: drop-shadow(0 0 3px rgba(127,220,164,0.55));
     }
-  }
-  :root[data-theme="dark"] {
-    --bg: #14171A; --surface: #1B1F22; --surface-2: #22262A; --ink: #EDEAE3; --muted: #9AA0A3;
-    --gold: #DDAB57; --copper: #E4855A; --scope: #7FDCA4; --rule: rgba(237,234,227,0.12);
-    --shadow: 0 1px 2px rgba(0,0,0,0.4);
-    --glow: drop-shadow(0 0 3px rgba(127,220,164,0.55));
-  }
-  :root[data-theme="light"] {
-    --bg: #F3F1EC; --surface: #FFFFFF; --surface-2: #EAE7DE; --ink: #1B1D1F; --muted: #63666A;
-    --gold: #9C6B1E; --copper: #9B4A20; --scope: #2E7D53; --rule: rgba(27,29,31,0.14);
-    --shadow: 0 1px 2px rgba(0,0,0,0.06);
-    --glow: none;
   }
 
   /* ---------- Base ---------- */
@@ -60,11 +50,11 @@
     line-height: 1.55;
     -webkit-text-size-adjust: 100%;
   }
-  h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; margin: 0; letter-spacing: -0.01em; }
+  h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; margin: 0; letter-spacing: -0.01em; }
   .mono { font-family: 'IBM Plex Mono', monospace; }
   a { color: var(--copper); }
   .wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
-  a:focus-visible, button:focus-visible { outline: 2px solid var(--scope); outline-offset: 2px; }
+  a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--scope); outline-offset: 2px; }
 
   /* ---------- Header + nav ---------- */
   header.site {
@@ -130,7 +120,8 @@
   }
 
   /* ---------- Hero ---------- */
-  .hero { padding: 56px 0 48px; }
+  /* padding-block only: .hero shares its element with .wrap, which owns the side padding */
+  .hero { padding-block: 56px 48px; }
   .hero-grid {
     display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 40px; align-items: center;
   }
@@ -152,7 +143,7 @@
 
   @media (max-width: 720px) {
     .hero-grid { grid-template-columns: 1fr; }
-    .hero-photo-frame { order: -1; max-width: min(320px, 100% - 12px); margin: 0 auto; transform: rotate(-0.8deg); }
+    .hero-photo-frame { max-width: min(320px, 100% - 12px); margin: 0 auto; transform: rotate(-0.8deg); }
     .hero h1 { font-size: 28px; }
   }
   @media (prefers-reduced-motion: no-preference) {
@@ -164,8 +155,6 @@
   section.skills { padding: 40px 0 44px; border-top: 1px solid var(--rule); }
   section.skills .section-title, section.projects .section-title { margin-bottom: 12px; }
   .section-hint { margin: 0; font-size: 14px; color: var(--muted); }
-  /* keep the first project's trace clear of the line above it */
-  section.projects .section-hint { margin-bottom: 22px; }
   .skills-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px 40px; margin-top: 24px; }
   @media (max-width: 600px) { .skills-grid { grid-template-columns: 1fr; } }
   .skill-cat h3 { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--gold); margin: 0 0 6px; font-weight: 600; letter-spacing: 0; }
@@ -208,14 +197,58 @@
     .skill-bar.is-shown { transition-delay: 0s; }
   }
 
-  /* ---------- Projects ---------- */
+  /* ---------- Projects: shared ---------- */
   section.projects { padding: 40px 0 40px; border-top: 1px solid var(--rule); }
+  .tier { margin-top: 36px; }
+  .tier-title {
+    font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 600; letter-spacing: 0.04em;
+    color: var(--gold); margin: 0 0 4px;
+  }
+  .tier-hint { margin: 0 0 22px; font-size: 13px; color: var(--muted); }
+  .p-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px 12px; margin-bottom: 4px; flex-wrap: wrap; }
+  .p-title { font-size: 19px; }
+  .p-meta { margin: 0; font-size: 13px; color: var(--muted); }
+  .badge {
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--gold);
+    border: 1px solid var(--gold); padding: 2px 7px; border-radius: 3px; white-space: nowrap;
+  }
+  .chips { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0 12px; }
+  .chip {
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted);
+    border: 1px solid var(--rule); padding: 3px 8px; border-radius: 3px; white-space: nowrap;
+  }
+  .p-body { margin: 0; color: var(--ink); font-size: 15px; max-width: 60ch; }
+  .callout { color: var(--scope); }
 
+  /* "Read more": native <details>, so it works without script and with the keyboard */
+  details.more { margin-top: 12px; max-width: 60ch; }
+  details.more summary {
+    display: inline-flex; align-items: center; gap: 8px; cursor: pointer; list-style: none;
+    font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--copper);
+  }
+  details.more summary::-webkit-details-marker { display: none; }
+  details.more summary::before {
+    content: "+"; display: inline-grid; place-items: center; width: 16px; height: 16px;
+    border: 1px solid currentColor; border-radius: 2px; font-size: 12px; line-height: 1;
+  }
+  details.more[open] summary::before { content: "−"; }
+  details.more summary:hover { text-decoration: underline; }
+  .more-list { margin: 12px 0 0; padding-left: 18px; font-size: 14px; }
+  .more-list li { margin-bottom: 7px; }
+  .more-list li::marker { color: var(--muted); }
+  .more-list strong { font-weight: 600; }
+  .more-figure { margin-top: 14px; }
+
+  /* Skill highlighting covers every tier */
+  .projects [data-skills] { transition: opacity .35s ease; }
+  .projects.is-filtering [data-skills]:not(.is-match) { opacity: .35; }
+  .projects.is-filtering .project:not(.is-match) .trace { color: var(--muted); }
+
+  /* ---------- Selected projects ---------- */
   .project {
     position: relative;
     display: grid; grid-template-columns: 300px 1fr; gap: 28px;
     padding: 32px 0; border-top: 1px solid var(--rule);
-    transition: opacity .35s ease;
   }
   .project:last-child { border-bottom: 1px solid var(--rule); }
   .project.reverse { grid-template-columns: 1fr 300px; }
@@ -229,23 +262,37 @@
     background: var(--surface); transition: border-color .2s;
   }
   .p-media.hardware img { background: var(--surface-2); padding: 6px; }
-  .p-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 8px; flex-wrap: wrap; }
-  .p-head h3 { font-size: 19px; }
-  .chips { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0 12px; }
-  .chip {
-    font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted);
-    border: 1px solid var(--rule); padding: 3px 8px; border-radius: 3px; white-space: nowrap;
+  .p-figure-extra { margin-top: 16px; }
+
+  /* Text figure for the cryptanalysis entry: the method, with no keys or ciphertext */
+  .attack-log {
+    margin: 0; padding: 16px; border: 1px solid var(--rule); background: var(--surface);
+    font-family: 'IBM Plex Mono', monospace; font-size: 12px; line-height: 1.6;
   }
-  .p-body { color: var(--ink); font-size: 15px; max-width: 60ch; }
-  .p-body .callout { color: var(--scope); }
+  .attack-log dl { margin: 0; }
+  .attack-log dt { color: var(--gold); font-weight: 600; letter-spacing: 0.02em; }
+  .attack-log dd { margin: 2px 0 14px; color: var(--ink); }
+  .attack-log dd:last-of-type { margin-bottom: 0; }
+  .attack-log .ok { color: var(--scope); }
+  .attack-log .no { color: var(--copper); }
+  .attack-log figcaption { margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--rule); color: var(--muted); font-size: 11px; }
 
   /* Click-to-enlarge wrapper (added by script) */
   .zoom { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; }
   .zoom:hover img { border-color: var(--ink); }
 
-  /* Skill highlighting */
-  .projects.is-filtering .project:not(.is-match) { opacity: .35; }
-  .projects.is-filtering .project:not(.is-match) .trace { color: var(--muted); }
+  /* ---------- More projects ---------- */
+  .card { padding: 22px 0; border-top: 1px solid var(--rule); }
+  .card:last-child { border-bottom: 1px solid var(--rule); }
+  .card .p-title { font-size: 17px; }
+  .card .p-body { font-size: 14px; }
+
+  /* ---------- Earlier work ---------- */
+  .early-list { list-style: none; margin: 0; padding: 0; }
+  .early-list li { padding: 14px 0; border-top: 1px solid var(--rule); font-size: 14px; max-width: 72ch; }
+  .early-list li:last-child { border-bottom: 1px solid var(--rule); }
+  .early-list .p-title { display: inline; font-family: 'IBM Plex Sans', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 0; }
+  .early-list .p-meta { display: inline; font-size: 13px; }
 
   /* ---------- Scope traces: each project divider is a waveform from that project ---------- */
   .project.has-trace { border-top-color: transparent; }
@@ -313,8 +360,9 @@
     .motion .project .p-media, .motion .project .p-content { opacity: 1 !important; transform: none !important; }
     .motion .trace path { stroke-dashoffset: 0 !important; }
     .motion .trace-tail { transform: none !important; }
-    .projects.is-filtering .project { opacity: 1 !important; }
+    .projects.is-filtering [data-skills] { opacity: 1 !important; }
     .skill-bar { display: none; }
+    details.more summary { display: none; }
   }
 </style>
 </head>
@@ -327,7 +375,7 @@
       <a href="#skills">Skills</a>
       <a href="#projects">Projects</a>
       <a href="#contact">Contact</a>
-      <a class="cv-link" href="cv.pdf" download aria-label="Download CV (PDF)"><span class="cv-long">Download </span>CV</a>
+      <a class="cv-link" href="cv.pdf" target="_blank" rel="noopener" aria-label="Open CV (PDF, new tab)"><span class="cv-long">View </span>CV</a>
       <span class="nav-indicator" aria-hidden="true"></span>
     </nav>
   </div>
@@ -338,7 +386,7 @@
     <div>
       <h1>Syazwan Zulkepli</h1>
       <div class="role">MEng Electrical &amp; Electronic Engineering — University of Southampton — 2:1</div>
-      <p class="lead">Six projects, one habit: work it out from first principles when nobody has documented it yet.</p>
+      <p class="lead">One habit across every project: work it out from first principles when nobody has documented it yet.</p>
       <div class="contact-line">
         <a href="mailto:syazwanzulkepli72@gmail.com">syazwanzulkepli72@gmail.com</a> &nbsp;·&nbsp;
         <a href="tel:+447379798069">+44 (0) 7379 798069</a> &nbsp;·&nbsp;
@@ -347,18 +395,18 @@
     </div>
     <div>
       <div class="hero-photo-frame">
-        <img src="hero.jpg" alt="Hand-fabricated flexible antenna and capaciflector sensor on Kapton substrate">
+        <img src="hero.jpg" width="1050" height="1400" fetchpriority="high" alt="Hand-fabricated flexible antenna and capaciflector sensor on Kapton substrate">
       </div>
-      <div class="hero-cap mono">Antenna + capaciflector sensor, hand-fabricated — Project 1</div>
+      <div class="hero-cap mono">Antenna + capaciflector sensor, hand-fabricated — Group Design Project</div>
     </div>
   </div>
 </div>
 
 <div class="wrap">
   <!--
-    Skills: a <button class="skill" data-skill="key"> highlights every project whose
-    data-skills list contains that key. Text outside buttons has no project on this page.
-    data-label is the short name shown in the status line (defaults to the button text).
+    Skills: a <button class="skill" data-skill="key"> highlights every project, card or
+    earlier-work line whose data-skills list contains that key. Text outside buttons has no
+    project on this page. data-label is the short name shown in the status line.
   -->
   <section class="skills" id="skills">
     <h2 class="section-title">TECHNICAL SKILLS</h2>
@@ -384,104 +432,287 @@
     <p class="skill-status" id="skill-status" aria-live="polite"></p>
   </section>
 
-  <!-- data-wave picks the divider waveform: breath, clock, resonance, classes, ringdown, gain -->
   <section class="projects" id="projects">
     <h2 class="section-title">ENGINEERING PROJECTS — 2023–2026</h2>
-    <p class="section-hint">All six projects were graded first class.</p>
+    <p class="section-hint">Open “Read more” on any project for the problem, the method and the result.</p>
 
-    <article class="project" id="p-rfid" data-skills="antenna hfss kicad flex-pcb cpp" data-wave="breath">
-      <div class="p-media hardware">
-        <img src="p1-hardware.jpg" alt="Fabricated capaciflector and flexible PCB, and the capaciflector integrated with the RFID tag" loading="lazy">
-      </div>
-      <div class="p-content">
-        <div class="p-head">
-          <h3>Wireless RFID E-Textile Sensor System</h3>
+    <!-- ===== Tier 1: Selected projects. data-wave picks the divider waveform ===== -->
+    <div class="tier" aria-labelledby="tier-selected">
+      <h3 class="tier-title" id="tier-selected">SELECTED PROJECTS</h3>
+      <p class="tier-hint">Each of these received a first-class mark.</p>
+
+      <article class="project" id="p-rfid" data-skills="antenna hfss kicad flex-pcb multisim" data-wave="breath">
+        <div class="p-media hardware">
+          <img src="p1-hardware.jpg" width="675" height="900" loading="lazy" decoding="async" alt="Fabricated capaciflector and flexible PCB, and the capaciflector integrated with the RFID tag">
         </div>
+        <div class="p-content">
+          <div class="p-head">
+            <h4 class="p-title">Wireless RFID E-Textile Breathing Sensor</h4>
+            <span class="badge">First-class mark</span>
+          </div>
+          <p class="p-meta">Group Design Project · 2025–26</p>
+          <div class="chips">
+            <span class="chip">ANSYS HFSS</span><span class="chip">KiCad</span><span class="chip">Multisim</span><span class="chip">RFID</span><span class="chip">Flexible PCB</span>
+          </div>
+          <p class="p-body">Designed a battery-free capacitive sensor (a capaciflector) that reads breathing through clothing and reports it over passive RFID. The RFID chip's datasheet only covered two-plate capacitors, so I worked out how to drive <span class="callout">a three-electrode sensor from a single pin</span>. Tested from 80 to 160&nbsp;cm at a paced 6 breaths per minute, it gave the clearest breathing pattern at 100&nbsp;cm.</p>
+          <details class="more">
+            <summary>Read more</summary>
+            <ul class="more-list">
+              <li><strong>Team and my part:</strong> team of 5; I led the capaciflector sensor, end to end.</li>
+              <li><strong>Problem:</strong> continuous breathing monitoring outside intensive care, with no battery on the patient.</li>
+              <li><strong>What I did:</strong> simulated the sensing principle in Multisim; designed and simulated the antenna in ANSYS HFSS, including the effect of the human body; produced ten flexible-PCB variants in KiCad and fixed manufacturing-rule violations; assembled the tags by hand.</li>
+              <li><strong>Interface from first principles:</strong> routed the ground plane to the sensing pin so the chip drove both reflector and sensor electrodes. This went into the final design.</li>
+              <li><strong>When fabrication failed:</strong> screen-printed sensors shorted from air bubbles in the dielectric, twice. I switched to Kapton–copper clad, which worked reliably.</li>
+              <li><strong>Debugging:</strong> long wires made the data noisy; a compact version lost read range from antenna coupling; a smaller sensor geometry fixed both.</li>
+              <li><strong>Result:</strong> tested from 80 to 160&nbsp;cm with breathing paced at 6 per minute by a metronome. The pattern was clear at 80–100&nbsp;cm, still recognisable at 120&nbsp;cm, and weaker beyond. 100&nbsp;cm was the best compromise between patient comfort and signal, with an average peak-to-peak swing of 75 raw counts.</li>
+              <li><strong>What I'd change:</strong> test the fabrication route in week 1, not week 7.</li>
+            </ul>
+            <div class="p-media more-figure">
+              <img src="p1-breathing.svg" width="900" height="420" loading="lazy" decoding="async" alt="Capaciflector raw output at 100 cm over about 2,000 samples, showing regular breathing cycles, with a 50-sample moving average drawn on top">
+            </div>
+          </details>
+        </div>
+      </article>
+
+      <article class="project reverse" id="p-nisc" data-skills="rtl fpga" data-wave="clock">
+        <div class="p-media">
+          <img src="p2-datapath.svg" width="1000" height="640" loading="lazy" decoding="async" alt="NISC datapath: program counter and 16-bit control word store, the control word split into seven fields, and the address register, waveform ROM, multiplier, bit slice, adder, mux and accumulator they drive">
+        </div>
+        <div class="p-content">
+          <div class="p-head">
+            <h4 class="p-title">NISC Processor on FPGA</h4>
+            <span class="badge">First-class mark</span>
+          </div>
+          <p class="p-meta">Individual coursework · 2026</p>
+          <div class="chips">
+            <span class="chip">SystemVerilog</span><span class="chip">Questa</span><span class="chip">Intel Quartus</span><span class="chip">Cyclone V</span>
+          </div>
+          <p class="p-body">Built a No-Instruction-Set-Computer (NISC) processor that runs a 5-tap Gaussian smoothing filter on a 256-sample waveform. Control signals are bit fields in the instruction word, so there is no decoder logic. Final cost: <span class="callout">63 logic elements</span> and one DSP multiplier, verified in simulation and on hardware.</p>
+          <details class="more">
+            <summary>Read more</summary>
+            <ul class="more-list">
+              <li><strong>Problem:</strong> minimise an area cost figure for a fixed signal-processing task on a Cyclone&nbsp;V.</li>
+              <li><strong>Key decision:</strong> NISC instead of an encoded-instruction design. A slightly wider program ROM removes all decoder logic and wins on area.</li>
+              <li><strong>Result:</strong> 9-instruction program, 7 clock cycles per output sample, all 8 test cases passed in Questa (positive, negative, boundary indices), confirmed on the DE1-SoC board.</li>
+              <li><strong>What I'd change:</strong> add a self-checking testbench against a Python reference model rather than hand-checked cases.</li>
+            </ul>
+          </details>
+        </div>
+      </article>
+
+      <article class="project" id="p-signal" data-skills="multisim analogue" data-wave="gain">
+        <div class="p-media">
+          <img src="p6-circuit.png" width="800" height="469" loading="lazy" decoding="async" alt="Initial differential amplifier circuit in NI Multisim that exposed the loading problem">
+        </div>
+        <div class="p-content">
+          <div class="p-head">
+            <h4 class="p-title">Accelerometer Signal Conditioning for Engine Vibration</h4>
+            <span class="badge">First-class mark</span>
+          </div>
+          <p class="p-meta">Individual coursework · 2026</p>
+          <div class="chips">
+            <span class="chip">NI Multisim</span><span class="chip">Analogue design</span><span class="chip">Hand calculation</span>
+          </div>
+          <p class="p-body">Designed the interface between a piezoresistive accelerometer and an engine controller on a single 5&nbsp;V supply. My first differential amplifier loaded the sensor bridge, with 78% signal loss predicted and 60% in simulation. An instrumentation amplifier cut it to <span class="callout">0.35%</span>, and the full chain met the 100&nbsp;±&nbsp;5&nbsp;mV/g target.</p>
+          <details class="more">
+            <summary>Read more</summary>
+            <ul class="more-list">
+              <li><strong>Chain:</strong> Wheatstone bridge model → three-op-amp instrumentation amplifier → cascaded 2nd-order Butterworth filters giving a 20–170&nbsp;Hz passband (1,200–10,200&nbsp;RPM).</li>
+              <li><strong>Diagnosis, not retuning:</strong> traced the loss to bridge output impedance versus amplifier input impedance. Raising resistors 10× only reduced loss to 26%, so I changed topology.</li>
+              <li><strong>Result:</strong> 96–110&nbsp;mV/g, ±1.2&nbsp;dB passband flatness, current cut 7.1% to 2.87&nbsp;mA. All values calculated by hand, then checked in Multisim.</li>
+              <li><strong>What I'd change:</strong> build it on a protoboard to see real op-amp offsets.</li>
+            </ul>
+          </details>
+        </div>
+      </article>
+
+      <article class="project reverse" id="p-nem" data-skills="lockin python comsol matlab" data-wave="resonance">
+        <div class="p-media">
+          <img src="p3-comsol.png" width="800" height="642" loading="lazy" decoding="async" alt="COMSOL Euler-Bernoulli beam simulation showing the first bending mode of the NEM resonator">
+        </div>
+        <div class="p-content">
+          <div class="p-head">
+            <h4 class="p-title">NEM Resonator Characterisation</h4>
+            <span class="badge">First-class mark</span>
+          </div>
+          <p class="p-meta">Individual coursework · 2026</p>
+          <div class="chips">
+            <span class="chip">Lock-in amplifier</span><span class="chip">Python</span><span class="chip">COMSOL</span><span class="chip">MATLAB</span>
+          </div>
+          <p class="p-body">Measured a 2&nbsp;µm silicon nanoelectromechanical (NEM) beam resonator with lock-in detection and fitted its response in Python. Resonance sat near 98&nbsp;MHz with a quality factor of 270–400. A COMSOL model matched <span class="callout">within 3%</span>, and a power sweep revealed a 3&nbsp;MHz Duffing stiffening shift.</p>
+          <details class="more">
+            <summary>Read more</summary>
+            <ul class="more-list">
+              <li><strong>Method:</strong> 1-ω mixing measurement under back-gate bias 0–2&nbsp;V and drive power 0 to −8&nbsp;dB; Lorentzian fits for frequency and Q.</li>
+              <li><strong>Model:</strong> COMSOL eigenfrequency study of a pure-silicon beam (99.13&nbsp;MHz) and a Si/SiO₂ core-shell beam (95.02&nbsp;MHz).</li>
+              <li><strong>Also:</strong> a critical review of a published nonlinear-resonance modelling method on identical devices.</li>
+              <li><strong>What I'd change:</strong> fit the Duffing model directly instead of tracking peak shift.</li>
+            </ul>
+          </details>
+        </div>
+      </article>
+
+      <article class="project" id="p-piezo" data-skills="solidworks multisim analogue lcr" data-wave="ringdown">
+        <div class="p-media hardware">
+          <img src="p5-hardware.jpg" width="900" height="675" loading="lazy" decoding="async" alt="27mm piezoelectric disc beside its 3D-printed housing">
+        </div>
+        <div class="p-content">
+          <div class="p-head">
+            <h4 class="p-title">Piezoelectric Accelerometer Package</h4>
+            <span class="badge">First-class mark</span>
+          </div>
+          <p class="p-meta">Individual coursework · 2026</p>
+          <div class="chips">
+            <span class="chip">SolidWorks</span><span class="chip">3D printing</span><span class="chip">NI Multisim</span><span class="chip">LCR meter</span>
+          </div>
+          <p class="p-body">Designed a 3D-printed housing and a two-stage charge amplifier (gain 20) for a piezoelectric disc, then swept it from 0.5&nbsp;Hz to 5&nbsp;kHz on a shaker at three masses. The main peak sat near 850&nbsp;Hz against a 4.2&nbsp;kHz datasheet value. I traced it to <span class="callout">the shaker's own resonance</span> and found the disc's mass-shifted peaks at 2.5–2.7&nbsp;kHz.</p>
+          <div class="p-media p-figure-extra">
+            <img src="p5-freqresponse.png" width="800" height="474" loading="lazy" decoding="async" alt="Measured frequency response across three mass conditions, showing the resonance peak shift">
+          </div>
+          <details class="more">
+            <summary>Read more</summary>
+            <ul class="more-list">
+              <li><strong>Sensor check:</strong> characterised the disc on an LCR meter (18.44&nbsp;nF at 1&nbsp;kHz, within datasheet tolerance).</li>
+              <li><strong>Simulation versus measurement:</strong> explained the gap through protoboard parasitics, series resistors replacing one 10&nbsp;MΩ part, and probe loading.</li>
+              <li><strong>What I'd change:</strong> use a reference accelerometer to separate the shaker's response from the sensor's.</li>
+            </ul>
+          </details>
+        </div>
+      </article>
+
+      <article class="project reverse" id="p-fakenews" data-skills="python" data-wave="classes">
+        <div class="p-media">
+          <img src="p4-classification.png" width="716" height="645" loading="lazy" decoding="async" alt="Classification report showing precision, recall and F1 score for the SVC model">
+        </div>
+        <div class="p-content">
+          <div class="p-head">
+            <h4 class="p-title">Fake News Detection with Machine Learning</h4>
+            <span class="badge">First-class mark</span>
+          </div>
+          <p class="p-meta">Individual coursework · 2024</p>
+          <div class="chips">
+            <span class="chip">Python</span><span class="chip">scikit-learn</span><span class="chip">pandas</span><span class="chip">NumPy</span>
+          </div>
+          <p class="p-body">Classified MediaEval social-media posts as real or fake from their text using TF-IDF unigram features. A grid-searched Support Vector Classifier scored F1 0.83 on the test set. The simpler Multinomial Naive Bayes scored 0.86 with a <span class="callout">smaller train–test gap</span>.</p>
+          <details class="more">
+            <summary>Read more</summary>
+            <ul class="more-list">
+              <li><strong>Features:</strong> compared unigram and bigram TF-IDF features.</li>
+              <li><strong>Tuning:</strong> grid search for both models.</li>
+              <li><strong>Evaluation:</strong> micro-averaged F1 and confusion matrices on a held-out test set.</li>
+            </ul>
+          </details>
+        </div>
+      </article>
+
+      <article class="project" id="p-crypto" data-skills="python" data-wave="letters">
+        <div class="p-media">
+          <figure class="attack-log">
+            <dl>
+              <dt>SUBSTITUTION</dt>
+              <dd>letter frequencies → statistical check <span class="ok">✓</span></dd>
+              <dt>REPEATING-KEY XOR (HEX FILE)</dt>
+              <dd>1-byte brute force <span class="no">✗</span> → 2-byte key → solve each byte stream <span class="ok">✓</span></dd>
+              <dt>KEYED COLUMNAR TRANSPOSITION</dt>
+              <dd>rail fence ruled out by quadgram score <span class="no">✗</span> → column order <span class="ok">✓</span></dd>
+            </dl>
+            <figcaption>Attack path for each cipher. Keys, ciphertexts and plaintexts are deliberately not shown.</figcaption>
+          </figure>
+        </div>
+        <div class="p-content">
+          <div class="p-head">
+            <h4 class="p-title">Cryptanalysis of Classical Ciphers</h4>
+            <span class="badge">First-class mark</span>
+          </div>
+          <p class="p-meta">Individual coursework · 2026</p>
+          <div class="chips">
+            <span class="chip">Python</span><span class="chip">Frequency analysis</span><span class="chip">Cryptanalysis</span>
+          </div>
+          <p class="p-body">Broke three unknown ciphers from ciphertext alone: a substitution cipher, a repeating-key XOR cipher hidden in a hex file, and a keyed columnar transposition. Each attack was <span class="callout">confirmed by a statistical test</span>, not by eye.</p>
+          <details class="more">
+            <summary>Read more</summary>
+            <ul class="more-list">
+              <li><strong>Substitution:</strong> letter-frequency analysis.</li>
+              <li><strong>XOR file:</strong> a single-byte brute force failed, which pointed to a 2-byte key; each byte stream was then solved separately.</li>
+              <li><strong>Transposition:</strong> ruled out rail-fence ciphers with quadgram fitness scores before finding the column order.</li>
+            </ul>
+          </details>
+        </div>
+      </article>
+    </div>
+
+    <!-- ===== Tier 2: More projects ===== -->
+    <div class="tier" aria-labelledby="tier-more">
+      <h3 class="tier-title" id="tier-more">MORE PROJECTS</h3>
+      <p class="tier-hint">A design review, a power-systems study and a security lab series.</p>
+
+      <article class="card" id="p-tia" data-skills="analogue">
+        <h4 class="p-title">Photodiode Transimpedance Amplifier Design Review</h4>
+        <p class="p-meta">Individual take-home technical challenge for a photonics company · 2026</p>
         <div class="chips">
-          <span class="chip">ANSYS HFSS</span><span class="chip">KiCad</span><span class="chip">C++</span><span class="chip">RFID</span>
+          <span class="chip">Analogue design</span><span class="chip">Noise analysis</span><span class="chip">Loop stability</span><span class="chip">PCB review</span>
         </div>
-        <p class="p-body">Designed the antenna and a capacitive proximity sensor called a capaciflector for a non-contact patient respiratory monitoring system. The RFID chip's datasheet only documented standard capacitive sensors, so I worked out the interface <span class="callout">from first principles</span>, hand-fabricated the flexible PCB, and validated the complete system wirelessly detecting breathing at 100&nbsp;cm range.</p>
-      </div>
-    </article>
+        <p class="p-body">Reviewed a two-stage photodiode transimpedance amplifier (TIA) board across schematic, layout and bring-up. I found a repeated placeholder pattern that disabled the feedback and compensation networks, and a misplaced resistor on the sensitive input node. I also proposed a step-by-step bring-up and test plan for gain, bandwidth, noise and stability.</p>
+        <details class="more">
+          <summary>Read more</summary>
+          <ul class="more-list">
+            <li><strong>Approach:</strong> tied input capacitance, feedback resistance, compensation, bandwidth and noise together instead of checking each alone; checked calculations against manufacturer data.</li>
+            <li><strong>Findings:</strong> the placeholder faults, a summing-node resistor that likely belonged on the guard-buffer output, marginal phase margin in both stages, and missing test points.</li>
+            <li><strong>Testability:</strong> proposed current-injection points and a validation sequence.</li>
+            <li><strong>What I'd change, from the reviewers' feedback:</strong> lead with a one-page list of board-stopping issues before secondary findings; state the assumptions behind any component recommendation; confirm layout findings in the native PCB viewer before reporting them.</li>
+          </ul>
+        </details>
+      </article>
 
-    <article class="project reverse" id="p-nisc" data-skills="rtl fpga" data-wave="clock">
-      <div class="p-media">
-        <img src="p2-architecture.png" alt="NISC processor architecture block diagram" loading="lazy">
-      </div>
-      <div class="p-content">
-        <div class="p-head">
-          <h3>NISC Processor Design on FPGA</h3>
-        </div>
+      <article class="card" id="p-hvdc" data-skills="matlab python">
+        <h4 class="p-title">2000&nbsp;MW HVDC Subsea Interconnector Design Study</h4>
+        <p class="p-meta">Group design study plus individual converter simulations · 2026</p>
         <div class="chips">
-          <span class="chip">SystemVerilog</span><span class="chip">Questa</span><span class="chip">Intel Quartus</span><span class="chip">DE1-SoC</span>
+          <span class="chip">MATLAB/Simulink</span><span class="chip">Python</span><span class="chip">Power electronics</span><span class="chip">HVDC</span>
         </div>
-        <p class="p-body">Designed and verified a custom No-Instruction-Set-Computer processor targeting a Cyclone&nbsp;V FPGA. Wrote test cases, ran Questa simulation, and read waveforms to catch problems before ever touching physical hardware. All 8 test cases passed before deployment, and the architecture was optimised down to <span class="callout">63 logic elements</span>.</p>
-      </div>
-    </article>
+        <p class="p-body">Selected the converter topology, ratings, cable and protection for a 200&nbsp;km, 2000&nbsp;MW subsea High-Voltage Direct Current (HVDC) link between two asynchronous grids. I wrote the power-quality and filtering design for a ±525&nbsp;kV bipole with half-bridge Modular Multilevel Converters (MMC). Separately, I simulated line-commutated and voltage-source converters in MATLAB/Simulink.</p>
+        <details class="more">
+          <summary>Read more</summary>
+          <ul class="more-list">
+            <li><strong>Team and my part:</strong> team of 6; I owned power quality and filtering.</li>
+            <li><strong>Group study:</strong> design decisions from case studies of operating links. My section showed the MMC's staircase output keeps AC-side distortion within IEEE&nbsp;519 without tuned filter banks, and sized the phase reactor.</li>
+            <li><strong>Individual simulations:</strong> Line-Commutated Converter (LCC) voltage, commutation overlap and harmonics; designed 5th, 7th and damped AC filters that cut total harmonic distortion from 27.27% to 7.13%; voltage-source converter power flow and a 3-level converter. Plots produced in Python.</li>
+            <li><strong>Next step we identified:</strong> electromagnetic transient studies of converter–grid resonance before finalising reactors.</li>
+          </ul>
+          <div class="p-media more-figure">
+            <img src="p8-hvdc-thd.svg" width="800" height="460" loading="lazy" decoding="async" alt="Bar chart of AC-side total harmonic distortion: 27.27% with no filter, 16.21% with a tuned 5th filter, 7.04% adding a tuned 7th, 7.13% adding a damped 12th">
+          </div>
+        </details>
+      </article>
 
-    <article class="project" id="p-nem" data-skills="comsol lockin python matlab" data-wave="resonance">
-      <div class="p-media">
-        <img src="p3-comsol.png" alt="COMSOL Euler-Bernoulli beam simulation showing the first bending mode of the NEM resonator" loading="lazy">
-      </div>
-      <div class="p-content">
-        <div class="p-head">
-          <h3>NEM Resonator Characterisation</h3>
-        </div>
+      <article class="card" id="p-hwsec" data-skills="">
+        <h4 class="p-title">Hardware Security Labs</h4>
+        <p class="p-meta">Lab series with one partner · 2025</p>
         <div class="chips">
-          <span class="chip">Python</span><span class="chip">COMSOL</span><span class="chip">Lock-in amplifier</span><span class="chip">MATLAB</span>
+          <span class="chip">Software-defined radio</span><span class="chip">ChipWhisperer</span><span class="chip">NFC/RFID</span><span class="chip">GSM</span>
         </div>
-        <p class="p-body">Characterised a doubly-clamped silicon NEM resonator by lock-in amplifier measurement, extracting resonant frequency and quality factor and identifying Duffing nonlinearity from AC power sweeps. Built a Python pipeline to fit the measured data, then validated it against a COMSOL beam simulation agreeing with the measured frequency to <span class="callout">within 3%</span>.</p>
-      </div>
-    </article>
+        <p class="p-body">Four hands-on attacks on real hardware. We recovered access-card keys from a MIFARE Classic tag, read program behaviour from a microcontroller's power traces, and replayed a 433.92&nbsp;MHz remote signal to trigger a relay. We also analysed GSM identifiers and encryption.</p>
+        <details class="more">
+          <summary>Read more</summary>
+          <ul class="more-list">
+            <li><strong>NFC:</strong> card key recovery with libnfc tools.</li>
+            <li><strong>Side channel:</strong> ChipWhisperer power traces linked to loop iterations in the target's C code.</li>
+            <li><strong>Radio:</strong> the replay attack worked 96% of the time, but only within 6&nbsp;cm.</li>
+            <li><strong>GSM:</strong> A5 encryption variants and subscriber identifiers.</li>
+          </ul>
+        </details>
+      </article>
+    </div>
 
-    <article class="project reverse" id="p-fakenews" data-skills="python" data-wave="classes">
-      <div class="p-media">
-        <img src="p4-classification.png" alt="Classification report showing precision, recall and F1 score for the SVC model" loading="lazy">
-      </div>
-      <div class="p-content">
-        <div class="p-head">
-          <h3>Fake News Detection using Machine Learning</h3>
-        </div>
-        <div class="chips">
-          <span class="chip">Python</span><span class="chip">scikit-learn</span><span class="chip">pandas</span><span class="chip">NumPy</span>
-        </div>
-        <p class="p-body">Built an end-to-end pipeline classifying social media posts as real or fake against the MediaEval dataset. Compared a Support Vector Classifier against Multinomial Naive Bayes — the simpler model actually generalised better, with a <span class="callout">smaller train-test gap</span> on a sparse, high-dimensional feature space.</p>
-      </div>
-    </article>
-
-    <article class="project" id="p-piezo" data-skills="solidworks multisim analogue lcr" data-wave="ringdown">
-      <div class="p-media hardware">
-        <img src="p5-hardware.jpg" alt="27mm piezoelectric disc beside its 3D-printed housing" loading="lazy">
-      </div>
-      <div class="p-content">
-        <div class="p-head">
-          <h3>3D-Printed Sensor Package for a Piezoelectric Accelerometer</h3>
-        </div>
-        <div class="chips">
-          <span class="chip">SolidWorks</span><span class="chip">3D printing</span><span class="chip">NI Multisim</span><span class="chip">LCR meter</span>
-        </div>
-        <p class="p-body">Designed a parametric sensor housing in SolidWorks and a two-stage charge amplifier circuit, then validated the assembly on an electromagnetic shaker rig across three mass conditions. The measured resonance came out roughly five times lower than the datasheet value; I traced it to <span class="callout">the shaker's own mechanical resonance</span> dominating the measurement, rather than treating it as a failed result.</p>
-        <div class="p-media" style="margin-top:16px;">
-          <img src="p5-freqresponse.png" alt="Measured frequency response across three mass conditions, showing the resonance peak shift" loading="lazy">
-        </div>
-      </div>
-    </article>
-
-    <article class="project reverse" id="p-signal" data-skills="multisim analogue" data-wave="gain">
-      <div class="p-media">
-        <img src="p6-circuit.png" alt="Initial differential amplifier circuit in NI Multisim that exposed the loading problem" loading="lazy">
-      </div>
-      <div class="p-content">
-        <div class="p-head">
-          <h3>Signal Conditioning for an Engine Vibration Accelerometer</h3>
-        </div>
-        <div class="chips">
-          <span class="chip">NI Multisim</span><span class="chip">Analogue design</span><span class="chip">Manual calculation</span>
-        </div>
-        <p class="p-body">Designed a signal-conditioning chain for a piezoresistive accelerometer. My first differential-amplifier design didn't match calculations by a wide margin — rather than retuning components, I traced the fault to a <span class="callout">bridge-impedance mismatch</span> and replaced it with an instrumentation-amplifier topology that cut the signal loss from 78% to under 1%.</p>
-      </div>
-    </article>
-
+    <!-- ===== Tier 3: Earlier work, one line each ===== -->
+    <div class="tier" aria-labelledby="tier-early">
+      <h3 class="tier-title" id="tier-early">EARLIER WORK</h3>
+      <ul class="early-list">
+        <li id="e-ens" data-skills="cpp"><h4 class="p-title">Embedded Networked Systems</h4> <span class="p-meta">team of 5 · 2023–24</span> — wrote the data-link and physical layers in C on an AVR microcontroller with an RFM12 radio: bit-stuffed framing, stop-and-wait retransmission with a 0.5&nbsp;s timeout, CRC-16 error checking. Each layer worked on its own, but the stack was not integrated before the demo. Lesson: integrate early.</li>
+        <li id="e-tline" data-skills="multisim"><h4 class="p-title">Transmission Line Equivalent Circuit</h4> <span class="p-meta">2023</span> — modelled a coaxial line as a cascade of LC sections in Multisim from its geometry (Z₀&nbsp;≈&nbsp;74.9&nbsp;Ω) and compared lossless and lossy behaviour under different loads.</li>
+        <li id="e-chaos"><h4 class="p-title">Chaotic Oscillator</h4> <span class="p-meta">lab, with a partner · 2023</span> — built an inductor–diode circuit and observed period-doubling bifurcation on its way to chaos.</li>
+      </ul>
+    </div>
   </section>
 </div>
 
@@ -498,7 +729,7 @@
         <div class="contact-links">
           <a href="tel:+447379798069">+44 (0) 7379 798069</a> &nbsp;·&nbsp;
           <a href="https://www.linkedin.com/in/syazwan-s-d-zulkepli-7080a2224">LinkedIn</a> &nbsp;·&nbsp;
-          <a href="cv.pdf" download>CV (PDF)</a>
+          <a href="cv.pdf" target="_blank" rel="noopener">CV (PDF)</a>
         </div>
       </div>
       <div>
@@ -595,6 +826,8 @@
   /* ---------- Project dividers: oscilloscope traces, one waveform per project ---------- */
   const WAVE_W = 240, WAVE_H = 24, MID = 12, SAMPLES = 120;
   const sample = f => Array.from({ length: SAMPLES + 1 }, (_, i) => [i / SAMPLES * WAVE_W, f(i / SAMPLES)]);
+  // Relative English letter frequencies, E T A O I N S H R D L C U (percent)
+  const LETTER_FREQ = [12.7, 9.1, 8.2, 7.5, 7.0, 6.7, 6.3, 6.1, 6.0, 4.3, 4.0, 2.8, 2.8];
   const WAVES = {
     breath:    () => sample(t => MID - 7 * Math.sin(Math.PI * t) * Math.sin(4 * Math.PI * t)),          // slow respiration signal
     clock:     () => {                                                                                   // digital logic pulses
@@ -610,6 +843,15 @@
                                      - 6 * Math.exp(-(((t - 0.68) / 0.09) ** 2))),
     ringdown:  () => sample(t => MID - 9 * Math.exp(-4.5 * t) * Math.sin(14 * Math.PI * t)),             // impulse ring-down
     gain:      () => sample(t => MID - (t < 0.5 ? 2 : 8) * Math.sin(16 * Math.PI * t)),                  // small signal, then amplified
+    letters:   () => {                                                                                   // letter-frequency histogram
+      const pts = [[0, MID]];
+      const step = 0.9 * WAVE_W / LETTER_FREQ.length, w = step * 0.55;
+      LETTER_FREQ.forEach((f, k) => {
+        const x = 0.05 * WAVE_W + k * step, h = 10 * f / LETTER_FREQ[0];
+        pts.push([x, MID], [x, MID - h], [x + w, MID - h], [x + w, MID]);
+      });
+      return [...pts, [WAVE_W, MID]];
+    },
   };
   const toPath = pts => pts.map(([x, y], i) => `${i ? 'L' : 'M'}${x.toFixed(1)} ${y.toFixed(2)}`).join('');
 
@@ -660,17 +902,21 @@
     projects.forEach(p => io.observe(p));
 
     return {
-      // Re-trigger a project's trace now if visible, otherwise when it next scrolls into view
-      replay: p => (onScreen.has(p) ? sweep(p) : pendingSweep.add(p)),
+      // Re-trigger a project's trace now if visible, otherwise when it next scrolls into view.
+      // Cards and earlier-work lines have no trace, so they are skipped.
+      replay: p => {
+        if (!p.querySelector('.trace')) return;
+        onScreen.has(p) ? sweep(p) : pendingSweep.add(p);
+      },
       clearPending: () => pendingSweep.clear(),
     };
   }
 
-  /* ---------- Skills -> projects highlighting ---------- */
+  /* ---------- Skills -> projects highlighting (all three tiers) ---------- */
   function initSkills(projectsApi) {
     const buttons = [...document.querySelectorAll('.skill[data-skill]')];
     const list = document.querySelector('section.projects');
-    const projects = [...list.querySelectorAll('.project[data-skills]')];
+    const items = [...list.querySelectorAll('[data-skills]')];
     const status = document.getElementById('skill-status');
     const bar = document.getElementById('skill-bar');
     const barLabel = bar.querySelector('[data-bar-label]');
@@ -681,6 +927,7 @@
       const b = buttons.find(btn => btn.dataset.skill === key);
       return b.dataset.label || b.textContent.trim();
     };
+    const titleOf = item => item.querySelector('.p-title').textContent.trim();
 
     function renderStatus(matches) {
       status.replaceChildren();
@@ -692,7 +939,7 @@
         if (i) status.append(i === matches.length - 1 ? ' and ' : ', ');
         const link = document.createElement('a');
         link.href = '#' + p.id;
-        link.textContent = p.querySelector('h3').textContent;
+        link.textContent = titleOf(p);
         status.append(link);
       });
       const clear = document.createElement('button');
@@ -715,9 +962,9 @@
     function select(key) {
       active = key === active ? null : key;
       buttons.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.skill === active)));
-      const matches = active ? projects.filter(p => p.dataset.skills.split(/\s+/).includes(active)) : [];
+      const matches = active ? items.filter(p => p.dataset.skills.split(/\s+/).includes(active)) : [];
       list.classList.toggle('is-filtering', Boolean(active));
-      projects.forEach(p => p.classList.toggle('is-match', matches.includes(p)));
+      items.forEach(p => p.classList.toggle('is-match', matches.includes(p)));
       projectsApi.clearPending();
       matches.forEach(projectsApi.replay);
       renderStatus(matches);
@@ -765,6 +1012,19 @@
     dialog.addEventListener('click', e => { if (e.target === dialog) dialog.close(); }); // backdrop click
   }
 
+  /* ---------- Read more: open on print so the paper copy has the full stories ---------- */
+  function initPrint() {
+    const all = () => [...document.querySelectorAll('details.more')];
+    let wasOpen = [];
+    window.addEventListener('beforeprint', () => {
+      wasOpen = all().filter(d => d.open);
+      all().forEach(d => { d.open = true; });
+    });
+    window.addEventListener('afterprint', () => {
+      all().forEach(d => { d.open = wasOpen.includes(d); });
+    });
+  }
+
   /* ---------- Copy email ---------- */
   function initCopy() {
     document.querySelectorAll('.copy-btn[data-copy]').forEach(btn => {
@@ -795,6 +1055,7 @@
   if (canObserve) initNav();
   initSkills(projectsApi);
   initViewer();
+  initPrint();
   initCopy();
 })();
 </script>

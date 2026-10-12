@@ -598,7 +598,7 @@
       
         <details class="more">
           <summary>Read more</summary>
-          <div class="more-body">
+          <div class="more-body has-figs">
             <div class="more-text">
               <ul class="more-list">
             <li><strong>Chain:</strong> Wheatstone bridge model → three-op-amp instrumentation amplifier → cascaded 2nd-order Butterworth filters giving a 20–170&nbsp;Hz passband (1,200–10,200&nbsp;RPM).</li>
@@ -606,6 +606,10 @@
             <li><strong>Result:</strong> 96–110&nbsp;mV/g, ±1.2&nbsp;dB passband flatness, current cut 7.1% to 2.87&nbsp;mA. All values calculated by hand, then checked in Multisim.</li>
             <li><strong>What I'd change:</strong> build it on a protoboard to see real op-amp offsets.</li>
           </ul>
+            </div>
+            <div class="more-figs">
+              <figure class="p-media more-figure"><img src="p6-system.png" width="1910" height="657" loading="lazy" decoding="async" alt="The complete chain in Multisim: sensor bridge model, three-op-amp instrumentation amplifier, then the cascaded high-pass and low-pass filters"><figcaption>The complete chain in Multisim: sensor bridge model, three-op-amp instrumentation amplifier, then the cascaded high-pass and low-pass filters</figcaption></figure>
+              <figure class="p-media more-figure"><img src="p6-bode.png" width="1114" height="699" loading="lazy" decoding="async" alt="Simulated frequency response of the complete chain: a band-pass response peaking near 55&nbsp;Hz, inside the 20–170&nbsp;Hz engine band"><figcaption>Simulated frequency response of the complete chain: a band-pass response peaking near 55&nbsp;Hz, inside the 20–170&nbsp;Hz engine band</figcaption></figure>
             </div>
           </div>
         </details>
@@ -629,7 +633,7 @@
       
         <details class="more">
           <summary>Read more</summary>
-          <div class="more-body">
+          <div class="more-body has-figs">
             <div class="more-text">
               <ul class="more-list">
             <li><strong>Method:</strong> 1-ω mixing measurement under back-gate bias 0–2&nbsp;V and drive power 0 to −8&nbsp;dB; Lorentzian fits for frequency and Q.</li>
@@ -637,6 +641,9 @@
             <li><strong>Also:</strong> a critical review of a published nonlinear-resonance modelling method on identical devices.</li>
             <li><strong>What I'd change:</strong> fit the Duffing model directly instead of tracking peak shift.</li>
           </ul>
+            </div>
+            <div class="more-figs">
+              <figure class="p-media more-figure"><img src="p3-ac-sweep.svg" width="800" height="560" loading="lazy" decoding="async" alt="Measured in-phase current at five drive powers, stacked. The fitted resonance moves from 97.3&nbsp;MHz at −8&nbsp;dB to 100.3&nbsp;MHz at 0&nbsp;dB, the Duffing stiffening signature"><figcaption>Measured in-phase current at five drive powers, stacked. The fitted resonance moves from 97.3&nbsp;MHz at −8&nbsp;dB to 100.3&nbsp;MHz at 0&nbsp;dB, the Duffing stiffening signature</figcaption></figure>
             </div>
           </div>
         </details>
@@ -669,6 +676,8 @@
           </ul>
             </div>
             <div class="more-figs">
+              <figure class="p-media more-figure"><img src="p5-cad.png" width="826" height="612" loading="lazy" decoding="async" alt="SolidWorks model of the housing: internal ledge to seat the disc, central hole for the shaker rod, side windows for the wires"><figcaption>SolidWorks model of the housing: internal ledge to seat the disc, central hole for the shaker rod, side windows for the wires</figcaption></figure>
+              <figure class="p-media more-figure"><img src="p5-protoboard.jpg" width="1200" height="900" loading="lazy" decoding="async" alt="The two-stage charge amplifier built on protoboard"><figcaption>The two-stage charge amplifier built on protoboard</figcaption></figure>
               <figure class="p-media more-figure"><img src="p5-freqresponse.png" width="800" height="474" loading="lazy" decoding="async" alt="Measured frequency response across three mass conditions, showing the resonance peak shift"><figcaption>Measured frequency response across three mass conditions, showing the resonance peak shift</figcaption></figure>
             </div>
           </div>
@@ -693,13 +702,16 @@
       
         <details class="more">
           <summary>Read more</summary>
-          <div class="more-body">
+          <div class="more-body has-figs">
             <div class="more-text">
               <ul class="more-list">
             <li><strong>Features:</strong> compared unigram and bigram TF-IDF features.</li>
             <li><strong>Tuning:</strong> grid search for both models.</li>
             <li><strong>Evaluation:</strong> micro-averaged F1 and confusion matrices on a held-out test set.</li>
           </ul>
+            </div>
+            <div class="more-figs">
+              <figure class="p-media more-figure"><img src="p4-f1-gap.svg" width="800" height="360" loading="lazy" decoding="async" alt="Training versus test F1: the Support Vector Classifier drops from 0.98 to 0.83, while Naive Bayes holds closer, 0.92 to 0.86"><figcaption>Training versus test F1: the Support Vector Classifier drops from 0.98 to 0.83, while Naive Bayes holds closer, 0.92 to 0.86</figcaption></figure>
             </div>
           </div>
         </details>

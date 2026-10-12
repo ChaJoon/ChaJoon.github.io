@@ -21,7 +21,7 @@ for f in FONT_DIR.glob("*.ttf"):
 SANS, MONO = "IBM Plex Sans", "IBM Plex Mono"
 plt.rcParams.update({"svg.fonttype": "path", "font.family": SANS})
 
-BG, INK, MUTED, GRID, DATA, MARK = "#FFFFFF", "#1B1D1F", "#63666A", "#E4E2DC", "#286E49", "#A0522D"
+BG, INK, MUTED, GRID, DATA, MARK = "#FFFFFF", "#13213A", "#4E5F78", "#D9E1EA", "#1B4F8A", "#A3271F"
 
 # (label, file, fitted f0 in MHz from report Table II)
 RUNS = [("0 dB", "AC_0dB.lvm", 100.33), ("−2 dB", "AC_-2dB.lvm", 99.14), ("−4 dB", "AC_-4dB.lvm", 98.16),

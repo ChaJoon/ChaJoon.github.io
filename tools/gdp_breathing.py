@@ -22,8 +22,8 @@ for f in FONT_DIR.glob("*.ttf"):
 SANS, MONO = "IBM Plex Sans", "IBM Plex Mono"
 plt.rcParams.update({"svg.fonttype": "path", "font.family": SANS})
 
-BG, INK, MUTED, GRID = "#FFFFFF", "#1B1D1F", "#63666A", "#E4E2DC"
-RAW, AVG = "#9CC5AE", "#286E49"   # light and dark steps of the site's green
+BG, INK, MUTED, GRID = "#FFFFFF", "#13213A", "#4E5F78", "#D9E1EA"
+RAW, AVG = "#A9C1DE", "#1B4F8A"   # light and dark steps of the site's blueprint blue
 WINDOW = 50
 
 rows = list(csv.reader(CSV.open(encoding="utf-8-sig")))[1:]          # skip "x0000,y0000"

@@ -14,7 +14,7 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔧</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..700&family=Martian+Mono:wdth,wght@75..100,400..600&family=Source+Serif+4:opsz,wght@8..60,400..600&display=swap" rel="stylesheet">
 <style>
   /* ---------- Tokens ---------- */
   /* Light values pass WCAG AA (4.5:1) on --bg, --surface and --surface-2 */
@@ -23,17 +23,24 @@
     padding-top: env(safe-area-inset-top, 0px);
     padding-bottom: env(safe-area-inset-bottom, 0px);
     --nav-h: 58px; /* overwritten by script with the measured header height */
-    --bg: #F3F1EC; --surface: #FFFFFF; --surface-2: #EAE7DE; --ink: #1B1D1F; --muted: #63666A;
-    --gold: #8A5D15; --copper: #9B4A20; --scope: #286E49; --rule: rgba(27,29,31,0.14);
+    /* Type: condensed grotesk headings (like a datasheet title), a text serif for reading
+       (like a technical paper), and a narrowed monospace for instrument-style labels */
+    --f-head: 'Archivo', 'Arial Narrow', sans-serif; --head-w: 80%;
+    --f-body: 'Source Serif 4', Georgia, serif;
+    --f-mono: 'Martian Mono', ui-monospace, monospace; --mono-w: 87.5%;
+    /* Blueprint: blue-white drafting paper, Prussian blue ink, redline red for marks */
+    --bg: #E6EDF4; --surface: #FFFFFF; --surface-2: #D9E3EE; --ink: #13213A; --muted: #4E5F78;
+    --label: #A3271F; --action: #1B4F8A; --accent: #1B4F8A; --rule: rgba(19,33,58,0.14);
     --shadow: 0 1px 2px rgba(0,0,0,0.06);
     --glow: none;
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #14171A; --surface: #1B1F22; --surface-2: #22262A; --ink: #EDEAE3; --muted: #9AA0A3;
-      --gold: #DDAB57; --copper: #E4855A; --scope: #7FDCA4; --rule: rgba(237,234,227,0.12);
+      /* A blueprint: white lines on deep blue */
+      --bg: #0E2036; --surface: #132944; --surface-2: #183152; --ink: #E8EFF8; --muted: #A3B6CE;
+      --label: #FF8F80; --action: #9CC4F2; --accent: #9CC4F2; --rule: rgba(232,239,248,0.12);
       --shadow: 0 1px 2px rgba(0,0,0,0.4);
-      --glow: drop-shadow(0 0 3px rgba(127,220,164,0.55));
+      --glow: drop-shadow(0 0 3px rgba(156,196,242,0.55));
     }
   }
 
@@ -45,15 +52,15 @@
   * { box-sizing: border-box; }
   html, body { height: auto; margin: 0; background: var(--bg); }
   body {
-    font-family: 'IBM Plex Sans', -apple-system, sans-serif;
+    font-family: var(--f-body);
     color: var(--ink);
-    line-height: 1.55;
+    line-height: 1.62;
     -webkit-text-size-adjust: 100%;
   }
-  h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; margin: 0; letter-spacing: -0.01em; }
-  .mono { font-family: 'IBM Plex Mono', monospace; }
-  a { color: var(--copper); }
-  a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--scope); outline-offset: 2px; }
+  h1, h2, h3, h4 { font-family: var(--f-head); font-stretch: var(--head-w); margin: 0; letter-spacing: -0.01em; }
+  .mono { font-family: var(--f-mono); font-stretch: var(--mono-w); }
+  a { color: var(--action); }
+  a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
   /* ---------- Header + nav ---------- */
   header.site {
@@ -70,12 +77,12 @@
   .nav-row nav a:hover, .nav-row nav a[aria-current="true"] { color: var(--ink); }
   .nav-row nav a.cv-link {
     color: var(--ink); border: 1px solid var(--rule); padding: 5px 10px; border-radius: 3px;
-    font-family: 'IBM Plex Mono', monospace; font-size: 11px; flex-shrink: 0;
+    font-family: var(--f-mono); font-stretch: var(--mono-w); font-size: 11px; flex-shrink: 0;
   }
   /* Active-section marker: sits on the header's bottom rule */
   .nav-indicator {
     position: absolute; left: 0; bottom: -16px; height: 2px; width: 0;
-    background: var(--scope); opacity: 0; pointer-events: none;
+    background: var(--accent); opacity: 0; pointer-events: none;
   }
   @media (prefers-reduced-motion: no-preference) {
     .nav-indicator { transition: transform .35s cubic-bezier(.3,.7,.2,1), width .35s cubic-bezier(.3,.7,.2,1), opacity .2s; }
@@ -99,22 +106,22 @@
   /* ---------- Section titles + arrival cue ---------- */
   .section-title {
     position: relative; width: fit-content;
-    font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 600; line-height: 1.2;
+    font-family: var(--f-head); font-stretch: var(--head-w); font-size: 24px; font-weight: 600; line-height: 1.2;
     letter-spacing: -0.01em; color: var(--ink); margin-bottom: 28px;
   }
   /* Secondary detail inside a heading, e.g. the date range */
   .section-title:has(.title-note) { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 12px; }
   .section-title .title-note {
-    font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 400;
+    font-family: var(--f-mono); font-stretch: var(--mono-w); font-size: 13px; font-weight: 400;
     letter-spacing: 0; color: var(--muted); white-space: nowrap;
   }
   .section-title::after {
     content: ""; position: absolute; left: 0; right: 0; bottom: -6px; height: 2px;
-    background: var(--scope); opacity: 0; transform-origin: left center;
+    background: var(--accent); opacity: 0; transform-origin: left center;
   }
   .section-title.arrive { animation: arrive-text 1.6s ease-out; }
   .section-title.arrive::after { animation: arrive-line 1.6s ease-out; }
-  @keyframes arrive-text { 0%, 55% { color: var(--scope); } 100% { color: var(--ink); } }
+  @keyframes arrive-text { 0%, 55% { color: var(--accent); } 100% { color: var(--ink); } }
   @keyframes arrive-line {
     0% { opacity: 1; transform: scaleX(0); }
     35% { opacity: 1; transform: scaleX(1); }
@@ -139,8 +146,8 @@
   /* Project index: a clickable contents list for the selected projects */
   .index { border: 1px solid var(--rule); background: var(--surface); box-shadow: var(--shadow); padding: 16px 18px 14px; }
   .index-title {
-    margin: 0 0 8px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600;
-    letter-spacing: 0.04em; color: var(--gold);
+    margin: 0 0 8px; font-family: var(--f-mono); font-stretch: var(--mono-w); font-size: 11px; font-weight: 600;
+    letter-spacing: 0.04em; color: var(--label);
   }
   .index ol { list-style: none; margin: 0; padding: 0; }
   .index li + li { border-top: 1px solid var(--rule); }
@@ -151,17 +158,17 @@
     transition: background-color .2s;
   }
   .index.has-waves li a { grid-template-columns: 44px 1fr auto; } /* script added the mini traces */
-  .index li a:hover { background: color-mix(in srgb, var(--scope) 9%, transparent); }
+  .index li a:hover { background: color-mix(in srgb, var(--accent) 9%, transparent); }
   /* Scroll-spy: the project currently on screen */
-  .index li a[aria-current="true"] { background: color-mix(in srgb, var(--scope) 14%, transparent); }
+  .index li a[aria-current="true"] { background: color-mix(in srgb, var(--accent) 14%, transparent); }
   .index li a[aria-current="true"] .idx-name { font-weight: 600; }
-  .index li a[aria-current="true"] .idx-tag { color: var(--scope); }
-  .index li a:hover .idx-name { text-decoration: underline; text-decoration-color: var(--scope); text-underline-offset: 3px; }
-  .idx-wave { display: block; width: 44px; height: 14px; color: var(--scope); overflow: visible; }
+  .index li a[aria-current="true"] .idx-tag { color: var(--accent); }
+  .index li a:hover .idx-name { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 3px; }
+  .idx-wave { display: block; width: 44px; height: 14px; color: var(--accent); overflow: visible; }
   .idx-wave path { fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
-  .idx-tag { font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: var(--muted); letter-spacing: 0.03em; white-space: nowrap; }
+  .idx-tag { font-family: var(--f-mono); font-stretch: var(--mono-w); font-size: 10.5px; color: var(--muted); letter-spacing: 0.03em; white-space: nowrap; }
   .index-more {
-    display: inline-block; margin-top: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--copper);
+    display: inline-block; margin-top: 10px; font-family: var(--f-mono); font-stretch: var(--mono-w); font-size: 12px; color: var(--action);
   }
   .hero h1 { font-size: 34px; line-height: 1.15; margin-bottom: 6px; }
   .hero .full-name { margin: -2px 0 8px; font-size: 13px; color: var(--muted); }
@@ -220,11 +227,11 @@
   .welcome-mode .welcome-cue {
     position: fixed; left: 50%; bottom: calc(28px + env(safe-area-inset-bottom, 0px)); z-index: 5;
     display: inline-flex; align-items: center; gap: 8px; transform: translateX(-50%);
-    font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--copper); text-decoration: none;
+    font-family: var(--f-mono); font-stretch: var(--mono-w); font-size: 12px; color: var(--action); text-decoration: none;
     padding: 6px 12px; border: 1px solid var(--rule); border-radius: 3px; background: var(--bg);
     opacity: var(--cue-o, 1);
   }
-  .welcome-mode .welcome-cue:hover { border-color: var(--copper); }
+  .welcome-mode .welcome-cue:hover { border-color: var(--action); }
   .welcome-mode .welcome-cue.is-hidden { visibility: hidden; }
 
   /* Oscilloscope under the centred intro: replays the 100 cm breathing recording from the RFID
@@ -239,11 +246,11 @@
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.07), 0 18px 40px -22px rgba(0,0,0,0.7);
   }
   .welcome-mode .scope-screen.is-hidden { visibility: hidden; }
-  .welcome-mode .scope-screen:focus-visible { outline: 2px solid var(--scope); outline-offset: 3px; }
+  .welcome-mode .scope-screen:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
   .scope-screen canvas { display: block; width: 100%; height: 130px; border-radius: 4px; background: #0C1411; }
   .scope-read {
     display: flex; justify-content: space-between; gap: 12px; padding: 8px 2px 0;
-    font-family: 'IBM Plex Mono', monospace; font-size: 12px; line-height: 1.3;
+    font-family: var(--f-mono); font-stretch: var(--mono-w); font-size: 12px; line-height: 1.3;
   }
   .scope-read .ch { color: #E0A93A; }
 
@@ -253,24 +260,24 @@
   .section-hint { margin: 0; font-size: 14px; color: var(--muted); }
   .skills-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px 40px; margin-top: 24px; }
   @media (max-width: 600px) { .skills-grid { grid-template-columns: 1fr; } }
-  .skill-cat h3 { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--gold); margin: 0 0 6px; font-weight: 600; letter-spacing: 0; }
+  .skill-cat h3 { font-family: var(--f-mono); font-stretch: var(--mono-w); font-size: 12px; color: var(--label); margin: 0 0 6px; font-weight: 600; letter-spacing: 0; }
   .skill-cat p { margin: 0; font-size: 14px; color: var(--muted); line-height: 1.75; }
 
   /* A skill with project evidence on this page: toggles highlighting of those projects */
   .skill {
     font: inherit; color: var(--ink); background: none; border: 0; margin: 0; padding: 0 2px;
     border-radius: 2px; cursor: pointer; text-align: inherit;
-    text-decoration: underline dotted var(--scope); text-decoration-thickness: 1.5px; text-underline-offset: 4px;
+    text-decoration: underline dotted var(--accent); text-decoration-thickness: 1.5px; text-underline-offset: 4px;
     transition: background-color .2s, color .2s;
   }
-  .skill:hover { background: color-mix(in srgb, var(--scope) 14%, transparent); }
-  .skill[aria-pressed="true"] { background: var(--scope); color: var(--bg); text-decoration-color: transparent; }
+  .skill:hover { background: color-mix(in srgb, var(--accent) 14%, transparent); }
+  .skill[aria-pressed="true"] { background: var(--accent); color: var(--bg); text-decoration-color: transparent; }
 
   .skill-status { margin: 22px 0 0; min-height: 1.6em; font-size: 14px; color: var(--muted); }
-  .skill-status:not(:empty) { border-left: 2px solid var(--scope); padding-left: 12px; }
+  .skill-status:not(:empty) { border-left: 2px solid var(--accent); padding-left: 12px; }
   .skill-status strong { color: var(--ink); font-weight: 600; }
   .text-btn {
-    font: inherit; color: var(--copper); background: none; border: 0; padding: 0;
+    font: inherit; color: var(--action); background: none; border: 0; padding: 0;
     text-decoration: underline; cursor: pointer;
   }
 
@@ -285,7 +292,7 @@
   .skill-bar.is-shown { transform: translate(-50%, 0); visibility: visible; }
   .skill-bar strong { font-weight: 600; }
   .skill-bar button {
-    font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--bg); background: none;
+    font-family: var(--f-mono); font-stretch: var(--mono-w); font-size: 11px; color: var(--bg); background: none;
     border: 1px solid color-mix(in srgb, var(--bg) 45%, transparent); padding: 4px 8px; border-radius: 3px; cursor: pointer;
   }
   @media (prefers-reduced-motion: no-preference) {
@@ -297,30 +304,30 @@
   section.projects { padding: 40px 0 40px; border-top: 1px solid var(--rule); }
   .tier { margin-top: 36px; }
   .tier-title {
-    font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 600; letter-spacing: 0.04em;
-    color: var(--gold); margin: 0 0 4px;
+    font-family: var(--f-mono); font-stretch: var(--mono-w); font-size: 12px; font-weight: 600; letter-spacing: 0.04em;
+    color: var(--label); margin: 0 0 4px;
   }
   .tier-hint { margin: 0 0 22px; font-size: 13px; color: var(--muted); }
   .p-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px 12px; margin-bottom: 4px; flex-wrap: wrap; }
   .p-title { font-size: 19px; }
   .p-meta { margin: 0; font-size: 13px; color: var(--muted); }
   .badge {
-    font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--gold);
-    border: 1px solid var(--gold); padding: 2px 7px; border-radius: 3px; white-space: nowrap;
+    font-family: var(--f-mono); font-stretch: var(--mono-w); font-size: 11px; color: var(--label);
+    border: 1px solid var(--label); padding: 2px 7px; border-radius: 3px; white-space: nowrap;
   }
   .chips { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0 12px; }
   .chip {
-    font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted);
+    font-family: var(--f-mono); font-stretch: var(--mono-w); font-size: 11px; color: var(--muted);
     border: 1px solid var(--rule); padding: 3px 8px; border-radius: 3px; white-space: nowrap;
   }
-  .p-body { margin: 0; color: var(--ink); font-size: 15px; max-width: 60ch; }
-  .callout { color: var(--scope); }
+  .p-body { margin: 0; color: var(--ink); font-size: 15.5px; max-width: 60ch; }
+  .callout { color: var(--accent); }
 
   /* "Read more": native <details>, so it works without script and with the keyboard */
   details.more { margin-top: 12px; }
   details.more summary {
     display: inline-flex; align-items: center; gap: 8px; cursor: pointer; list-style: none;
-    font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--copper);
+    font-family: var(--f-mono); font-stretch: var(--mono-w); font-size: 12px; color: var(--action);
   }
   details.more summary::-webkit-details-marker { display: none; }
   details.more summary::before {
@@ -371,14 +378,14 @@
   /* Text figure for the cryptanalysis entry: the method, with no keys or ciphertext */
   .attack-log {
     margin: 0; padding: 16px; border: 1px solid var(--rule); background: var(--surface);
-    font-family: 'IBM Plex Mono', monospace; font-size: 12px; line-height: 1.6;
+    font-family: var(--f-mono); font-stretch: var(--mono-w); font-size: 12px; line-height: 1.6;
   }
   .attack-log dl { margin: 0; }
-  .attack-log dt { color: var(--gold); font-weight: 600; letter-spacing: 0.02em; }
+  .attack-log dt { color: var(--label); font-weight: 600; letter-spacing: 0.02em; }
   .attack-log dd { margin: 2px 0 14px; color: var(--ink); }
   .attack-log dd:last-of-type { margin-bottom: 0; }
-  .attack-log .ok { color: var(--scope); }
-  .attack-log .no { color: var(--copper); }
+  .attack-log .ok { color: var(--accent); }
+  .attack-log .no { color: var(--action); }
   .attack-log figcaption { margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--rule); color: var(--muted); font-size: 11px; }
 
   /* Click-to-enlarge wrapper (added by script) */
@@ -395,14 +402,14 @@
   .early-list { list-style: none; margin: 0; padding: 0; }
   .early-list li { padding: 14px 0; border-top: 1px solid var(--rule); font-size: 14px; max-width: 72ch; }
   .early-list li:last-child { border-bottom: 1px solid var(--rule); }
-  .early-list .p-title { display: inline; font-family: 'IBM Plex Sans', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 0; }
+  .early-list .p-title { display: inline; font-family: var(--f-body); font-size: 14px; font-weight: 600; letter-spacing: 0; }
   .early-list .p-meta { display: inline; font-size: 13px; }
 
   /* ---------- Scope traces: each project divider is a waveform from that project ---------- */
   .project.has-trace { border-top-color: transparent; }
   .trace {
     position: absolute; top: -12px; left: 0; right: 0; height: 24px;
-    display: flex; align-items: center; color: var(--scope); pointer-events: none;
+    display: flex; align-items: center; color: var(--accent); pointer-events: none;
     transition: color .35s ease;
   }
   .trace svg { flex: none; width: 240px; max-width: 50%; height: 24px; overflow: visible; }
@@ -430,7 +437,7 @@
   .viewer-bar { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 10px 14px; border-top: 1px solid var(--rule); }
   .viewer-cap { margin: 0; font-size: 13px; color: var(--muted); }
   .viewer-close {
-    flex-shrink: 0; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--ink);
+    flex-shrink: 0; font-family: var(--f-mono); font-stretch: var(--mono-w); font-size: 11px; color: var(--ink);
     background: none; border: 1px solid var(--rule); padding: 5px 10px; border-radius: 3px; cursor: pointer;
   }
   @media (prefers-reduced-motion: no-preference) {
@@ -444,17 +451,17 @@
   @media (max-width: 720px) { .contact-grid { grid-template-columns: 1fr; } }
   .email-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
   .email {
-    font-family: 'Space Grotesk', sans-serif; font-size: clamp(18px, 5.2vw, 24px); font-weight: 500;
+    font-family: var(--f-head); font-stretch: var(--head-w); font-size: clamp(18px, 5.2vw, 24px); font-weight: 500;
     color: var(--ink); text-decoration: underline; text-decoration-color: var(--rule);
     text-underline-offset: 5px; overflow-wrap: anywhere; transition: text-decoration-color .2s;
   }
-  .email:hover { text-decoration-color: var(--copper); }
+  .email:hover { text-decoration-color: var(--action); }
   .copy-btn {
-    font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--ink); background: none;
+    font-family: var(--f-mono); font-stretch: var(--mono-w); font-size: 11px; color: var(--ink); background: none;
     border: 1px solid var(--rule); padding: 5px 10px; border-radius: 3px; cursor: pointer;
   }
   .copy-btn:hover { border-color: var(--ink); }
-  .copy-status { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--scope); }
+  .copy-status { font-family: var(--f-mono); font-stretch: var(--mono-w); font-size: 11px; color: var(--accent); }
   .contact-links { margin-top: 12px; font-size: 14px; color: var(--muted); }
   .contact-links a { color: var(--ink); }
   footer .foot-line { font-size: 13px; color: var(--muted); }
@@ -467,7 +474,7 @@
   :root {
     --c-rf: #9A6200; --c-dig: #3A58B8; --c-ana: #A62F72; --c-meas: #2E7A31;
     --c-sen: #007A9E; --c-ml: #7449B0; --c-sec: #B23A1E;
-    --grid: rgba(40, 110, 73, 0.075); --grid-fine: rgba(40, 110, 73, 0.035);
+    --grid: rgba(30, 80, 150, 0.075); --grid-fine: rgba(30, 80, 150, 0.035);
     --sheet-shadow: 0 1px 0 rgba(0,0,0,0.03), 0 10px 24px -16px rgba(0,0,0,0.35);
     --sheet-shadow-lift: 0 1px 0 rgba(0,0,0,0.03), 0 16px 32px -16px rgba(0,0,0,0.45);
   }
@@ -475,7 +482,7 @@
     :root {
       --c-rf: #B8861C; --c-dig: #6F86E8; --c-ana: #D2558E; --c-meas: #3E9E5F;
       --c-sen: #1E9BC4; --c-ml: #9A70E0; --c-sec: #D9583A;
-      --grid: rgba(127, 220, 164, 0.055); --grid-fine: rgba(127, 220, 164, 0.025);
+      --grid: rgba(200, 225, 255, 0.055); --grid-fine: rgba(200, 225, 255, 0.025);
       --sheet-shadow: 0 10px 24px -16px rgba(0,0,0,0.6);
       --sheet-shadow-lift: 0 16px 32px -14px rgba(0,0,0,0.8);
     }
@@ -499,13 +506,18 @@
   header.site { background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(6px); }
 
   .project {
-    background: var(--surface); border: 1px solid var(--rule); border-left: 3px solid var(--dom, var(--scope));
+    background: var(--surface); border: 1px solid var(--rule); border-left: 3px solid var(--dom, var(--accent));
     border-radius: 3px; padding: 30px 30px 26px; margin-top: 30px; box-shadow: var(--sheet-shadow);
   }
   .project:last-child { border-bottom: 1px solid var(--rule); }
   .project.has-trace { border-top-color: var(--rule); }
-  .project .trace { left: 22px; right: 22px; color: var(--dom, var(--scope)); }
-  .project .callout { color: var(--dom, var(--scope)); }
+  .project .trace { left: 22px; right: 22px; color: var(--dom, var(--accent)); }
+  .project .callout { color: var(--dom, var(--accent)); }
+  /* Dark mode: the domain colours are tuned as marks (3:1). As text they need 4.5:1, so the
+     phrase uses a tint toward the ink colour; 70% keeps the hue and passes on every dark surface */
+  @media (prefers-color-scheme: dark) {
+    .project .callout { color: color-mix(in srgb, var(--dom, var(--accent)) 70%, var(--ink)); }
+  }
   .skills-grid, .card, .early-list {
     background: var(--surface); border: 1px solid var(--rule); border-radius: 3px; box-shadow: var(--sheet-shadow);
   }
@@ -523,9 +535,9 @@
     .projects .sheet-toggle:hover details.more summary { text-decoration: underline; }
   }
   .index { box-shadow: var(--sheet-shadow); }
-  .index .idx-wave { color: var(--dom, var(--scope)); }
-  .index li a:hover { background: color-mix(in srgb, var(--dom, var(--scope)) 9%, transparent); }
-  .index li a[aria-current="true"] { background: color-mix(in srgb, var(--dom, var(--scope)) 13%, transparent); }
+  .index .idx-wave { color: var(--dom, var(--accent)); }
+  .index li a:hover { background: color-mix(in srgb, var(--dom, var(--accent)) 9%, transparent); }
+  .index li a[aria-current="true"] { background: color-mix(in srgb, var(--dom, var(--accent)) 13%, transparent); }
   .index li a[aria-current="true"] .idx-tag { color: var(--ink); }
   @media (max-width: 720px) {
     .project { padding: 22px 18px 18px; }
@@ -538,10 +550,10 @@
   .section-title { padding-bottom: 12px; }
   .section-title::before {
     content: ""; position: absolute; left: 0; bottom: -2px; width: 168px; height: 8px;
-    border-top: 1.5px solid var(--scope);
+    border-top: 1.5px solid var(--accent);
     background:
-      linear-gradient(90deg, var(--scope) 1.5px, transparent 1.5px) 0 0 / 40px 8px repeat-x,
-      linear-gradient(90deg, color-mix(in srgb, var(--scope) 55%, transparent) 1px, transparent 1px) 0 4px / 8px 4px repeat-x;
+      linear-gradient(90deg, var(--accent) 1.5px, transparent 1.5px) 0 0 / 40px 8px repeat-x,
+      linear-gradient(90deg, color-mix(in srgb, var(--accent) 55%, transparent) 1px, transparent 1px) 0 4px / 8px 4px repeat-x;
   }
 
   /* ---------- Print: never print half-revealed content ---------- */
@@ -1293,6 +1305,18 @@
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape' && active && !document.querySelector('dialog[open]')) select(null);
     });
+    // Click away to clear, like closing a pop-up. Clicks on the skills, the status line, the
+    // floating bar, the image viewer or a highlighted project keep the highlighting (so the
+    // reader can open each match in turn). A click on a dimmed project only clears it: it is
+    // caught here, before the project's own handlers, so the project doesn't also open.
+    document.addEventListener('click', e => {
+      if (!active || e.button !== 0 || !(e.target instanceof Element)) return;
+      if (e.target.closest('.skill[data-skill], #skill-status, #skill-bar, dialog')) return;
+      const item = e.target.closest('.projects [data-skills]');
+      if (item && item.classList.contains('is-match')) return;
+      select(null);
+      if (item) { e.preventDefault(); e.stopPropagation(); }
+    }, true);
     if (canObserve) {
       const watch = new IntersectionObserver(entries => {
         entries.forEach(e => (e.isIntersecting ? inView.add(e.target.id) : inView.delete(e.target.id)));

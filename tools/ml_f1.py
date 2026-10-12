@@ -20,7 +20,7 @@ for f in FONT_DIR.glob("*.ttf"):
 SANS, MONO = "IBM Plex Sans", "IBM Plex Mono"
 plt.rcParams.update({"svg.fonttype": "path", "font.family": SANS})
 
-BG, INK, MUTED, GRID, DATA = "#FFFFFF", "#1B1D1F", "#63666A", "#E4E2DC", "#286E49"
+BG, INK, MUTED, GRID, DATA = "#FFFFFF", "#13213A", "#4E5F78", "#D9E1EA", "#1B4F8A"
 
 # (model, train F1, test F1)
 ROWS = [("Support Vector\nClassifier", 0.9843, 0.8313), ("Multinomial\nNaive Bayes", 0.9171, 0.8646)]

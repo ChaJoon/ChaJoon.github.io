@@ -237,6 +237,7 @@
   .more-list li { margin-bottom: 7px; }
   .more-list li::marker { color: var(--muted); }
   .more-list strong { font-weight: 600; }
+  .more-figure { margin-top: 14px; }
 
   /* Skill highlighting covers every tier */
   .projects [data-skills] { transition: opacity .35s ease; }
@@ -453,7 +454,7 @@
           <div class="chips">
             <span class="chip">ANSYS HFSS</span><span class="chip">KiCad</span><span class="chip">Multisim</span><span class="chip">RFID</span><span class="chip">Flexible PCB</span>
           </div>
-          <p class="p-body">Designed a battery-free capacitive sensor (a capaciflector) that reads breathing through clothing and reports it over passive RFID. The RFID chip's datasheet only covered two-plate capacitors, so I worked out how to drive <span class="callout">a three-electrode sensor from a single pin</span>. It responded across 0.5–2.5&nbsp;m, with the clearest breathing pattern at 100&nbsp;cm.</p>
+          <p class="p-body">Designed a battery-free capacitive sensor (a capaciflector) that reads breathing through clothing and reports it over passive RFID. The RFID chip's datasheet only covered two-plate capacitors, so I worked out how to drive <span class="callout">a three-electrode sensor from a single pin</span>. Tested from 80 to 160&nbsp;cm at a paced 6 breaths per minute, it gave the clearest breathing pattern at 100&nbsp;cm.</p>
           <details class="more">
             <summary>Read more</summary>
             <ul class="more-list">
@@ -463,16 +464,19 @@
               <li><strong>Interface from first principles:</strong> routed the ground plane to the sensing pin so the chip drove both reflector and sensor electrodes. This went into the final design.</li>
               <li><strong>When fabrication failed:</strong> screen-printed sensors shorted from air bubbles in the dielectric, twice. I switched to Kapton–copper clad, which worked reliably.</li>
               <li><strong>Debugging:</strong> long wires made the data noisy; a compact version lost read range from antenna coupling; a smaller sensor geometry fixed both.</li>
-              <li><strong>Result:</strong> tested at 0.5–2.5&nbsp;m and 12–20 breaths per minute; 100&nbsp;cm gave the clearest cycles.</li>
+              <li><strong>Result:</strong> tested from 80 to 160&nbsp;cm with breathing paced at 6 per minute by a metronome. The pattern was clear at 80–100&nbsp;cm, still recognisable at 120&nbsp;cm, and weaker beyond. 100&nbsp;cm was the best compromise between patient comfort and signal, with an average peak-to-peak swing of 75 raw counts.</li>
               <li><strong>What I'd change:</strong> test the fabrication route in week 1, not week 7.</li>
             </ul>
+            <div class="p-media more-figure">
+              <img src="p1-breathing.svg" width="900" height="420" loading="lazy" decoding="async" alt="Capaciflector raw output at 100 cm over about 2,000 samples, showing regular breathing cycles, with a 50-sample moving average drawn on top">
+            </div>
           </details>
         </div>
       </article>
 
       <article class="project reverse" id="p-nisc" data-skills="rtl fpga" data-wave="clock">
         <div class="p-media">
-          <img src="p2-architecture.png" width="800" height="577" loading="lazy" decoding="async" alt="NISC processor architecture block diagram">
+          <img src="p2-datapath.svg" width="1000" height="640" loading="lazy" decoding="async" alt="NISC datapath: program counter and 16-bit control word store, the control word split into seven fields, and the address register, waveform ROM, multiplier, bit slice, adder, mux and accumulator they drive">
         </div>
         <div class="p-content">
           <div class="p-head">
@@ -675,6 +679,9 @@
             <li><strong>Individual simulations:</strong> Line-Commutated Converter (LCC) voltage, commutation overlap and harmonics; designed 5th, 7th and damped AC filters that cut total harmonic distortion from 27.27% to 7.13%; voltage-source converter power flow and a 3-level converter. Plots produced in Python.</li>
             <li><strong>Next step we identified:</strong> electromagnetic transient studies of converter–grid resonance before finalising reactors.</li>
           </ul>
+          <div class="p-media more-figure">
+            <img src="p8-hvdc-thd.svg" width="800" height="460" loading="lazy" decoding="async" alt="Bar chart of AC-side total harmonic distortion: 27.27% with no filter, 16.21% with a tuned 5th filter, 7.04% adding a tuned 7th, 7.13% adding a damped 12th">
+          </div>
         </details>
       </article>
 

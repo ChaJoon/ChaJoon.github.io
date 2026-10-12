@@ -202,6 +202,31 @@
     .index-more { margin-top: 6px; }
   }
 
+  /* ---------- Welcome hand-off (wide screens only; added by script as .welcome-mode) ----------
+     The page opens with the intro enlarged in the middle of the screen. Over the first screen
+     of scrolling the script slides it into its sidebar spot (transform only) and fades the
+     project index in. .main is pushed down by the same distance, so the right-hand column
+     starts empty and rises into view as the intro docks. Without the script, under reduced
+     motion, or below 1100px wide, the plain layout above applies unchanged. */
+  .welcome-cue { display: none; }
+  .welcome-mode .main { padding-top: var(--welcome-d, 0px); }
+  .welcome-mode .side.is-welcoming { overflow: visible; } /* the scaled intro must not be clipped */
+  .welcome-mode .hero { position: relative; z-index: 2; transform-origin: 0 0; will-change: transform; }
+  .welcome-mode .index {
+    opacity: var(--index-o, 1);
+    transform: translateY(calc((1 - var(--index-o, 1)) * 24px));
+  }
+  .welcome-mode .index.is-hidden { visibility: hidden; }
+  .welcome-mode .welcome-cue {
+    position: fixed; left: 50%; bottom: calc(28px + env(safe-area-inset-bottom, 0px)); z-index: 5;
+    display: inline-flex; align-items: center; gap: 8px; transform: translateX(-50%);
+    font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--copper); text-decoration: none;
+    padding: 6px 12px; border: 1px solid var(--rule); border-radius: 3px; background: var(--bg);
+    opacity: var(--cue-o, 1);
+  }
+  .welcome-mode .welcome-cue:hover { border-color: var(--copper); }
+  .welcome-mode .welcome-cue.is-hidden { visibility: hidden; }
+
   /* ---------- Skills ---------- */
   section.skills { padding: 40px 0 44px; border-top: 1px solid var(--rule); }
   section.skills .section-title, section.projects .section-title { margin-bottom: 10px; }
@@ -422,6 +447,10 @@
     .projects.is-filtering [data-skills] { opacity: 1 !important; }
     .skill-bar { display: none; }
     details.more summary { display: none; }
+    .welcome-mode .main { padding-top: 0; }
+    .welcome-mode .hero { transform: none !important; }
+    .welcome-mode .index { opacity: 1; transform: none; visibility: visible; }
+    .welcome-mode .welcome-cue { display: none; }
   }
 </style>
 </head>
@@ -468,6 +497,8 @@
       <a class="index-more" href="#tier-more">+ 3 more projects and earlier work ↓</a>
     </nav>
   </aside>
+  <!-- Shown only while the intro is centred on wide screens (see initWelcome) -->
+  <a class="welcome-cue" href="#projects">See my projects ↓</a>
 
 <div class="main">
   <!--
@@ -1216,6 +1247,70 @@
     });
   }
 
+  /* ---------- Welcome hand-off: the intro starts centred, then docks into the sidebar ----------
+     Scroll position over the first screen (0 -> 1) drives the intro's transform and the
+     index fade. Wide screens only; reduced-motion users keep the plain layout. */
+  function initWelcome() {
+    const wide = window.matchMedia('(min-width: 1100px)');
+    const side = document.querySelector('.side');
+    const hero = side && side.querySelector('.hero');
+    const index = side && side.querySelector('.index');
+    const cue = document.querySelector('.welcome-cue');
+    if (reduceMotion || !hero || !index || !cue) return;
+
+    const clamp01 = v => Math.min(1, Math.max(0, v));
+    const ease = t => (t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2); // ease-in-out
+    const easeOut = t => 1 - (1 - t) ** 3;
+    let dist = 1, from = null, queued = false;
+
+    function measure() {
+      const on = wide.matches;
+      root.classList.toggle('welcome-mode', on);
+      hero.style.transform = '';
+      if (!on) { from = null; return; }
+      const navH = parseFloat(getComputedStyle(root).getPropertyValue('--nav-h')) || 0;
+      dist = Math.max(240, window.innerHeight - navH);
+      root.style.setProperty('--welcome-d', dist + 'px');
+      // The sidebar is sticky just under the header, so the intro's resting place on screen is
+      // fixed while it docks; measure it relative to the sidebar so the scroll position doesn't matter.
+      const r = hero.getBoundingClientRect();
+      const restTop = navH + (r.top - side.getBoundingClientRect().top);
+      const s = Math.max(1, Math.min(1.4, (0.62 * window.innerWidth) / r.width, (0.78 * dist) / r.height));
+      from = {
+        dx: window.innerWidth / 2 - (r.left + (r.width * s) / 2),
+        dy: navH + dist * 0.46 - (restTop + (r.height * s) / 2),
+        s,
+      };
+    }
+
+    function update() {
+      queued = false;
+      if (!from) return;
+      const p = clamp01(window.scrollY / dist);
+      // 1 = centred, 0 = docked. The intro moves sideways first (ease-out) so it clears the
+      // right-hand column before the skills section rises underneath it.
+      const k = 1 - ease(p), kx = 1 - easeOut(p);
+      hero.style.transform = k > 0.001 || kx > 0.001
+        ? `translate(${(from.dx * kx).toFixed(1)}px, ${(from.dy * k).toFixed(1)}px) scale(${(1 + (from.s - 1) * k).toFixed(4)})`
+        : '';
+      const indexO = clamp01((p - 0.72) / 0.28); // after the intro has nearly docked, so they never overlap
+      root.style.setProperty('--index-o', indexO.toFixed(3));
+      index.classList.toggle('is-hidden', indexO === 0);
+      const cueO = clamp01(1 - p * 4);
+      root.style.setProperty('--cue-o', cueO.toFixed(3));
+      cue.classList.toggle('is-hidden', cueO === 0);
+      side.classList.toggle('is-welcoming', p < 1);
+    }
+
+    const queue = () => { if (!queued) { queued = true; requestAnimationFrame(update); } };
+    const refresh = () => { measure(); update(); };
+    refresh();
+    window.addEventListener('scroll', queue, { passive: true });
+    window.addEventListener('resize', refresh);
+    wide.addEventListener('change', refresh);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(refresh); // web fonts change the intro's size
+  }
+
   /* ---------- Read more: open on print so the paper copy has the full stories ---------- */
   function initPrint() {
     const all = () => [...document.querySelectorAll('details.more')];
@@ -1254,6 +1349,7 @@
   }
 
   initHeaderOffset();
+  initWelcome();
   if (canObserve && !reduceMotion) root.classList.add('motion');
   const projectsApi = initProjects();
   initIndex(projectsApi);

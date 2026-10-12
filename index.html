@@ -100,8 +100,14 @@
   /* ---------- Section titles + arrival cue ---------- */
   .section-title {
     position: relative; width: fit-content;
-    font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 400;
-    letter-spacing: 0.04em; color: var(--muted); margin-bottom: 28px;
+    font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 600; line-height: 1.2;
+    letter-spacing: -0.01em; color: var(--ink); margin-bottom: 28px;
+  }
+  /* Secondary detail inside a heading, e.g. the date range */
+  .section-title:has(.title-note) { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 12px; }
+  .section-title .title-note {
+    font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 400;
+    letter-spacing: 0; color: var(--muted); white-space: nowrap;
   }
   .section-title::after {
     content: ""; position: absolute; left: 0; right: 0; bottom: -6px; height: 2px;
@@ -109,7 +115,7 @@
   }
   .section-title.arrive { animation: arrive-text 1.6s ease-out; }
   .section-title.arrive::after { animation: arrive-line 1.6s ease-out; }
-  @keyframes arrive-text { 0%, 55% { color: var(--scope); } 100% { color: var(--muted); } }
+  @keyframes arrive-text { 0%, 55% { color: var(--scope); } 100% { color: var(--ink); } }
   @keyframes arrive-line {
     0% { opacity: 1; transform: scaleX(0); }
     35% { opacity: 1; transform: scaleX(1); }
@@ -164,7 +170,7 @@
 
   /* ---------- Skills ---------- */
   section.skills { padding: 40px 0 44px; border-top: 1px solid var(--rule); }
-  section.skills .section-title, section.projects .section-title { margin-bottom: 12px; }
+  section.skills .section-title, section.projects .section-title { margin-bottom: 10px; }
   .section-hint { margin: 0; font-size: 14px; color: var(--muted); }
   .skills-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px 40px; margin-top: 24px; }
   @media (max-width: 600px) { .skills-grid { grid-template-columns: 1fr; } }
@@ -397,7 +403,7 @@
     <div>
       <h1>Syazwan Zulkepli</h1>
       <div class="role">MEng Electrical &amp; Electronic Engineering — University of Southampton — 2:1</div>
-      <p class="lead">Hi, I’m Syazwan. These are the projects I built during my degree, from hand-made RF sensors and analogue circuits to FPGA processors and machine learning. I like making things work, especially when a problem is new and I have to reason it out from the fundamentals.</p>
+      <p class="lead">Hi, I’m Syazwan. These are some of the projects I built during my degree, from hand-made RF sensors and analogue circuits to FPGA processors and machine learning. I like making things work, especially when a problem is new and I have to reason it out from the fundamentals.</p>
       <div class="contact-line">
         <a href="mailto:syazwanzulkepli72@gmail.com">syazwanzulkepli72@gmail.com</a> &nbsp;·&nbsp;
         <a href="tel:+447379798069">+44 (0) 7379 798069</a> &nbsp;·&nbsp;
@@ -428,7 +434,7 @@
     project on this page. data-label is the short name shown in the status line.
   -->
   <section class="skills" id="skills">
-    <h2 class="section-title">TECHNICAL SKILLS</h2>
+    <h2 class="section-title">Technical skills</h2>
     <p class="section-hint">Select an underlined skill to highlight the projects where I used it.</p>
     <div class="skills-grid">
       <div class="skill-cat">
@@ -452,7 +458,7 @@
   </section>
 
   <section class="projects" id="projects">
-    <h2 class="section-title">ENGINEERING PROJECTS — 2023–2026</h2>
+    <h2 class="section-title">Engineering projects <span class="title-note">2023–2026</span></h2>
     <p class="section-hint">Open “Read more” on any project for the problem, the method and the result.</p>
 
     <!-- ===== Tier 1: Selected projects. data-wave picks the divider waveform ===== -->
@@ -737,7 +743,7 @@
 
 <footer class="contact" id="contact">
   <div class="wrap">
-    <h2 class="section-title">CONTACT</h2>
+    <h2 class="section-title">Contact</h2>
     <div class="contact-grid">
       <div>
         <div class="email-row">

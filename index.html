@@ -128,13 +128,29 @@
   /* Grid items default to min-width:auto, which lets an image's intrinsic size push a
      column wider than the page on narrow screens. */
   .hero-grid > *, .project > * { min-width: 0; }
-  .hero-photo-frame {
-    border: 1px solid var(--rule); padding: 10px; background: var(--surface);
-    box-shadow: var(--shadow); transform: rotate(-1.2deg);
-    margin-inline: 6px; /* the rotation widens the box; keeps it off the page edge */
+  /* Project index: a clickable contents list for the selected projects */
+  .index { border: 1px solid var(--rule); background: var(--surface); box-shadow: var(--shadow); padding: 16px 18px 14px; }
+  .index-title {
+    margin: 0 0 8px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.04em; color: var(--gold);
   }
-  .hero-photo-frame img { display: block; width: 100%; height: auto; }
-  .hero-cap { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); margin-top: 10px; padding-left: 4px; }
+  .index ol { list-style: none; margin: 0; padding: 0; }
+  .index li + li { border-top: 1px solid var(--rule); }
+  .index li a {
+    display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center;
+    padding: 8px 6px; margin-inline: -6px; border-radius: 3px;
+    color: var(--ink); text-decoration: none; font-size: 14px; line-height: 1.35;
+    transition: background-color .2s;
+  }
+  .index.has-waves li a { grid-template-columns: 44px 1fr auto; } /* script added the mini traces */
+  .index li a:hover { background: color-mix(in srgb, var(--scope) 9%, transparent); }
+  .index li a:hover .idx-name { text-decoration: underline; text-decoration-color: var(--scope); text-underline-offset: 3px; }
+  .idx-wave { display: block; width: 44px; height: 14px; color: var(--scope); overflow: visible; }
+  .idx-wave path { fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+  .idx-tag { font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: var(--muted); letter-spacing: 0.03em; white-space: nowrap; }
+  .index-more {
+    display: inline-block; margin-top: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--copper);
+  }
   .hero h1 { font-size: 34px; line-height: 1.15; margin-bottom: 6px; }
   .hero .role { color: var(--muted); font-size: 15px; margin-bottom: 20px; }
   .hero p.lead { font-size: 17px; max-width: 52ch; }
@@ -143,12 +159,7 @@
 
   @media (max-width: 720px) {
     .hero-grid { grid-template-columns: 1fr; }
-    .hero-photo-frame { max-width: min(320px, 100% - 12px); margin: 0 auto; transform: rotate(-0.8deg); }
     .hero h1 { font-size: 28px; }
-  }
-  @media (prefers-reduced-motion: no-preference) {
-    .hero-photo-frame { animation: settle 0.6s ease-out; }
-    @keyframes settle { from { opacity: 0; transform: rotate(-1.2deg) translateY(8px); } to { opacity: 1; transform: rotate(-1.2deg) translateY(0); } }
   }
 
   /* ---------- Skills ---------- */
@@ -393,12 +404,20 @@
         <a href="https://www.linkedin.com/in/syazwan-s-d-zulkepli-7080a2224">linkedin.com/in/syazwan-s-d-zulkepli</a>
       </div>
     </div>
-    <div>
-      <div class="hero-photo-frame">
-        <img src="hero.jpg" width="1050" height="1400" fetchpriority="high" alt="Hand-fabricated flexible antenna and capaciflector sensor on Kapton substrate">
-      </div>
-      <div class="hero-cap mono">Antenna + capaciflector sensor, hand-fabricated — Group Design Project</div>
-    </div>
+    <!-- data-wave matches each project's divider trace; the script draws a small copy -->
+    <nav class="index" aria-labelledby="index-title">
+      <h2 class="index-title" id="index-title">SELECTED PROJECTS</h2>
+      <ol>
+        <li><a href="#p-rfid" data-wave="breath"><span class="idx-name">RFID breathing sensor</span><span class="idx-tag">RF</span></a></li>
+        <li><a href="#p-nisc" data-wave="clock"><span class="idx-name">NISC processor on FPGA</span><span class="idx-tag">DIGITAL</span></a></li>
+        <li><a href="#p-signal" data-wave="gain"><span class="idx-name">Accelerometer signal conditioning</span><span class="idx-tag">ANALOGUE</span></a></li>
+        <li><a href="#p-nem" data-wave="resonance"><span class="idx-name">NEM resonator characterisation</span><span class="idx-tag">MEASUREMENT</span></a></li>
+        <li><a href="#p-piezo" data-wave="ringdown"><span class="idx-name">Piezoelectric accelerometer package</span><span class="idx-tag">SENSORS</span></a></li>
+        <li><a href="#p-fakenews" data-wave="classes"><span class="idx-name">Fake news detection</span><span class="idx-tag">ML</span></a></li>
+        <li><a href="#p-crypto" data-wave="letters"><span class="idx-name">Cryptanalysis of classical ciphers</span><span class="idx-tag">SECURITY</span></a></li>
+      </ol>
+      <a class="index-more" href="#tier-more">+ 3 more projects and earlier work ↓</a>
+    </nav>
   </div>
 </div>
 
@@ -912,6 +931,30 @@
     };
   }
 
+  /* ---------- Project index: mini traces, and replay the target's trace on arrival ---------- */
+  function initIndex(projectsApi) {
+    const NS = 'http://www.w3.org/2000/svg';
+    const index = document.querySelector('.index');
+    if (!index) return;
+    index.classList.add('has-waves');
+    index.querySelectorAll('a[data-wave]').forEach(a => {
+      if (!WAVES[a.dataset.wave]) return;
+      const svg = document.createElementNS(NS, 'svg');
+      svg.setAttribute('viewBox', `0 -2 ${WAVE_W} ${WAVE_H + 4}`);
+      svg.setAttribute('preserveAspectRatio', 'none');
+      svg.setAttribute('class', 'idx-wave');
+      svg.setAttribute('aria-hidden', 'true');
+      const path = document.createElementNS(NS, 'path');
+      path.setAttribute('d', toPath(WAVES[a.dataset.wave]()));
+      svg.append(path);
+      a.prepend(svg);
+      a.addEventListener('click', () => {
+        const target = document.querySelector(a.hash);
+        if (target) projectsApi.replay(target);
+      });
+    });
+  }
+
   /* ---------- Skills -> projects highlighting (all three tiers) ---------- */
   function initSkills(projectsApi) {
     const buttons = [...document.querySelectorAll('.skill[data-skill]')];
@@ -1052,6 +1095,7 @@
   initHeaderOffset();
   if (canObserve && !reduceMotion) root.classList.add('motion');
   const projectsApi = initProjects();
+  initIndex(projectsApi);
   if (canObserve) initNav();
   initSkills(projectsApi);
   initViewer();

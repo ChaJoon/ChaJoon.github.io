@@ -271,7 +271,7 @@
   .callout { color: var(--scope); }
 
   /* "Read more": native <details>, so it works without script and with the keyboard */
-  details.more { margin-top: 12px; max-width: 60ch; }
+  details.more { margin-top: 12px; }
   details.more summary {
     display: inline-flex; align-items: center; gap: 8px; cursor: pointer; list-style: none;
     font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--copper);
@@ -287,7 +287,16 @@
   .more-list li { margin-bottom: 7px; }
   .more-list li::marker { color: var(--muted); }
   .more-list strong { font-weight: 600; }
-  .more-figure { margin-top: 14px; }
+  /* Read more: spans the whole card; text on the left, figures on the right */
+  .project > details.more { grid-column: 1 / -1; order: 3; margin-top: 0; max-width: none; }
+  details.more { max-width: none; }
+  .more-body { overflow: hidden; }
+  .more-body.has-figs { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 28px; align-items: start; }
+  .more-text { max-width: 62ch; }
+  .more-figs { display: grid; gap: 18px; padding-top: 12px; }
+  .more-figure { margin: 0; }
+  .more-figure figcaption { margin-top: 6px; font-size: 12px; line-height: 1.45; color: var(--muted); }
+  @media (max-width: 900px) { .more-body.has-figs { grid-template-columns: 1fr; } }
 
   /* Skill highlighting covers every tier */
   .projects [data-skills] { transition: opacity .35s ease; }
@@ -312,7 +321,6 @@
     background: var(--surface); transition: border-color .2s;
   }
   .p-media.hardware img { background: var(--surface-2); padding: 6px; }
-  .p-figure-extra { margin-top: 16px; }
 
   /* Text figure for the cryptanalysis entry: the method, with no keys or ciphertext */
   .attack-log {
@@ -512,23 +520,29 @@
             <span class="chip">ANSYS HFSS</span><span class="chip">KiCad</span><span class="chip">Multisim</span><span class="chip">RFID</span><span class="chip">Flexible PCB</span>
           </div>
           <p class="p-body">Designed a battery-free capacitive sensor (a capaciflector) that reads breathing through clothing and reports it over passive RFID. The RFID chip's datasheet only covered two-plate capacitors, so I worked out how to drive <span class="callout">a three-electrode sensor from a single pin</span>. Tested from 80 to 160&nbsp;cm at a paced 6 breaths per minute, it gave the clearest breathing pattern at 100&nbsp;cm.</p>
-          <details class="more">
-            <summary>Read more</summary>
-            <ul class="more-list">
-              <li><strong>Team and my part:</strong> team of 5; I led the capaciflector sensor, end to end.</li>
-              <li><strong>Problem:</strong> continuous breathing monitoring outside intensive care, with no battery on the patient.</li>
-              <li><strong>What I did:</strong> simulated the sensing principle in Multisim; designed and simulated the antenna in ANSYS HFSS, including the effect of the human body; produced ten flexible-PCB variants in KiCad and fixed manufacturing-rule violations; assembled the tags by hand.</li>
-              <li><strong>Interface from first principles:</strong> routed the ground plane to the sensing pin so the chip drove both reflector and sensor electrodes. This went into the final design.</li>
-              <li><strong>When fabrication failed:</strong> screen-printed sensors shorted from air bubbles in the dielectric, twice. I switched to Kapton–copper clad, which worked reliably.</li>
-              <li><strong>Debugging:</strong> long wires made the data noisy; a compact version lost read range from antenna coupling; a smaller sensor geometry fixed both.</li>
-              <li><strong>Result:</strong> tested from 80 to 160&nbsp;cm with breathing paced at 6 per minute by a metronome. The pattern was clear at 80–100&nbsp;cm, still recognisable at 120&nbsp;cm, and weaker beyond. 100&nbsp;cm was the best compromise between patient comfort and signal, with an average peak-to-peak swing of 75 raw counts.</li>
-              <li><strong>What I'd change:</strong> test the fabrication route in week 1, not week 7.</li>
-            </ul>
-            <div class="p-media more-figure">
-              <img src="p1-breathing.svg" width="900" height="420" loading="lazy" decoding="async" alt="Capaciflector raw output at 100 cm over about 2,000 samples, showing regular breathing cycles, with a 50-sample moving average drawn on top">
-            </div>
-          </details>
         </div>
+      
+        <details class="more">
+          <summary>Read more</summary>
+          <div class="more-body has-figs">
+            <div class="more-text">
+              <ul class="more-list">
+            <li><strong>Team and my part:</strong> team of 5; I led the capaciflector sensor, end to end.</li>
+            <li><strong>Problem:</strong> continuous breathing monitoring outside intensive care, with no battery on the patient.</li>
+            <li><strong>What I did:</strong> simulated the sensing principle in Multisim; designed and simulated the antenna in ANSYS HFSS, including the effect of the human body; produced ten flexible-PCB variants in KiCad and fixed manufacturing-rule violations; assembled the tags by hand.</li>
+            <li><strong>Interface from first principles:</strong> routed the ground plane to the sensing pin so the chip drove both reflector and sensor electrodes. This went into the final design.</li>
+            <li><strong>When fabrication failed:</strong> screen-printed sensors shorted from air bubbles in the dielectric, twice. I switched to Kapton–copper clad, which worked reliably.</li>
+            <li><strong>Debugging:</strong> long wires made the data noisy; a compact version lost read range from antenna coupling; a smaller sensor geometry fixed both.</li>
+            <li><strong>Result:</strong> tested from 80 to 160&nbsp;cm with breathing paced at 6 per minute by a metronome. The pattern was clear at 80–100&nbsp;cm, still recognisable at 120&nbsp;cm, and weaker beyond. 100&nbsp;cm was the best compromise between patient comfort and signal, with an average peak-to-peak swing of 75 raw counts.</li>
+            <li><strong>What I'd change:</strong> test the fabrication route in week 1, not week 7.</li>
+          </ul>
+            </div>
+            <div class="more-figs">
+              <figure class="p-media more-figure"><img src="p1-tag-worn.jpg" width="900" height="675" loading="lazy" decoding="async" alt="The finished tag adhered to a shirt, worn to monitor breathing"><figcaption>The finished tag adhered to a shirt, worn to monitor breathing</figcaption></figure>
+              <figure class="p-media more-figure"><img src="p1-breathing.svg" width="900" height="420" loading="lazy" decoding="async" alt="Capaciflector raw output at 100 cm over about 2,000 samples, showing regular breathing cycles, with a 50-sample moving average drawn on top"><figcaption>Capaciflector raw output at 100 cm over about 2,000 samples, showing regular breathing cycles, with a 50-sample moving average drawn on top</figcaption></figure>
+            </div>
+          </div>
+        </details>
       </article>
 
       <article class="project reverse" id="p-nisc" data-skills="rtl fpga" data-wave="clock">
@@ -545,16 +559,25 @@
             <span class="chip">SystemVerilog</span><span class="chip">Questa</span><span class="chip">Intel Quartus</span><span class="chip">Cyclone V</span>
           </div>
           <p class="p-body">Built a No-Instruction-Set-Computer (NISC) processor that runs a 5-tap Gaussian smoothing filter on a 256-sample waveform. Control signals are bit fields in the instruction word, so there is no decoder logic. Final cost: <span class="callout">63 logic elements</span> and one DSP multiplier, verified in simulation and on hardware.</p>
-          <details class="more">
-            <summary>Read more</summary>
-            <ul class="more-list">
-              <li><strong>Problem:</strong> minimise an area cost figure for a fixed signal-processing task on a Cyclone&nbsp;V.</li>
-              <li><strong>Key decision:</strong> NISC instead of an encoded-instruction design. A slightly wider program ROM removes all decoder logic and wins on area.</li>
-              <li><strong>Result:</strong> 9-instruction program, 7 clock cycles per output sample, all 8 test cases passed in Questa (positive, negative, boundary indices), confirmed on the DE1-SoC board.</li>
-              <li><strong>What I'd change:</strong> add a self-checking testbench against a Python reference model rather than hand-checked cases.</li>
-            </ul>
-          </details>
         </div>
+      
+        <details class="more">
+          <summary>Read more</summary>
+          <div class="more-body has-figs">
+            <div class="more-text">
+              <ul class="more-list">
+            <li><strong>Problem:</strong> minimise an area cost figure for a fixed signal-processing task on a Cyclone&nbsp;V.</li>
+            <li><strong>Key decision:</strong> NISC instead of an encoded-instruction design. A slightly wider program ROM removes all decoder logic and wins on area.</li>
+            <li><strong>Result:</strong> 9-instruction program, 7 clock cycles per output sample, all 8 test cases passed in Questa (positive, negative, boundary indices), confirmed on the DE1-SoC board.</li>
+            <li><strong>What I'd change:</strong> add a self-checking testbench against a Python reference model rather than hand-checked cases.</li>
+          </ul>
+            </div>
+            <div class="more-figs">
+              <figure class="p-media more-figure"><img src="p2-sim.png" width="1003" height="220" loading="lazy" decoding="async" alt="Questa simulation: the program counter steps through the MAC instructions while the accumulator and LED output build the smoothed sample"><figcaption>Questa simulation: the program counter steps through the MAC instructions while the accumulator and LED output build the smoothed sample</figcaption></figure>
+              <figure class="p-media more-figure"><img src="p2-board.jpg" width="1400" height="1050" loading="lazy" decoding="async" alt="The design running on the DE1-SoC board, result shown on the LEDs"><figcaption>The design running on the DE1-SoC board, result shown on the LEDs</figcaption></figure>
+            </div>
+          </div>
+        </details>
       </article>
 
       <article class="project" id="p-signal" data-skills="multisim analogue" data-wave="gain">
@@ -571,16 +594,21 @@
             <span class="chip">NI Multisim</span><span class="chip">Analogue design</span><span class="chip">Hand calculation</span>
           </div>
           <p class="p-body">Designed the interface between a piezoresistive accelerometer and an engine controller on a single 5&nbsp;V supply. My first differential amplifier loaded the sensor bridge, with 78% signal loss predicted and 60% in simulation. An instrumentation amplifier cut it to <span class="callout">0.35%</span>, and the full chain met the 100&nbsp;±&nbsp;5&nbsp;mV/g target.</p>
-          <details class="more">
-            <summary>Read more</summary>
-            <ul class="more-list">
-              <li><strong>Chain:</strong> Wheatstone bridge model → three-op-amp instrumentation amplifier → cascaded 2nd-order Butterworth filters giving a 20–170&nbsp;Hz passband (1,200–10,200&nbsp;RPM).</li>
-              <li><strong>Diagnosis, not retuning:</strong> traced the loss to bridge output impedance versus amplifier input impedance. Raising resistors 10× only reduced loss to 26%, so I changed topology.</li>
-              <li><strong>Result:</strong> 96–110&nbsp;mV/g, ±1.2&nbsp;dB passband flatness, current cut 7.1% to 2.87&nbsp;mA. All values calculated by hand, then checked in Multisim.</li>
-              <li><strong>What I'd change:</strong> build it on a protoboard to see real op-amp offsets.</li>
-            </ul>
-          </details>
         </div>
+      
+        <details class="more">
+          <summary>Read more</summary>
+          <div class="more-body">
+            <div class="more-text">
+              <ul class="more-list">
+            <li><strong>Chain:</strong> Wheatstone bridge model → three-op-amp instrumentation amplifier → cascaded 2nd-order Butterworth filters giving a 20–170&nbsp;Hz passband (1,200–10,200&nbsp;RPM).</li>
+            <li><strong>Diagnosis, not retuning:</strong> traced the loss to bridge output impedance versus amplifier input impedance. Raising resistors 10× only reduced loss to 26%, so I changed topology.</li>
+            <li><strong>Result:</strong> 96–110&nbsp;mV/g, ±1.2&nbsp;dB passband flatness, current cut 7.1% to 2.87&nbsp;mA. All values calculated by hand, then checked in Multisim.</li>
+            <li><strong>What I'd change:</strong> build it on a protoboard to see real op-amp offsets.</li>
+          </ul>
+            </div>
+          </div>
+        </details>
       </article>
 
       <article class="project reverse" id="p-nem" data-skills="lockin python comsol matlab" data-wave="resonance">
@@ -597,16 +625,21 @@
             <span class="chip">Lock-in amplifier</span><span class="chip">Python</span><span class="chip">COMSOL</span><span class="chip">MATLAB</span>
           </div>
           <p class="p-body">Measured a 2&nbsp;µm silicon nanoelectromechanical (NEM) beam resonator with lock-in detection and fitted its response in Python. Resonance sat near 98&nbsp;MHz with a quality factor of 270–400. A COMSOL model matched <span class="callout">within 3%</span>, and a power sweep revealed a 3&nbsp;MHz Duffing stiffening shift.</p>
-          <details class="more">
-            <summary>Read more</summary>
-            <ul class="more-list">
-              <li><strong>Method:</strong> 1-ω mixing measurement under back-gate bias 0–2&nbsp;V and drive power 0 to −8&nbsp;dB; Lorentzian fits for frequency and Q.</li>
-              <li><strong>Model:</strong> COMSOL eigenfrequency study of a pure-silicon beam (99.13&nbsp;MHz) and a Si/SiO₂ core-shell beam (95.02&nbsp;MHz).</li>
-              <li><strong>Also:</strong> a critical review of a published nonlinear-resonance modelling method on identical devices.</li>
-              <li><strong>What I'd change:</strong> fit the Duffing model directly instead of tracking peak shift.</li>
-            </ul>
-          </details>
         </div>
+      
+        <details class="more">
+          <summary>Read more</summary>
+          <div class="more-body">
+            <div class="more-text">
+              <ul class="more-list">
+            <li><strong>Method:</strong> 1-ω mixing measurement under back-gate bias 0–2&nbsp;V and drive power 0 to −8&nbsp;dB; Lorentzian fits for frequency and Q.</li>
+            <li><strong>Model:</strong> COMSOL eigenfrequency study of a pure-silicon beam (99.13&nbsp;MHz) and a Si/SiO₂ core-shell beam (95.02&nbsp;MHz).</li>
+            <li><strong>Also:</strong> a critical review of a published nonlinear-resonance modelling method on identical devices.</li>
+            <li><strong>What I'd change:</strong> fit the Duffing model directly instead of tracking peak shift.</li>
+          </ul>
+            </div>
+          </div>
+        </details>
       </article>
 
       <article class="project" id="p-piezo" data-skills="solidworks multisim analogue lcr" data-wave="ringdown">
@@ -623,18 +656,23 @@
             <span class="chip">SolidWorks</span><span class="chip">3D printing</span><span class="chip">NI Multisim</span><span class="chip">LCR meter</span>
           </div>
           <p class="p-body">Designed a 3D-printed housing and a two-stage charge amplifier (gain 20) for a piezoelectric disc, then swept it from 0.5&nbsp;Hz to 5&nbsp;kHz on a shaker at three masses. The main peak sat near 850&nbsp;Hz against a 4.2&nbsp;kHz datasheet value. I traced it to <span class="callout">the shaker's own resonance</span> and found the disc's mass-shifted peaks at 2.5–2.7&nbsp;kHz.</p>
-          <div class="p-media p-figure-extra">
-            <img src="p5-freqresponse.png" width="800" height="474" loading="lazy" decoding="async" alt="Measured frequency response across three mass conditions, showing the resonance peak shift">
-          </div>
-          <details class="more">
-            <summary>Read more</summary>
-            <ul class="more-list">
-              <li><strong>Sensor check:</strong> characterised the disc on an LCR meter (18.44&nbsp;nF at 1&nbsp;kHz, within datasheet tolerance).</li>
-              <li><strong>Simulation versus measurement:</strong> explained the gap through protoboard parasitics, series resistors replacing one 10&nbsp;MΩ part, and probe loading.</li>
-              <li><strong>What I'd change:</strong> use a reference accelerometer to separate the shaker's response from the sensor's.</li>
-            </ul>
-          </details>
         </div>
+      
+        <details class="more">
+          <summary>Read more</summary>
+          <div class="more-body has-figs">
+            <div class="more-text">
+              <ul class="more-list">
+            <li><strong>Sensor check:</strong> characterised the disc on an LCR meter (18.44&nbsp;nF at 1&nbsp;kHz, within datasheet tolerance).</li>
+            <li><strong>Simulation versus measurement:</strong> explained the gap through protoboard parasitics, series resistors replacing one 10&nbsp;MΩ part, and probe loading.</li>
+            <li><strong>What I'd change:</strong> use a reference accelerometer to separate the shaker's response from the sensor's.</li>
+          </ul>
+            </div>
+            <div class="more-figs">
+              <figure class="p-media more-figure"><img src="p5-freqresponse.png" width="800" height="474" loading="lazy" decoding="async" alt="Measured frequency response across three mass conditions, showing the resonance peak shift"><figcaption>Measured frequency response across three mass conditions, showing the resonance peak shift</figcaption></figure>
+            </div>
+          </div>
+        </details>
       </article>
 
       <article class="project reverse" id="p-fakenews" data-skills="python" data-wave="classes">
@@ -651,15 +689,20 @@
             <span class="chip">Python</span><span class="chip">scikit-learn</span><span class="chip">pandas</span><span class="chip">NumPy</span>
           </div>
           <p class="p-body">Classified MediaEval social-media posts as real or fake from their text using TF-IDF unigram features. A grid-searched Support Vector Classifier scored F1 0.83 on the test set. The simpler Multinomial Naive Bayes scored 0.86 with a <span class="callout">smaller train–test gap</span>.</p>
-          <details class="more">
-            <summary>Read more</summary>
-            <ul class="more-list">
-              <li><strong>Features:</strong> compared unigram and bigram TF-IDF features.</li>
-              <li><strong>Tuning:</strong> grid search for both models.</li>
-              <li><strong>Evaluation:</strong> micro-averaged F1 and confusion matrices on a held-out test set.</li>
-            </ul>
-          </details>
         </div>
+      
+        <details class="more">
+          <summary>Read more</summary>
+          <div class="more-body">
+            <div class="more-text">
+              <ul class="more-list">
+            <li><strong>Features:</strong> compared unigram and bigram TF-IDF features.</li>
+            <li><strong>Tuning:</strong> grid search for both models.</li>
+            <li><strong>Evaluation:</strong> micro-averaged F1 and confusion matrices on a held-out test set.</li>
+          </ul>
+            </div>
+          </div>
+        </details>
       </article>
 
       <article class="project" id="p-crypto" data-skills="python" data-wave="letters">
@@ -686,15 +729,20 @@
             <span class="chip">Python</span><span class="chip">Frequency analysis</span><span class="chip">Cryptanalysis</span>
           </div>
           <p class="p-body">Broke three unknown ciphers from ciphertext alone: a substitution cipher, a repeating-key XOR cipher hidden in a hex file, and a keyed columnar transposition. Each attack was <span class="callout">confirmed by a statistical test</span>, not by eye.</p>
-          <details class="more">
-            <summary>Read more</summary>
-            <ul class="more-list">
-              <li><strong>Substitution:</strong> letter-frequency analysis.</li>
-              <li><strong>XOR file:</strong> a single-byte brute force failed, which pointed to a 2-byte key; each byte stream was then solved separately.</li>
-              <li><strong>Transposition:</strong> ruled out rail-fence ciphers with quadgram fitness scores before finding the column order.</li>
-            </ul>
-          </details>
         </div>
+      
+        <details class="more">
+          <summary>Read more</summary>
+          <div class="more-body">
+            <div class="more-text">
+              <ul class="more-list">
+            <li><strong>Substitution:</strong> letter-frequency analysis.</li>
+            <li><strong>XOR file:</strong> a single-byte brute force failed, which pointed to a 2-byte key; each byte stream was then solved separately.</li>
+            <li><strong>Transposition:</strong> ruled out rail-fence ciphers with quadgram fitness scores before finding the column order.</li>
+          </ul>
+            </div>
+          </div>
+        </details>
       </article>
     </div>
 
@@ -711,14 +759,18 @@
         </div>
         <p class="p-body">Reviewed a two-stage photodiode transimpedance amplifier (TIA) board across schematic, layout and bring-up. I found a repeated placeholder pattern that disabled the feedback and compensation networks, and a misplaced resistor on the sensitive input node. I also proposed a step-by-step bring-up and test plan for gain, bandwidth, noise and stability.</p>
         <details class="more">
-          <summary>Read more</summary>
-          <ul class="more-list">
+            <summary>Read more</summary>
+            <div class="more-body">
+              <div class="more-text">
+                <ul class="more-list">
             <li><strong>Approach:</strong> tied input capacitance, feedback resistance, compensation, bandwidth and noise together instead of checking each alone; checked calculations against manufacturer data.</li>
             <li><strong>Findings:</strong> the placeholder faults, a summing-node resistor that likely belonged on the guard-buffer output, marginal phase margin in both stages, and missing test points.</li>
             <li><strong>Testability:</strong> proposed current-injection points and a validation sequence.</li>
             <li><strong>What I'd change, from the reviewers' feedback:</strong> lead with a one-page list of board-stopping issues before secondary findings; state the assumptions behind any component recommendation; confirm layout findings in the native PCB viewer before reporting them.</li>
           </ul>
-        </details>
+              </div>
+            </div>
+          </details>
       </article>
 
       <article class="card" id="p-hvdc" data-skills="matlab python">
@@ -729,17 +781,21 @@
         </div>
         <p class="p-body">Selected the converter topology, ratings, cable and protection for a 200&nbsp;km, 2000&nbsp;MW subsea High-Voltage Direct Current (HVDC) link between two asynchronous grids. I wrote the power-quality and filtering design for a ±525&nbsp;kV bipole with half-bridge Modular Multilevel Converters (MMC). Separately, I simulated line-commutated and voltage-source converters in MATLAB/Simulink.</p>
         <details class="more">
-          <summary>Read more</summary>
-          <ul class="more-list">
+            <summary>Read more</summary>
+            <div class="more-body has-figs">
+              <div class="more-text">
+                <ul class="more-list">
             <li><strong>Team and my part:</strong> team of 6; I owned power quality and filtering.</li>
             <li><strong>Group study:</strong> design decisions from case studies of operating links. My section showed the MMC's staircase output keeps AC-side distortion within IEEE&nbsp;519 without tuned filter banks, and sized the phase reactor.</li>
             <li><strong>Individual simulations:</strong> Line-Commutated Converter (LCC) voltage, commutation overlap and harmonics; designed 5th, 7th and damped AC filters that cut total harmonic distortion from 27.27% to 7.13%; voltage-source converter power flow and a 3-level converter. Plots produced in Python.</li>
             <li><strong>Next step we identified:</strong> electromagnetic transient studies of converter–grid resonance before finalising reactors.</li>
           </ul>
-          <div class="p-media more-figure">
-            <img src="p8-hvdc-thd.svg" width="800" height="460" loading="lazy" decoding="async" alt="Bar chart of AC-side total harmonic distortion: 27.27% with no filter, 16.21% with a tuned 5th filter, 7.04% adding a tuned 7th, 7.13% adding a damped 12th">
-          </div>
-        </details>
+              </div>
+              <div class="more-figs">
+                <figure class="p-media more-figure"><img src="p8-hvdc-thd.svg" width="800" height="460" loading="lazy" decoding="async" alt="Bar chart of AC-side total harmonic distortion: 27.27% with no filter, 16.21% with a tuned 5th filter, 7.04% adding a tuned 7th, 7.13% adding a damped 12th"><figcaption>Bar chart of AC-side total harmonic distortion: 27.27% with no filter, 16.21% with a tuned 5th filter, 7.04% adding a tuned 7th, 7.13% adding a damped 12th</figcaption></figure>
+              </div>
+            </div>
+          </details>
       </article>
 
       <article class="card" id="p-hwsec" data-skills="">
@@ -750,14 +806,18 @@
         </div>
         <p class="p-body">Four hands-on attacks on real hardware. We recovered access-card keys from a MIFARE Classic tag, read program behaviour from a microcontroller's power traces, and replayed a 433.92&nbsp;MHz remote signal to trigger a relay. We also analysed GSM identifiers and encryption.</p>
         <details class="more">
-          <summary>Read more</summary>
-          <ul class="more-list">
+            <summary>Read more</summary>
+            <div class="more-body">
+              <div class="more-text">
+                <ul class="more-list">
             <li><strong>NFC:</strong> card key recovery with libnfc tools.</li>
             <li><strong>Side channel:</strong> ChipWhisperer power traces linked to loop iterations in the target's C code.</li>
             <li><strong>Radio:</strong> the replay attack worked 96% of the time, but only within 6&nbsp;cm.</li>
             <li><strong>GSM:</strong> A5 encryption variants and subscriber identifiers.</li>
           </ul>
-        </details>
+              </div>
+            </div>
+          </details>
       </article>
     </div>
 
@@ -1108,6 +1168,40 @@
     dialog.addEventListener('click', e => { if (e.target === dialog) dialog.close(); }); // backdrop click
   }
 
+  /* ---------- Read more: slide open and closed instead of appearing instantly ---------- */
+  function initReadMore() {
+    document.querySelectorAll('details.more').forEach(d => {
+      const summary = d.querySelector('summary');
+      const body = d.querySelector('.more-body');
+      if (!summary || !body || typeof body.animate !== 'function') return;
+      let anim = null;
+      summary.addEventListener('click', e => {
+        if (reduceMotion) return;                 // instant toggle, browser default
+        e.preventDefault();
+        if (anim) anim.cancel();
+        const opening = !d.open;
+        if (opening) d.open = true;
+        const full = body.scrollHeight;
+        const from = opening ? 0 : body.offsetHeight;
+        const to = opening ? full : 0;
+        const ms = Math.min(520, 220 + full * 0.25);
+        anim = body.animate(
+          [{ height: from + 'px', opacity: opening ? 0 : 1 }, { height: to + 'px', opacity: opening ? 1 : 0 }],
+          { duration: ms, easing: 'cubic-bezier(.3,.7,.2,1)' });
+        anim.onfinish = () => {
+          anim = null;
+          if (!opening) {
+            d.open = false;
+            // if the panel was long, bring its card back into view instead of leaving the reader lost
+            const top = summary.getBoundingClientRect().top;
+            const navH = parseFloat(getComputedStyle(root).getPropertyValue('--nav-h')) || 0;
+            if (top < navH) summary.scrollIntoView({ block: 'center', behavior: 'smooth' });
+          }
+        };
+      });
+    });
+  }
+
   /* ---------- Read more: open on print so the paper copy has the full stories ---------- */
   function initPrint() {
     const all = () => [...document.querySelectorAll('details.more')];
@@ -1152,6 +1246,7 @@
   if (canObserve) initNav();
   initSkills(projectsApi);
   initViewer();
+  initReadMore();
   initPrint();
   initCopy();
 })();

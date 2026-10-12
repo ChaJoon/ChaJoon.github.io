@@ -53,7 +53,6 @@
   h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; margin: 0; letter-spacing: -0.01em; }
   .mono { font-family: 'IBM Plex Mono', monospace; }
   a { color: var(--copper); }
-  .wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
   a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--scope); outline-offset: 2px; }
 
   /* ---------- Header + nav ---------- */
@@ -125,15 +124,18 @@
     @keyframes arrive-line { 0%, 55% { opacity: 1; } 100% { opacity: 0; } }
   }
 
-  /* ---------- Hero ---------- */
-  /* padding-block only: .hero shares its element with .wrap, which owns the side padding */
-  .hero { padding-block: 56px 48px; }
-  .hero-grid {
-    display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 40px; align-items: center;
-  }
+  /* ---------- Page layout ----------
+     Phones and tablets: one column (intro, index, then the sections).
+     Wide screens (see the 1100px query below): a sticky sidebar holding the intro and the
+     project index, with skills, projects and contact scrolling beside it. */
+  .layout { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+  .side { padding-block: 56px 48px; }
   /* Grid items default to min-width:auto, which lets an image's intrinsic size push a
      column wider than the page on narrow screens. */
-  .hero-grid > *, .project > * { min-width: 0; }
+  .layout > *, .project > * { min-width: 0; }
+
+  /* ---------- Hero ---------- */
+  .hero { margin-bottom: 28px; }
   /* Project index: a clickable contents list for the selected projects */
   .index { border: 1px solid var(--rule); background: var(--surface); box-shadow: var(--shadow); padding: 16px 18px 14px; }
   .index-title {
@@ -150,6 +152,10 @@
   }
   .index.has-waves li a { grid-template-columns: 44px 1fr auto; } /* script added the mini traces */
   .index li a:hover { background: color-mix(in srgb, var(--scope) 9%, transparent); }
+  /* Scroll-spy: the project currently on screen */
+  .index li a[aria-current="true"] { background: color-mix(in srgb, var(--scope) 14%, transparent); }
+  .index li a[aria-current="true"] .idx-name { font-weight: 600; }
+  .index li a[aria-current="true"] .idx-tag { color: var(--scope); }
   .index li a:hover .idx-name { text-decoration: underline; text-decoration-color: var(--scope); text-underline-offset: 3px; }
   .idx-wave { display: block; width: 44px; height: 14px; color: var(--scope); overflow: visible; }
   .idx-wave path { fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
@@ -164,8 +170,35 @@
   .hero .contact-line a { color: var(--muted); text-decoration: underline; text-decoration-color: var(--rule); }
 
   @media (max-width: 720px) {
-    .hero-grid { grid-template-columns: 1fr; }
     .hero h1 { font-size: 28px; }
+  }
+
+  @media (min-width: 1100px) {
+    .nav-row { max-width: 1320px; padding-inline: 40px; }
+    .layout {
+      max-width: 1320px; padding: 0 40px;
+      display: grid; grid-template-columns: minmax(340px, 400px) minmax(0, 1fr); column-gap: 72px;
+    }
+    .side {
+      position: sticky; top: calc(env(safe-area-inset-top, 0px) + var(--nav-h)); align-self: start;
+      max-height: calc(100vh - var(--nav-h) - env(safe-area-inset-top, 0px));
+      overflow-y: auto; scrollbar-width: thin; padding-block: 48px 32px;
+    }
+    .hero p.lead { font-size: 16px; }
+    /* the sidebar already separates the first section from the header */
+    .main > section.skills:first-child { border-top: 0; padding-top: 48px; }
+  }
+  /* Short laptop screens: tighten the sidebar so the whole index fits without scrolling */
+  @media (min-width: 1100px) and (max-height: 880px) {
+    .side { padding-block: 28px 20px; }
+    .hero { margin-bottom: 18px; }
+    .hero h1 { font-size: 30px; }
+    .hero .role { font-size: 14px; margin-bottom: 12px; }
+    .hero p.lead { font-size: 15px; line-height: 1.5; }
+    .hero .contact-line { margin-top: 12px; }
+    .index { padding: 12px 16px 10px; }
+    .index li a { padding-block: 5px; font-size: 13.5px; }
+    .index-more { margin-top: 6px; }
   }
 
   /* ---------- Skills ---------- */
@@ -398,9 +431,9 @@
   </div>
 </header>
 
-<div class="wrap hero">
-  <div class="hero-grid">
-    <div>
+<div class="layout">
+  <aside class="side">
+    <div class="hero">
       <h1>Syazwan Zulkepli</h1>
       <div class="role">MEng Electrical &amp; Electronic Engineering — University of Southampton — 2:1</div>
       <p class="lead">Hi, I’m Syazwan. These are some of the projects I built during my degree, from hand-made RF sensors and analogue circuits to FPGA processors and machine learning. I like making things work, especially when a problem is new and I have to reason it out from the fundamentals.</p>
@@ -424,10 +457,9 @@
       </ol>
       <a class="index-more" href="#tier-more">+ 3 more projects and earlier work ↓</a>
     </nav>
-  </div>
-</div>
+  </aside>
 
-<div class="wrap">
+<div class="main">
   <!--
     Skills: a <button class="skill" data-skill="key"> highlights every project, card or
     earlier-work line whose data-skills list contains that key. Text outside buttons has no
@@ -739,10 +771,8 @@
       </ul>
     </div>
   </section>
-</div>
 
 <footer class="contact" id="contact">
-  <div class="wrap">
     <h2 class="section-title">Contact</h2>
     <div class="contact-grid">
       <div>
@@ -762,8 +792,9 @@
         <div class="foot-line">UK Graduate Route visa application in progress — unrestricted right to work, no sponsorship required.</div>
       </div>
     </div>
-  </div>
 </footer>
+</div><!-- /.main -->
+</div><!-- /.layout -->
 
 <div class="skill-bar" id="skill-bar">
   <span>Projects using <strong data-bar-label></strong></span>
@@ -959,6 +990,22 @@
         if (target) projectsApi.replay(target);
       });
     });
+
+    // Mark the row of the project crossing a band ~40% down the viewport
+    if (!canObserve) return;
+    const links = [...index.querySelectorAll('a[href^="#p-"]')];
+    const targets = links.map(a => document.querySelector(a.hash)).filter(Boolean);
+    let current = null;
+    const render = () => links.forEach(a =>
+      (a.hash === '#' + current ? a.setAttribute('aria-current', 'true') : a.removeAttribute('aria-current')));
+    const spy = new IntersectionObserver(entries => {
+      entries.forEach(({ target, isIntersecting }) => {
+        if (isIntersecting) current = target.id;
+        else if (current === target.id) current = null;
+      });
+      render();
+    }, { rootMargin: '-40% 0px -59% 0px' });
+    targets.forEach(t => spy.observe(t));
   }
 
   /* ---------- Skills -> projects highlighting (all three tiers) ---------- */

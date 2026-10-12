@@ -2,7 +2,7 @@
 
 Every block, field and bus width below follows the SystemVerilog source:
   pc.sv, prog.sv (16-bit control word), addr_reg.sv, wave_rom.sv, alu.sv.
-Control signals are shown as net labels (copper tags) rather than wires: each
+Control signals are shown as net labels (red tags) rather than wires: each
 tag names the control-word field that drives that pin directly, with no decoder.
 
 Usage: python nisc_datapath.py <font_dir> <out_stem>
@@ -25,13 +25,13 @@ plt.rcParams.update({"svg.fonttype": "path", "font.family": SANS})
 
 # ---------- Palette: the site's light-theme tokens ----------
 BG      = "#FFFFFF"
-INK     = "#1B1D1F"
-MUTED   = "#63666A"
-FILL    = "#F6F4EF"   # block fill, a step off the background
-DATA    = "#286E49"   # sample / arithmetic values
-ADDR    = "#2F5D8A"   # addresses (PC -> program ROM, ADDR -> waveform ROM)
-CTRL    = "#9B4A20"   # control-word fields
-CTRL_BG = "#F6E9E1"
+INK     = "#13213A"
+MUTED   = "#4E5F78"
+FILL    = "#F2F5F9"   # block fill, a step off the background
+DATA    = "#1B4F8A"   # sample / arithmetic values
+ADDR    = "#286E49"   # addresses (PC -> program ROM, ADDR -> waveform ROM)
+CTRL    = "#A3271F"   # control-word fields
+CTRL_BG = "#F8E6E4"
 
 W, H = 100, 64                 # drawing units; 1 unit = 0.1 inch
 fig = plt.figure(figsize=(W / 10, H / 10), dpi=100, facecolor=BG)
@@ -93,7 +93,7 @@ def tag(x, y, name, ha="center"):
 
 
 def pin_down(x, y_tag, y_block, name):
-    """Tag above a block with a short copper stub into the block's top edge."""
+    """Tag above a block with a short red stub into the block's top edge."""
     wire([(x, y_tag - 1.4), (x, y_block)], CTRL, lw=1.1)
     tag(x, y_tag, name)
 

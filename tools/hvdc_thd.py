@@ -18,7 +18,7 @@ for f in FONT_DIR.glob("*.ttf"):
 SANS, MONO = "IBM Plex Sans", "IBM Plex Mono"
 plt.rcParams.update({"svg.fonttype": "path", "font.family": SANS})
 
-BG, INK, MUTED, GRID, DATA = "#FFFFFF", "#1B1D1F", "#63666A", "#E4E2DC", "#286E49"
+BG, INK, MUTED, GRID, DATA = "#FFFFFF", "#13213A", "#4E5F78", "#D9E1EA", "#1B4F8A"
 
 # Table 7: Effect of AC filters on THD
 ROWS = [("No filter", 27.27), ("Tuned 5th", 16.21), ("+ tuned 7th", 7.04), ("+ damped 12th", 7.13)]

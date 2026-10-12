@@ -40,7 +40,7 @@ z
      <g id="line2d_1"/>
      <g id="text_1">
       <!-- No filter -->
-      <g style="fill: #1b1d1f" transform="translate(105.274286 304.724) scale(0.11 -0.11)">
+      <g style="fill: #13213a" transform="translate(105.274286 304.724) scale(0.11 -0.11)">
        <defs>
         <path id="IBMPlexSans-2e" d="M 1677 2726 
 L 1139 3718 
@@ -226,7 +226,7 @@ z
      <g id="line2d_2"/>
      <g id="text_2">
       <!-- Tuned 5th -->
-      <g style="fill: #1b1d1f" transform="translate(222.151116 304.724) scale(0.11 -0.11)">
+      <g style="fill: #13213a" transform="translate(222.151116 304.724) scale(0.11 -0.11)">
        <defs>
         <path id="IBMPlexSans-34" d="M 2099 3994 
 L 2099 0 
@@ -394,7 +394,7 @@ z
      <g id="line2d_3"/>
      <g id="text_3">
       <!-- + tuned 7th -->
-      <g style="fill: #1b1d1f" transform="translate(340.551618 304.724) scale(0.11 -0.11)">
+      <g style="fill: #13213a" transform="translate(340.551618 304.724) scale(0.11 -0.11)">
        <defs>
         <path id="IBMPlexSans-91" d="M 1677 397 
 L 1677 1734 
@@ -442,7 +442,7 @@ z
      <g id="line2d_4"/>
      <g id="text_4">
       <!-- + damped 12th -->
-      <g style="fill: #1b1d1f" transform="translate(453.367902 304.724) scale(0.11 -0.11)">
+      <g style="fill: #13213a" transform="translate(453.367902 304.724) scale(0.11 -0.11)">
        <defs>
         <path id="IBMPlexSans-4" d="M 2944 0 
 Q 2656 0 2531 153 
@@ -628,12 +628,12 @@ z
      <g id="line2d_5">
       <path d="M 51.84 288.144 
 L 564.48 288.144 
-" clip-path="url(#p3e86c1d8cc)" style="fill: none; stroke: #e4e2dc; stroke-linecap: square"/>
+" clip-path="url(#p3e86c1d8cc)" style="fill: none; stroke: #d9e1ea; stroke-linecap: square"/>
      </g>
      <g id="line2d_6"/>
      <g id="text_5">
       <!-- 0% -->
-      <g style="fill: #63666a" transform="translate(31.84 292.044) scale(0.1 -0.1)">
+      <g style="fill: #4e5f78" transform="translate(31.84 292.044) scale(0.1 -0.1)">
        <defs>
         <path id="IBMPlexMono-3c" d="M 1920 -77 
 Q 1510 -77 1216 80 
@@ -753,12 +753,12 @@ z
      <g id="line2d_7">
       <path d="M 51.84 209.76 
 L 564.48 209.76 
-" clip-path="url(#p3e86c1d8cc)" style="fill: none; stroke: #e4e2dc; stroke-linecap: square"/>
+" clip-path="url(#p3e86c1d8cc)" style="fill: none; stroke: #d9e1ea; stroke-linecap: square"/>
      </g>
      <g id="line2d_8"/>
      <g id="text_6">
       <!-- 10% -->
-      <g style="fill: #63666a" transform="translate(25.84 213.66) scale(0.1 -0.1)">
+      <g style="fill: #4e5f78" transform="translate(25.84 213.66) scale(0.1 -0.1)">
        <defs>
         <path id="IBMPlexMono-3f" d="M 544 0 
 L 544 467 
@@ -786,12 +786,12 @@ z
      <g id="line2d_9">
       <path d="M 51.84 131.376 
 L 564.48 131.376 
-" clip-path="url(#p3e86c1d8cc)" style="fill: none; stroke: #e4e2dc; stroke-linecap: square"/>
+" clip-path="url(#p3e86c1d8cc)" style="fill: none; stroke: #d9e1ea; stroke-linecap: square"/>
      </g>
      <g id="line2d_10"/>
      <g id="text_7">
       <!-- 20% -->
-      <g style="fill: #63666a" transform="translate(25.84 135.276) scale(0.1 -0.1)">
+      <g style="fill: #4e5f78" transform="translate(25.84 135.276) scale(0.1 -0.1)">
        <defs>
         <path id="IBMPlexMono-40" d="M 3437 0 
 L 454 0 
@@ -833,12 +833,12 @@ z
      <g id="line2d_11">
       <path d="M 51.84 52.992 
 L 564.48 52.992 
-" clip-path="url(#p3e86c1d8cc)" style="fill: none; stroke: #e4e2dc; stroke-linecap: square"/>
+" clip-path="url(#p3e86c1d8cc)" style="fill: none; stroke: #d9e1ea; stroke-linecap: square"/>
      </g>
      <g id="line2d_12"/>
      <g id="text_8">
       <!-- 30% -->
-      <g style="fill: #63666a" transform="translate(25.84 56.892) scale(0.1 -0.1)">
+      <g style="fill: #4e5f78" transform="translate(25.84 56.892) scale(0.1 -0.1)">
        <defs>
         <path id="IBMPlexMono-41" d="M 1728 2573 
 Q 2195 2573 2428 2781 
@@ -908,7 +908,7 @@ Q 90.898286 74.390832 90.898286 77.270832
 L 90.898286 285.264 
 Q 90.898286 288.144 93.504 288.144 
 z
-" clip-path="url(#p3e86c1d8cc)" style="fill: #286e49"/>
+" clip-path="url(#p3e86c1d8cc)" style="fill: #1b4f8a"/>
    </g>
    <g id="patch_4">
     <path d="M 91.264457 288.144 
@@ -916,7 +916,7 @@ L 158.884114 288.144
 L 158.884114 181.267416 
 L 91.264457 181.267416 
 z
-" clip-path="url(#p3e86c1d8cc)" style="fill: #286e49"/>
+" clip-path="url(#p3e86c1d8cc)" style="fill: #1b4f8a"/>
    </g>
    <g id="patch_5">
     <path d="M 215.561143 288.144 
@@ -929,7 +929,7 @@ Q 212.955429 161.083536 212.955429 163.963536
 L 212.955429 285.264 
 Q 212.955429 288.144 215.561143 288.144 
 z
-" clip-path="url(#p3e86c1d8cc)" style="fill: #286e49"/>
+" clip-path="url(#p3e86c1d8cc)" style="fill: #1b4f8a"/>
    </g>
    <g id="patch_6">
     <path d="M 213.3216 288.144 
@@ -937,7 +937,7 @@ L 280.941257 288.144
 L 280.941257 224.613768 
 L 213.3216 224.613768 
 z
-" clip-path="url(#p3e86c1d8cc)" style="fill: #286e49"/>
+" clip-path="url(#p3e86c1d8cc)" style="fill: #1b4f8a"/>
    </g>
    <g id="patch_7">
     <path d="M 337.618286 288.144 
@@ -950,7 +950,7 @@ Q 335.012571 232.961664 335.012571 235.841664
 L 335.012571 285.264 
 Q 335.012571 288.144 337.618286 288.144 
 z
-" clip-path="url(#p3e86c1d8cc)" style="fill: #286e49"/>
+" clip-path="url(#p3e86c1d8cc)" style="fill: #1b4f8a"/>
    </g>
    <g id="patch_8">
     <path d="M 335.378743 288.144 
@@ -958,7 +958,7 @@ L 402.9984 288.144
 L 402.9984 260.552832 
 L 335.378743 260.552832 
 z
-" clip-path="url(#p3e86c1d8cc)" style="fill: #286e49"/>
+" clip-path="url(#p3e86c1d8cc)" style="fill: #1b4f8a"/>
    </g>
    <g id="patch_9">
     <path d="M 459.675429 288.144 
@@ -971,7 +971,7 @@ Q 457.069714 232.256208 457.069714 235.136208
 L 457.069714 285.264 
 Q 457.069714 288.144 459.675429 288.144 
 z
-" clip-path="url(#p3e86c1d8cc)" style="fill: #286e49"/>
+" clip-path="url(#p3e86c1d8cc)" style="fill: #1b4f8a"/>
    </g>
    <g id="patch_10">
     <path d="M 457.435886 288.144 
@@ -979,16 +979,16 @@ L 525.055543 288.144
 L 525.055543 260.200104 
 L 457.435886 260.200104 
 z
-" clip-path="url(#p3e86c1d8cc)" style="fill: #286e49"/>
+" clip-path="url(#p3e86c1d8cc)" style="fill: #1b4f8a"/>
    </g>
    <g id="patch_11">
     <path d="M 51.84 288.144 
 L 564.48 288.144 
-" style="fill: none; stroke: #63666a; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+" style="fill: none; stroke: #4e5f78; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
    <g id="text_9">
     <!-- 27.27% -->
-    <g style="fill: #1b1d1f" transform="translate(103.474286 66.263952) scale(0.12 -0.12)">
+    <g style="fill: #13213a" transform="translate(103.474286 66.263952) scale(0.12 -0.12)">
      <defs>
       <path id="IBMPlexMono-Medm-40" d="M 3488 0 
 L 403 0 
@@ -1112,7 +1112,7 @@ z
    </g>
    <g id="text_10">
     <!-- 16.21% -->
-    <g style="fill: #1b1d1f" transform="translate(225.531429 152.956656) scale(0.12 -0.12)">
+    <g style="fill: #13213a" transform="translate(225.531429 152.956656) scale(0.12 -0.12)">
      <defs>
       <path id="IBMPlexMono-Medm-3f" d="M 563 0 
 L 563 595 
@@ -1181,7 +1181,7 @@ z
    </g>
    <g id="text_11">
     <!-- 7.04% -->
-    <g style="fill: #1b1d1f" transform="translate(351.188571 224.834784) scale(0.12 -0.12)">
+    <g style="fill: #13213a" transform="translate(351.188571 224.834784) scale(0.12 -0.12)">
      <defs>
       <path id="IBMPlexMono-Medm-3c" d="M 1920 -77 
 Q 1498 -77 1187 80 
@@ -1260,7 +1260,7 @@ z
    </g>
    <g id="text_12">
     <!-- 7.13% -->
-    <g style="fill: #1b1d1f" transform="translate(473.245714 224.129328) scale(0.12 -0.12)">
+    <g style="fill: #13213a" transform="translate(473.245714 224.129328) scale(0.12 -0.12)">
      <defs>
       <path id="IBMPlexMono-Medm-41" d="M 1734 2624 
 Q 2163 2624 2371 2806 
@@ -1320,7 +1320,7 @@ z
   </g>
   <g id="text_13">
    <!-- AC-side total harmonic distortion as filters are added -->
-   <g style="fill: #1b1d1f" transform="translate(51.84 19.872) scale(0.14 -0.14)">
+   <g style="fill: #13213a" transform="translate(51.84 19.872) scale(0.14 -0.14)">
     <defs>
      <path id="IBMPlexSans-SmBld-21" d="M 3290 0 
 L 2931 1139 
@@ -1805,7 +1805,7 @@ z
   </g>
   <g id="text_14">
    <!-- 6-pulse line-commutated converter, MATLAB/Simulink. Filters are cumulative left to right. -->
-   <g style="fill: #63666a" transform="translate(51.84 38.088) scale(0.1 -0.1)">
+   <g style="fill: #4e5f78" transform="translate(51.84 38.088) scale(0.1 -0.1)">
     <defs>
      <path id="IBMPlexSans-43" d="M 1926 -77 
 Q 1581 -77 1302 41 

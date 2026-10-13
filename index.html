@@ -749,7 +749,7 @@
           <div class="chips">
             <span class="chip">NI Multisim</span><span class="chip">Analogue design</span><span class="chip">Hand calculation</span>
           </div>
-          <p class="p-body">An engine controller needs a clean, correctly scaled vibration signal from an accelerometer, on a single 5&nbsp;V supply. My first amplifier quietly lost most of the signal: 78% on paper, 60% in simulation. Retuning only got it to 26%, so I traced the cause to the sensor's output impedance and changed the circuit to an instrumentation amplifier. The loss fell to <span class="callout">0.35%</span>, and the full chain met its 100&nbsp;±&nbsp;5&nbsp;mV/g target.</p>
+          <p class="p-body">An engine controller needs a clean, correctly scaled vibration signal from an accelerometer, on a single 5&nbsp;V supply. My first amplifier quietly lost most of the signal: 78% on paper, 60% in simulation. Bigger resistors still lost 13%, so I traced the cause to the sensor's output impedance and changed the circuit to an instrumentation amplifier. The loss fell to <span class="callout">0.35%</span>, and the amplifier delivered 102.5&nbsp;mV/g, inside its 100&nbsp;±&nbsp;5&nbsp;mV/g target.</p>
         </div>
       
         <details class="more">
@@ -758,8 +758,8 @@
             <div class="more-text">
               <div class="more-story">
                 <p>An engine controller needed a clean vibration signal, scaled to 100&nbsp;±&nbsp;5&nbsp;mV/g, from a piezoresistive accelerometer, all on a single 5&nbsp;V supply. I designed the chain: the sensor modelled as a Wheatstone bridge, then an amplifier, then cascaded second-order Butterworth filters passing 20–170&nbsp;Hz, the vibration range of an engine running at 1,200–10,200&nbsp;RPM.</p>
-                <p>My first amplifier quietly threw most of the signal away. A simple differential amplifier loaded the sensor bridge: I predicted 78% signal loss, and simulation showed 60%. Raising the resistors tenfold only brought it down to 26%, so instead of retuning further I looked for the cause. The bridge's output impedance was too high for the amplifier's input impedance. A three-op-amp instrumentation amplifier, with its much higher input impedance, cut the loss to 0.35%.</p>
-                <p>The finished chain gave 96–110&nbsp;mV/g with ±1.2&nbsp;dB passband flatness, and drew 7.1% less current, at 2.87&nbsp;mA. I calculated every value by hand first, then checked it in Multisim.</p>
+                <p>My first amplifier quietly threw most of the signal away. A simple differential amplifier loaded the sensor bridge: I predicted 78% signal loss, and simulation showed 60%. It also couldn't swing negative on a single 5&nbsp;V supply, so it clipped at +10&nbsp;g. Raising its resistors tenfold still lost 26% on paper and 13% in simulation, more than the 10% a precision measurement can tolerate, so instead of retuning further I looked for the cause. The bridge's output impedance was too high for the amplifier's input impedance. A three-op-amp instrumentation amplifier, with its much higher input impedance, cut the loss to 0.35%, and biasing its output at 2.5&nbsp;V kept the full ±10&nbsp;g range inside the supply.</p>
+                <p>The amplifier delivered 102.5&nbsp;mV/g, inside the 100&nbsp;±&nbsp;5&nbsp;mV/g target. With the filters added, sensitivity was 96&nbsp;mV/g at 100&nbsp;Hz and peaked at 110&nbsp;mV/g at 50&nbsp;Hz, 10% over target; gain varied by 1.2&nbsp;dB from 50 to 100&nbsp;Hz, within the 1.5&nbsp;dB flatness target. A final change cut the current draw by 7.1%, to 2.87&nbsp;mA. I calculated every value by hand first, then checked it in Multisim.</p>
                 <p>If I did it again, I'd build it on a protoboard to see real op-amp offsets.</p>
               </div>
             </div>

@@ -336,6 +336,7 @@
   }
   details.more[open] summary::before { content: "−"; }
   details.more summary:hover { text-decoration: underline; }
+  .more-story p { margin: 12px 0 0; font-size: 15px; }
   .more-list { margin: 12px 0 0; padding-left: 18px; font-size: 14px; }
   .more-list li { margin-bottom: 7px; }
   .more-list li::marker { color: var(--muted); }
@@ -673,27 +674,24 @@
             <h4 class="p-title">Wireless RFID E-Textile Breathing Sensor</h4>
             <span class="badge">First-class mark</span>
           </div>
-          <p class="p-meta">Team of 5 · I led the sensor · 2025–26</p>
+          <p class="p-meta">Team of 5 · I led the sensor and antenna · 2025–26</p>
           <div class="chips">
             <span class="chip">ANSYS HFSS</span><span class="chip">KiCad</span><span class="chip">Multisim</span><span class="chip">RFID</span><span class="chip">Flexible PCB</span>
           </div>
-          <p class="p-body">A tag stuck to a shirt that reads breathing with no battery: the reader's radio signal powers it. I designed its sensor, a capaciflector. The chip's datasheet only described simple two-plate sensors, so I worked out how to drive <span class="callout">a three-electrode sensor from a single pin</span>. It picked up clear breathing from a metre away.</p>
+          <p class="p-body">A tag stuck to a shirt that reads breathing with no battery: the reader's radio signal powers it. I designed its sensor, a capaciflector, and its antenna. The chip's datasheet only described simple two-plate sensors, so I worked out how to drive <span class="callout">a three-electrode sensor from a single pin</span>. It picked up clear breathing from a metre away.</p>
         </div>
       
         <details class="more">
           <summary>Read more</summary>
           <div class="more-body has-figs">
             <div class="more-text">
-              <ul class="more-list">
-            <li><strong>Team and my part:</strong> team of 5; I led the capaciflector sensor, end to end.</li>
-            <li><strong>Problem:</strong> continuous breathing monitoring outside intensive care, with no battery on the patient. The RFID system can read many tags from one reader, so one reader could cover a whole ward; we tested a single tag.</li>
-            <li><strong>What I did:</strong> simulated the sensing principle in Multisim; designed and simulated the antenna in ANSYS HFSS, including the effect of the human body; produced ten flexible-PCB variants in KiCad and fixed manufacturing-rule violations; assembled the tags by hand.</li>
-            <li><strong>Interface from first principles:</strong> routed the ground plane to the sensing pin so the chip drove both reflector and sensor electrodes. This went into the final design.</li>
-            <li><strong>When fabrication failed:</strong> screen-printed sensors shorted from air bubbles in the dielectric, twice. I switched to Kapton–copper clad, which worked reliably.</li>
-            <li><strong>Debugging:</strong> long wires made the data noisy; a compact version lost read range from antenna coupling; a smaller sensor geometry fixed both.</li>
-            <li><strong>Result:</strong> tested from 80 to 160&nbsp;cm with breathing paced at 6 per minute by a metronome. The pattern was clear at 80–100&nbsp;cm, still recognisable at 120&nbsp;cm, and weaker beyond. 100&nbsp;cm was the best compromise between patient comfort and signal, with an average peak-to-peak swing of 75 raw counts.</li>
-            <li><strong>What I'd change:</strong> test the fabrication route in week 1, not week 7.</li>
-          </ul>
+              <div class="more-story">
+                <p>The brief was continuous breathing monitoring for patients outside intensive care, with nothing on the patient that needs a battery. Our team of five built a passive RFID tag that sticks to clothing. I led two parts of it, the sensor (a capaciflector) and the antenna, from the first simulations to the finished tags.</p>
+                <p>The first puzzle was the chip. It had a single sensing pin, and its datasheet only covered simple two-plate capacitors, but a capaciflector has three electrodes. Working from first principles, I routed the ground plane to the sensing pin so the chip drove both the reflector and the sensor electrode, and that went into the final design. I simulated the sensing principle in Multisim, and designed and simulated the antenna in ANSYS HFSS, including the effect of the wearer's body.</p>
+                <p>Then fabrication failed, twice. Our screen-printed sensors shorted because of air bubbles in the dielectric. I switched to Kapton–copper clad, which worked reliably, laid out ten flexible-PCB variants in KiCad, fixed their manufacturing-rule errors and assembled the tags by hand. Testing raised two more problems: long wires made the data noisy, and a more compact version lost read range because the sensor coupled to the antenna. A smaller sensor geometry fixed both.</p>
+                <p>In the end it read breathing clearly from a metre away. With breathing paced at 6 per minute by a metronome, we tested from 80 to 160&nbsp;cm. The pattern was clear up to 100&nbsp;cm, still recognisable at 120&nbsp;cm and weaker beyond. 100&nbsp;cm was the best balance between patient comfort and signal, with an average peak-to-peak swing of 75 raw counts. One reader can talk to many tags, so one reader could watch a whole ward; we only tested one.</p>
+                <p>If I did it again, I'd test the fabrication route in week 1, not week 7.</p>
+              </div>
             </div>
             <div class="more-figs">
               <figure class="p-media more-figure"><img src="p1-tag-worn.jpg" width="900" height="675" loading="lazy" decoding="async" alt="The finished tag adhered to a shirt, worn to monitor breathing"><figcaption>The finished tag adhered to a shirt, worn to monitor breathing</figcaption></figure>
@@ -723,12 +721,12 @@
           <summary>Read more</summary>
           <div class="more-body has-figs">
             <div class="more-text">
-              <ul class="more-list">
-            <li><strong>Problem:</strong> minimise an area cost figure for a fixed signal-processing task (a 5-tap Gaussian filter) on a Cyclone&nbsp;V.</li>
-            <li><strong>Key decision:</strong> NISC instead of an encoded-instruction design. A slightly wider program ROM removes all decoder logic and wins on area.</li>
-            <li><strong>Result:</strong> 9-instruction program, 7 clock cycles per output sample, all 8 test cases passed in Questa (positive, negative, boundary indices), confirmed on the DE1-SoC board.</li>
-            <li><strong>What I'd change:</strong> add a self-checking testbench against a Python reference model rather than hand-checked cases.</li>
-          </ul>
+              <div class="more-story">
+                <p>The task was fixed: smooth a 256-sample waveform with a 5-tap Gaussian filter on a Cyclone&nbsp;V FPGA, scored on how little hardware the processor used. Most processors encode their instructions and then spend logic decoding them.</p>
+                <p>I went the other way. In a No-Instruction-Set Computer (NISC), each instruction word simply is the set of control signals, so there is no decoder at all. The program memory gets slightly wider, but removing the decoder saves more than that costs.</p>
+                <p>The whole filter came down to nine instructions. It produces one output sample every seven clock cycles, using 63 logic elements and one DSP multiplier. All eight test cases passed in Questa simulation, covering positive, negative and boundary indices, and the design ran correctly on the DE1-SoC board.</p>
+                <p>If I did it again, I'd check it with a self-checking testbench against a Python reference model, rather than checking each case by hand.</p>
+              </div>
             </div>
             <div class="more-figs">
               <figure class="p-media more-figure"><img src="p2-sim.png" width="1003" height="220" loading="lazy" decoding="async" alt="Questa simulation: the program counter steps through the MAC instructions while the accumulator and LED output build the smoothed sample"><figcaption>Questa simulation: the program counter steps through the MAC instructions while the accumulator and LED output build the smoothed sample</figcaption></figure>
@@ -758,12 +756,12 @@
           <summary>Read more</summary>
           <div class="more-body has-figs">
             <div class="more-text">
-              <ul class="more-list">
-            <li><strong>Chain:</strong> Wheatstone bridge model → three-op-amp instrumentation amplifier → cascaded 2nd-order Butterworth filters giving a 20–170&nbsp;Hz passband (1,200–10,200&nbsp;RPM).</li>
-            <li><strong>Diagnosis, not retuning:</strong> traced the loss to bridge output impedance versus amplifier input impedance. Raising resistors 10× only reduced loss to 26%, so I changed topology.</li>
-            <li><strong>Result:</strong> 96–110&nbsp;mV/g, ±1.2&nbsp;dB passband flatness, current cut 7.1% to 2.87&nbsp;mA. All values calculated by hand, then checked in Multisim.</li>
-            <li><strong>What I'd change:</strong> build it on a protoboard to see real op-amp offsets.</li>
-          </ul>
+              <div class="more-story">
+                <p>An engine controller needed a clean vibration signal, scaled to 100&nbsp;±&nbsp;5&nbsp;mV/g, from a piezoresistive accelerometer, all on a single 5&nbsp;V supply. I designed the chain: the sensor modelled as a Wheatstone bridge, then an amplifier, then cascaded second-order Butterworth filters passing 20–170&nbsp;Hz, the vibration range of an engine running at 1,200–10,200&nbsp;RPM.</p>
+                <p>My first amplifier quietly threw most of the signal away. A simple differential amplifier loaded the sensor bridge: I predicted 78% signal loss, and simulation showed 60%. Raising the resistors tenfold only brought it down to 26%, so instead of retuning further I looked for the cause. The bridge's output impedance was too high for the amplifier's input impedance. A three-op-amp instrumentation amplifier, with its much higher input impedance, cut the loss to 0.35%.</p>
+                <p>The finished chain gave 96–110&nbsp;mV/g with ±1.2&nbsp;dB passband flatness, and drew 7.1% less current, at 2.87&nbsp;mA. I calculated every value by hand first, then checked it in Multisim.</p>
+                <p>If I did it again, I'd build it on a protoboard to see real op-amp offsets.</p>
+              </div>
             </div>
             <div class="more-figs">
               <figure class="p-media more-figure"><img src="p6-system.png" width="1910" height="657" loading="lazy" decoding="async" alt="The complete chain in Multisim: sensor bridge model, three-op-amp instrumentation amplifier, then the cascaded high-pass and low-pass filters"><figcaption>The complete chain in Multisim: sensor bridge model, three-op-amp instrumentation amplifier, then the cascaded high-pass and low-pass filters</figcaption></figure>
@@ -793,13 +791,12 @@
           <summary>Read more</summary>
           <div class="more-body has-figs">
             <div class="more-text">
-              <ul class="more-list">
-            <li><strong>Result:</strong> resonance near 98&nbsp;MHz, quality factor 270–400.</li>
-            <li><strong>Method:</strong> 1-ω mixing measurement under back-gate bias 0–2&nbsp;V and drive power 0 to −8&nbsp;dB; Lorentzian fits for frequency and Q.</li>
-            <li><strong>Model:</strong> COMSOL eigenfrequency study of a pure-silicon beam (99.13&nbsp;MHz) and a Si/SiO₂ core-shell beam (95.02&nbsp;MHz).</li>
-            <li><strong>Also:</strong> a critical review of a published nonlinear-resonance modelling method on identical devices.</li>
-            <li><strong>What I'd change:</strong> fit the Duffing model directly instead of tracking peak shift.</li>
-          </ul>
+              <div class="more-story">
+                <p>The device was a 2&nbsp;µm silicon beam, a nanoelectromechanical (NEM) resonator, and the job was to find out how it really behaves. I measured it electrically with a lock-in amplifier, using a 1-ω mixing technique, while sweeping the back-gate bias from 0 to 2&nbsp;V and the drive power from 0 to −8&nbsp;dB. Fitting Lorentzian curves in Python gave the resonance frequency and quality factor.</p>
+                <p>It resonated near 98&nbsp;MHz, with a quality factor of 270–400. To check that against physics, I built COMSOL eigenfrequency models of a pure silicon beam (99.13&nbsp;MHz) and a silicon beam with an oxide shell (95.02&nbsp;MHz). The measurement sat between the two, and the model matched within 3%.</p>
+                <p>Driven harder, the resonance climbed by 3&nbsp;MHz. That is Duffing stiffening: the beam's effective stiffness rises with the size of its swing. I also wrote a critical review of a published method for modelling this nonlinear behaviour on identical devices.</p>
+                <p>If I did it again, I'd fit the Duffing model directly instead of tracking how the peak moves.</p>
+              </div>
             </div>
             <div class="more-figs">
               <figure class="p-media more-figure"><img src="p3-ac-sweep.svg" width="800" height="560" loading="lazy" decoding="async" alt="Measured in-phase current at five drive powers, stacked. The fitted resonance moves from 97.3&nbsp;MHz at −8&nbsp;dB to 100.3&nbsp;MHz at 0&nbsp;dB, the Duffing stiffening signature"><figcaption>Measured in-phase current at five drive powers, stacked. The fitted resonance moves from 97.3&nbsp;MHz at −8&nbsp;dB to 100.3&nbsp;MHz at 0&nbsp;dB, the Duffing stiffening signature</figcaption></figure>
@@ -828,12 +825,12 @@
           <summary>Read more</summary>
           <div class="more-body has-figs">
             <div class="more-text">
-              <ul class="more-list">
-            <li><strong>Build:</strong> charge amplifier gain 20; shaker sweeps at three test masses.</li>
-            <li><strong>Sensor check:</strong> characterised the disc on an LCR meter (18.44&nbsp;nF at 1&nbsp;kHz, within datasheet tolerance).</li>
-            <li><strong>Simulation versus measurement:</strong> explained the gap through protoboard parasitics, series resistors replacing one 10&nbsp;MΩ part, and probe loading.</li>
-            <li><strong>What I'd change:</strong> use a reference accelerometer to separate the shaker's response from the sensor's.</li>
-          </ul>
+              <div class="more-story">
+                <p>The goal was to turn a bare piezoelectric disc into a working accelerometer. I designed a 3D-printed housing and a two-stage charge amplifier with a gain of 20, and first checked the disc itself on an LCR meter: 18.44&nbsp;nF at 1&nbsp;kHz, within the datasheet tolerance.</p>
+                <p>The first sweep didn't make sense. On a shaker, from 0.5&nbsp;Hz to 5&nbsp;kHz with three different test masses, the biggest peak sat near 850&nbsp;Hz, far from the datasheet's 4.2&nbsp;kHz. Rather than blame the sensor, I traced that peak to the shaker's own resonance. With it accounted for, the disc's own peaks appeared at 2.5–2.7&nbsp;kHz, shifting with the added mass.</p>
+                <p>Simulation and measurement didn't match exactly, and I could explain why: parasitics on the protoboard, a chain of series resistors standing in for one 10&nbsp;MΩ part, and loading from the probe.</p>
+                <p>If I did it again, I'd use a reference accelerometer to separate the shaker's response from the sensor's.</p>
+              </div>
             </div>
             <div class="more-figs">
               <figure class="p-media more-figure"><img src="p5-cad.png" width="826" height="612" loading="lazy" decoding="async" alt="SolidWorks model of the housing: internal ledge to seat the disc, central hole for the shaker rod, side windows for the wires"><figcaption>SolidWorks model of the housing: internal ledge to seat the disc, central hole for the shaker rod, side windows for the wires</figcaption></figure>
@@ -864,11 +861,10 @@
           <summary>Read more</summary>
           <div class="more-body has-figs">
             <div class="more-text">
-              <ul class="more-list">
-            <li><strong>Features:</strong> TF-IDF word features; compared unigrams and bigrams; the final models used unigrams.</li>
-            <li><strong>Tuning:</strong> grid search for both models.</li>
-            <li><strong>Evaluation:</strong> micro-averaged F1 and confusion matrices on a held-out test set.</li>
-          </ul>
+              <div class="more-story">
+                <p>The question was whether a model can tell fake social-media posts from real ones using only their wording. I worked with posts from the MediaEval dataset, turned the text into TF-IDF word features, and compared single words (unigrams) with pairs of words (bigrams); the final models used unigrams.</p>
+                <p>The simpler model won. I tuned a Support Vector Classifier and a Multinomial Naive Bayes model with a grid search, then evaluated both on a held-out test set using micro-averaged F1 and confusion matrices. Naive Bayes scored 0.86 against the classifier's 0.83, and its smaller gap between training and test scores showed it generalised better.</p>
+              </div>
             </div>
             <div class="more-figs">
               <figure class="p-media more-figure"><img src="p4-f1-gap.svg" width="800" height="360" loading="lazy" decoding="async" alt="Training versus test F1: the Support Vector Classifier drops from 0.98 to 0.83, while Naive Bayes holds closer, 0.92 to 0.86"><figcaption>Training versus test F1: the Support Vector Classifier drops from 0.98 to 0.83, while Naive Bayes holds closer, 0.92 to 0.86</figcaption></figure>
@@ -907,11 +903,12 @@
           <summary>Read more</summary>
           <div class="more-body has-figs">
             <div class="more-text">
-              <ul class="more-list">
-            <li><strong>Substitution:</strong> letter-frequency analysis.</li>
-            <li><strong>XOR file:</strong> a single-byte brute force failed, which pointed to a 2-byte key; each byte stream was then solved separately.</li>
-            <li><strong>Transposition:</strong> ruled out rail-fence ciphers with quadgram fitness scores before finding the column order.</li>
-          </ul>
+              <div class="more-story">
+                <p>Three messages, three unknown ciphers, no keys: the only clue was the ciphertext itself. I wrote the attacks in Python, and each answer had to pass a statistical test, not just look right.</p>
+                <p>The substitution cipher gave itself away through its letter frequencies. They still followed the shape of English, which identified the cipher type and guided the solution.</p>
+                <p>The hex file resisted the obvious attack. A single-byte XOR brute force failed, which pointed to a longer key. With a 2-byte key, every other byte shares the same key byte, so I split the file into two streams and solved each one separately.</p>
+                <p>The transposition cipher needed ruling out first. I scored every rail-fence arrangement with quadgram fitness, a measure of how English-like text is, and none came close. That pointed to a keyed columnar transposition, and finding its column order produced English.</p>
+              </div>
             </div>
             <div class="more-figs">
               <figure class="p-media more-figure"><img src="p7-letter-freq.svg" width="640" height="390" loading="lazy" decoding="async" alt="Bar chart: the substitution cipher's letter frequencies, ranked from most to least common, follow the English curve closely; index of coincidence 0.067 against 0.065 for English and 0.038 for random letters"><figcaption>Substitution: the ranked letter frequencies follow English, and the index of coincidence (0.067) matches English (0.065), not random text (0.038)</figcaption></figure>
@@ -939,12 +936,11 @@
             <summary>Read more</summary>
             <div class="more-body">
               <div class="more-text">
-                <ul class="more-list">
-            <li><strong>Approach:</strong> tied input capacitance, feedback resistance, compensation, bandwidth and noise together instead of checking each alone; checked calculations against manufacturer data.</li>
-            <li><strong>Findings:</strong> the placeholder faults, a summing-node resistor that likely belonged on the guard-buffer output, marginal phase margin in both stages, and missing test points.</li>
-            <li><strong>Testability:</strong> proposed current-injection points and a validation sequence.</li>
-            <li><strong>What I'd change, from the reviewers' feedback:</strong> lead with a one-page list of board-stopping issues before secondary findings; state the assumptions behind any component recommendation; confirm layout findings in the native PCB viewer before reporting them.</li>
-          </ul>
+                <div class="more-story">
+                <p>The challenge: review a two-stage photodiode amplifier board across its schematic, layout and bring-up, and say what's wrong. Instead of checking each part alone, I treated input capacitance, feedback resistance, compensation, bandwidth and noise as one connected problem, and checked my calculations against manufacturer data.</p>
+                <p>The biggest find was a mistake repeated across the board: a placeholder pattern that disabled the feedback and compensation networks. I also found a resistor on the summing node that most likely belonged on the guard buffer's output, marginal phase margin in both stages, and no test points. To make the board testable, I proposed current-injection points and a step-by-step bring-up and validation plan covering gain, bandwidth, noise and stability.</p>
+                <p>The reviewers' feedback taught me how to report, not just what to find. Next time I'd lead with a one-page list of board-stopping issues before the secondary findings, state the assumptions behind any component recommendation, and confirm layout findings in the native PCB viewer before reporting them.</p>
+              </div>
               </div>
             </div>
           </details>
@@ -961,12 +957,11 @@
             <summary>Read more</summary>
             <div class="more-body has-figs">
               <div class="more-text">
-                <ul class="more-list">
-            <li><strong>Team and my part:</strong> team of 6; I owned power quality and filtering.</li>
-            <li><strong>Group study:</strong> design decisions from case studies of operating links. My section showed the half-bridge MMC's staircase output keeps AC-side distortion within IEEE&nbsp;519 without tuned filter banks, and sized the phase reactor.</li>
-            <li><strong>Individual simulations:</strong> Line-Commutated Converter (LCC) voltage, commutation overlap and harmonics; designed 5th, 7th and damped AC filters that cut total harmonic distortion from 27.27% to 7.13%; voltage-source converter power flow and a 3-level converter. Plots produced in Python.</li>
-            <li><strong>Next step we identified:</strong> electromagnetic transient studies of converter–grid resonance before finalising reactors.</li>
-          </ul>
+                <div class="more-story">
+                <p>The brief was a 2000&nbsp;MW link under 200&nbsp;km of sea between two power grids that don't run in sync. Our team of six chose the converter type, ratings, cable and protection, basing each decision on case studies of links already in operation. We settled on a ±525&nbsp;kV bipole using half-bridge Modular Multilevel Converters (MMC).</p>
+                <p>I owned power quality and filtering. The MMC builds its AC output as a fine staircase of small voltage steps, and my section showed that this keeps AC-side distortion within the IEEE&nbsp;519 limit without banks of tuned filters. I also sized the phase reactor. The next step we identified was electromagnetic transient studies of resonance between converter and grid before finalising the reactors.</p>
+                <p>Separately, I simulated other converter types in MATLAB/Simulink. For a line-commutated converter (LCC), I modelled the output voltage, commutation overlap and harmonics, then designed tuned 5th and 7th and damped 12th AC filters that cut total harmonic distortion from 27.27% to 7.13%. I also simulated voltage-source converter power flow and a 3-level converter, and produced the plots in Python.</p>
+              </div>
               </div>
               <div class="more-figs">
                 <figure class="p-media more-figure"><img src="p8-hvdc-thd.svg" width="800" height="460" loading="lazy" decoding="async" alt="Bar chart of AC-side total harmonic distortion: 27.27% with no filter, 16.21% with a tuned 5th filter, 7.04% adding a tuned 7th, 7.13% adding a damped 12th"><figcaption>Bar chart of AC-side total harmonic distortion: 27.27% with no filter, 16.21% with a tuned 5th filter, 7.04% adding a tuned 7th, 7.13% adding a damped 12th</figcaption></figure>
@@ -986,12 +981,11 @@
             <summary>Read more</summary>
             <div class="more-body">
               <div class="more-text">
-                <ul class="more-list">
-            <li><strong>NFC:</strong> card key recovery with libnfc tools.</li>
-            <li><strong>Side channel:</strong> ChipWhisperer power traces linked to loop iterations in the target's C code.</li>
-            <li><strong>Radio:</strong> the replay attack worked 96% of the time, but only within 6&nbsp;cm.</li>
-            <li><strong>GSM:</strong> A5 encryption variants and subscriber identifiers.</li>
-          </ul>
+                <div class="more-story">
+                <p>Across a series of labs, my partner and I attacked real hardware. We started with an access card: using libnfc tools, we recovered the secret keys from a MIFARE Classic tag.</p>
+                <p>Then we read a chip through its power supply. With a ChipWhisperer, we captured a microcontroller's power traces and matched their pattern to the loop iterations in the C code it was running.</p>
+                <p>Our radio replay attack worked, with a catch. We recorded a 433.92&nbsp;MHz remote-control signal and replayed it to trigger a relay. It worked 96% of the time, but only within 6&nbsp;cm. Finally, we analysed GSM: its A5 encryption variants and how phones identify subscribers.</p>
+              </div>
               </div>
             </div>
           </details>

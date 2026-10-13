@@ -646,7 +646,7 @@
       </div>
       <div class="skill-cat">
         <h3>SIMULATION &amp; INSTRUMENTATION</h3>
-        <p><button type="button" class="skill" data-skill="hfss">ANSYS HFSS</button>, <button type="button" class="skill" data-skill="comsol">COMSOL</button>, <button type="button" class="skill" data-skill="solidworks">SolidWorks</button>, <button type="button" class="skill" data-skill="multisim">NI Multisim</button>/LTSpice; oscilloscopes, signal generators, <button type="button" class="skill" data-skill="lockin" data-label="Lock-in amplifiers">lock-in amplifiers</button>, <button type="button" class="skill" data-skill="lcr">LCR meters</button>.</p>
+        <p><button type="button" class="skill" data-skill="hfss">ANSYS HFSS</button>, <button type="button" class="skill" data-skill="comsol">COMSOL</button>, <button type="button" class="skill" data-skill="solidworks">SolidWorks</button>, <button type="button" class="skill" data-skill="multisim">NI Multisim</button>/LTSpice, plus oscilloscopes, signal generators, <button type="button" class="skill" data-skill="lockin" data-label="Lock-in amplifiers">lock-in amplifiers</button>, <button type="button" class="skill" data-skill="lcr">LCR meters</button>.</p>
       </div>
       <div class="skill-cat">
         <h3>PROGRAMMING</h3>
@@ -658,7 +658,7 @@
 
   <section class="projects" id="projects">
     <h2 class="section-title">Engineering projects <span class="title-note">2023–2026</span></h2>
-    <p class="section-hint">Select any project to read more: the problem, the method and the result.</p>
+    <p class="section-hint">Select any project to read the problem, the method and the result.</p>
 
     <!-- ===== Tier 1: Selected projects. data-wave picks the divider waveform ===== -->
     <div class="tier" aria-labelledby="tier-selected">
@@ -678,7 +678,7 @@
           <div class="chips">
             <span class="chip">ANSYS HFSS</span><span class="chip">KiCad</span><span class="chip">Multisim</span><span class="chip">RFID</span><span class="chip">Flexible PCB</span>
           </div>
-          <p class="p-body">A tag stuck to a shirt that reads breathing with no battery: the reader's radio signal powers it. I designed its sensor, a capaciflector, and its antenna. The chip's datasheet only described simple two-plate sensors, so I worked out how to drive <span class="callout">a three-electrode sensor from a single pin</span>. It picked up clear breathing from a metre away.</p>
+          <p class="p-body">A tag stuck to a shirt that reads breathing with no battery, because the reader's radio signal powers it. I designed its sensor, a capaciflector, and its antenna. The chip's datasheet only described simple two-plate sensors, so I worked out how to drive <span class="callout">a three-electrode sensor from a single pin</span>. It picked up clear breathing from a metre away.</p>
         </div>
       
         <details class="more">
@@ -688,7 +688,7 @@
               <div class="more-story">
                 <p>The brief was continuous breathing monitoring for patients outside intensive care, with nothing on the patient that needs a battery. Our team of five built a passive RFID tag that sticks to clothing. I led two parts of it, the sensor (a capaciflector) and the antenna, from the first simulations to the finished tags.</p>
                 <p>The first puzzle was the chip. It had a single sensing pin, and its datasheet only covered simple two-plate capacitors, but a capaciflector has three electrodes. Working from first principles, I routed the ground plane to the sensing pin so the chip drove both the reflector and the sensor electrode, and that went into the final design. I simulated the sensing principle in Multisim, and designed and simulated the antenna in ANSYS HFSS, including the effect of the wearer's body.</p>
-                <p>Then fabrication failed, twice. Our screen-printed sensors shorted because of air bubbles in the dielectric, in week 7 and again in week 8. On my supervisor's advice I switched to Kapton–copper clad and made it work reliably. I designed ten flexible-PCB layouts in KiCad, chose the four most promising to manufacture, fixed their manufacturing-rule errors and assembled the tags by hand. Testing raised two more problems: long wires made the data noisy, and a more compact version lost read range because the sensor coupled to the antenna. A smaller sensor geometry fixed both.</p>
+                <p>Then fabrication failed, twice. Our screen-printed sensors shorted because of air bubbles in the dielectric, in week 7 and again in week 8. On my supervisor's advice I switched to Kapton–copper clad and made it work reliably. I designed ten flexible-PCB layouts in KiCad, chose the four most promising to manufacture, fixed their manufacturing-rule errors and assembled the tags by hand. Testing raised two more problems. Long wires made the data noisy, and a more compact version lost read range because the sensor coupled to the antenna. A smaller sensor geometry fixed both.</p>
                 <p>In the end it read breathing clearly from a metre away. With breathing paced at 6 per minute by a metronome, we tested from 80 to 160&nbsp;cm. The pattern was clear up to 100&nbsp;cm, still recognisable at 120&nbsp;cm and weaker beyond. 100&nbsp;cm was the best balance between patient comfort and signal, with an average peak-to-peak swing of 75 raw counts. The reader picked up several tags at once, each with its own ID, so one reader could in principle watch a whole ward. We only had one working breathing sensor, though, so readings from several patients at once are still untested.</p>
                 <p>If I did it again, I'd test the fabrication route in week 1, not week 7.</p>
               </div>
@@ -703,7 +703,7 @@
 
       <article class="project reverse" id="p-nisc" data-skills="rtl fpga" data-wave="clock">
         <div class="p-media">
-          <img src="p2-datapath.svg" width="1000" height="640" loading="lazy" decoding="async" alt="NISC datapath: program counter and 16-bit control word store, the control word split into seven fields, and the address register, waveform ROM, multiplier, bit slice, adder, mux and accumulator they drive">
+          <img src="p2-datapath.svg" width="1000" height="640" loading="lazy" decoding="async" alt="NISC datapath, showing the program counter and 16-bit control word store, the control word split into seven fields, and the address register, waveform ROM, multiplier, bit slice, adder, mux and accumulator they drive">
         </div>
         <div class="p-content">
           <div class="p-head">
@@ -714,7 +714,7 @@
           <div class="chips">
             <span class="chip">SystemVerilog</span><span class="chip">Questa</span><span class="chip">Intel Quartus</span><span class="chip">Cyclone V</span>
           </div>
-          <p class="p-body">A processor with no instruction decoder: each instruction word is itself the set of control signals. I built one to run a Gaussian smoothing filter over a 256-sample waveform as cheaply as possible on an FPGA. It used just <span class="callout">63 of the FPGA's logic blocks</span> and one multiplier, and ran correctly in simulation and on the board.</p>
+          <p class="p-body">A processor with no instruction decoder, where each instruction word is itself the set of control signals. I built one to run a Gaussian smoothing filter over a 256-sample waveform as cheaply as possible on an FPGA. It used just <span class="callout">63 of the FPGA's logic blocks</span> and one multiplier, and ran correctly in simulation and on the board.</p>
         </div>
       
         <details class="more">
@@ -722,13 +722,13 @@
           <div class="more-body has-figs">
             <div class="more-text">
               <div class="more-story">
-                <p>The task was fixed: smooth a 256-sample waveform with a 5-tap Gaussian filter on a Cyclone&nbsp;V FPGA, scored on how little hardware the processor used. Most processors encode their instructions and then spend logic decoding them.</p>
+                <p>The task was to smooth a 256-sample waveform with a 5-tap Gaussian filter on a Cyclone&nbsp;V FPGA, scored on how little hardware the processor used. Most processors encode their instructions and then spend logic decoding them.</p>
                 <p>I went the other way. In a No-Instruction-Set Computer (NISC), each instruction word simply is the set of control signals, so there is no decoder at all. The program memory gets slightly wider, but removing the decoder saves more than that costs.</p>
-                <p>The whole filter came down to nine instructions. It produces one output sample every seven clock cycles, using 63 ALMs (the Cyclone V's basic logic blocks), one DSP multiplier and no block RAM. All eight test cases, covering positive, negative and boundary indices, passed in simulation and on the DE1-SoC board, each checked against a Python model of the exact hardware arithmetic. Two changes would push it further: a synchronous read on the waveform memory, so it could use block RAM and possibly free logic, and a pipelined multiply-accumulate for a faster clock.</p>
+                <p>The whole filter came down to nine instructions. It produces one output sample every seven clock cycles, using 63 ALMs (the Cyclone V's basic logic blocks), one DSP multiplier and no block RAM. All eight test cases, covering positive, negative and boundary indices, passed in simulation and on the DE1-SoC board, each checked against a Python model of the exact hardware arithmetic. To push it further, I'd give the waveform memory a synchronous read so it could use block RAM and possibly free logic, and pipeline the multiply-accumulate for a faster clock.</p>
               </div>
             </div>
             <div class="more-figs">
-              <figure class="p-media more-figure"><img src="p2-sim.png" width="1003" height="220" loading="lazy" decoding="async" alt="Questa simulation: the program counter steps through the MAC instructions while the accumulator and LED output build the smoothed sample"><figcaption>Questa simulation: the program counter steps through the MAC instructions while the accumulator and LED output build the smoothed sample</figcaption></figure>
+              <figure class="p-media more-figure"><img src="p2-sim.png" width="1003" height="220" loading="lazy" decoding="async" alt="Questa simulation, with the program counter stepping through the MAC instructions while the accumulator and LED output build the smoothed sample"><figcaption>Questa simulation, with the program counter stepping through the MAC instructions while the accumulator and LED output build the smoothed sample</figcaption></figure>
               <figure class="p-media more-figure"><img src="p2-board.jpg" width="1400" height="1050" loading="lazy" decoding="async" alt="The design running on the DE1-SoC board, result shown on the LEDs"><figcaption>The design running on the DE1-SoC board, result shown on the LEDs</figcaption></figure>
             </div>
           </div>
@@ -748,7 +748,7 @@
           <div class="chips">
             <span class="chip">NI Multisim</span><span class="chip">Analogue design</span><span class="chip">Hand calculation</span>
           </div>
-          <p class="p-body">An engine controller needs a clean, correctly scaled vibration signal from an accelerometer, on a single 5&nbsp;V supply. My first amplifier quietly lost most of the signal: 78% on paper, 60% in simulation. Bigger resistors still lost 13%, so I traced the cause to the sensor's output impedance and changed the circuit to an instrumentation amplifier. The loss fell to <span class="callout">0.35%</span>, and the amplifier delivered 102.5&nbsp;mV/g, inside its 100&nbsp;±&nbsp;5&nbsp;mV/g target.</p>
+          <p class="p-body">An engine controller needs a clean, correctly scaled vibration signal from an accelerometer, on a single 5&nbsp;V supply. My first amplifier quietly lost most of the signal, 78% on paper and 60% in simulation. Bigger resistors still lost 13%, so I traced the cause to the sensor's output impedance and changed the circuit to an instrumentation amplifier. The loss fell to <span class="callout">0.35%</span>, and the amplifier delivered 102.5&nbsp;mV/g, inside its 100&nbsp;±&nbsp;5&nbsp;mV/g target.</p>
         </div>
       
         <details class="more">
@@ -756,14 +756,14 @@
           <div class="more-body has-figs">
             <div class="more-text">
               <div class="more-story">
-                <p>An engine controller needed a clean vibration signal, scaled to 100&nbsp;±&nbsp;5&nbsp;mV/g, from a piezoresistive accelerometer, all on a single 5&nbsp;V supply. I designed the chain: the sensor modelled as a Wheatstone bridge, then an amplifier, then cascaded second-order Butterworth filters passing 20–170&nbsp;Hz, the vibration range of an engine running at 1,200–10,200&nbsp;RPM.</p>
-                <p>My first amplifier quietly threw most of the signal away. A simple differential amplifier loaded the sensor bridge: I predicted 78% signal loss, and simulation showed 60%. It also couldn't swing negative on a single 5&nbsp;V supply, so it clipped at +10&nbsp;g. Raising its resistors tenfold still lost 26% on paper and 13% in simulation, more than the 10% a precision measurement can tolerate, so instead of retuning further I looked for the cause. The bridge's output impedance was too high for the amplifier's input impedance. A three-op-amp instrumentation amplifier, with its much higher input impedance, cut the loss to 0.35%, and biasing its output at 2.5&nbsp;V kept the full ±10&nbsp;g range inside the supply.</p>
-                <p>The amplifier delivered 102.5&nbsp;mV/g, inside the 100&nbsp;±&nbsp;5&nbsp;mV/g target. With the filters added, sensitivity was 96&nbsp;mV/g at 100&nbsp;Hz and peaked at 110&nbsp;mV/g at 50&nbsp;Hz, 10% over target; gain varied by 1.2&nbsp;dB from 50 to 100&nbsp;Hz, within the 1.5&nbsp;dB flatness target. A final change cut the current draw by 7.1%, to 2.87&nbsp;mA. I calculated every value by hand first, then checked it in Multisim. It has only been simulated so far; building it on a protoboard is the obvious next step, to see real op-amp offsets.</p>
+                <p>An engine controller needed a clean vibration signal, scaled to 100&nbsp;±&nbsp;5&nbsp;mV/g, from a piezoresistive accelerometer, all on a single 5&nbsp;V supply. I designed the whole chain, with the sensor modelled as a Wheatstone bridge, followed by an amplifier and cascaded second-order Butterworth filters passing 20–170&nbsp;Hz, the vibration range of an engine running at 1,200–10,200&nbsp;RPM.</p>
+                <p>My first amplifier quietly threw most of the signal away. A simple differential amplifier loaded the sensor bridge. I predicted 78% signal loss, and simulation showed 60%. It also couldn't swing negative on a single 5&nbsp;V supply, so it clipped at +10&nbsp;g. Raising its resistors tenfold still lost 26% on paper and 13% in simulation, more than the 10% a precision measurement can tolerate, so instead of retuning further I looked for the cause. The bridge's output impedance was too high for the amplifier's input impedance. A three-op-amp instrumentation amplifier, with its much higher input impedance, cut the loss to 0.35%, and biasing its output at 2.5&nbsp;V kept the full ±10&nbsp;g range inside the supply.</p>
+                <p>The amplifier delivered 102.5&nbsp;mV/g, inside the 100&nbsp;±&nbsp;5&nbsp;mV/g target. With the filters added, sensitivity was 96&nbsp;mV/g at 100&nbsp;Hz and peaked at 110&nbsp;mV/g at 50&nbsp;Hz, 10% over target. Gain varied by 1.2&nbsp;dB from 50 to 100&nbsp;Hz, within the 1.5&nbsp;dB flatness target. A final change cut the current draw by 7.1%, to 2.87&nbsp;mA. I calculated every value by hand first, then checked it in Multisim. It has only been simulated so far, so building it on a protoboard is the obvious next step, to see real op-amp offsets.</p>
               </div>
             </div>
             <div class="more-figs">
-              <figure class="p-media more-figure"><img src="p6-system.png" width="1910" height="657" loading="lazy" decoding="async" alt="The complete chain in Multisim: sensor bridge model, three-op-amp instrumentation amplifier, then the cascaded high-pass and low-pass filters"><figcaption>The complete chain in Multisim: sensor bridge model, three-op-amp instrumentation amplifier, then the cascaded high-pass and low-pass filters</figcaption></figure>
-              <figure class="p-media more-figure"><img src="p6-bode.png" width="1114" height="699" loading="lazy" decoding="async" alt="Simulated frequency response of the complete chain: a band-pass response peaking near 55&nbsp;Hz, inside the 20–170&nbsp;Hz engine band"><figcaption>Simulated frequency response of the complete chain: a band-pass response peaking near 55&nbsp;Hz, inside the 20–170&nbsp;Hz engine band</figcaption></figure>
+              <figure class="p-media more-figure"><img src="p6-system.png" width="1910" height="657" loading="lazy" decoding="async" alt="The complete chain in Multisim, from the sensor bridge model through the three-op-amp instrumentation amplifier to the cascaded high-pass and low-pass filters"><figcaption>The complete chain in Multisim, from the sensor bridge model through the three-op-amp instrumentation amplifier to the cascaded high-pass and low-pass filters</figcaption></figure>
+              <figure class="p-media more-figure"><img src="p6-bode.png" width="1114" height="699" loading="lazy" decoding="async" alt="Simulated frequency response of the complete chain, a band-pass response peaking near 55&nbsp;Hz, inside the 20–170&nbsp;Hz engine band"><figcaption>Simulated frequency response of the complete chain, a band-pass response peaking near 55&nbsp;Hz, inside the 20–170&nbsp;Hz engine band</figcaption></figure>
             </div>
           </div>
         </details>
@@ -782,7 +782,7 @@
           <div class="chips">
             <span class="chip">Lock-in amplifier</span><span class="chip">Python</span><span class="chip">COMSOL</span>
           </div>
-          <p class="p-body">A 2&nbsp;µm silicon beam that vibrates about 98 million times a second. I measured how it rings with lock-in detection, fitted the response in Python, and built a COMSOL model that matched <span class="callout">within 3%</span>. Driving it harder pushed the resonance up by 3&nbsp;MHz: the beam stiffens as it swings further, like a string pulled tighter.</p>
+          <p class="p-body">A 2&nbsp;µm silicon beam that vibrates about 98 million times a second. I measured how it rings with lock-in detection, fitted the response in Python, and built a COMSOL model that matched <span class="callout">within 3%</span>. Driving it harder pushed the resonance up by 3&nbsp;MHz, because the beam stiffens as it swings further, like a string pulled tighter.</p>
         </div>
       
         <details class="more">
@@ -792,7 +792,7 @@
               <div class="more-story">
                 <p>The device was a 2&nbsp;µm silicon beam, a nanoelectromechanical (NEM) resonator, and the job was to find out how it really behaves. I measured it electrically with a lock-in amplifier, using a 1-ω mixing technique, while sweeping the back-gate bias from 0 to 2&nbsp;V and the drive power from 0 to −8&nbsp;dB. The lab's LabVIEW program logged each sweep, and fitting Lorentzian curves in Python gave the resonance frequency and quality factor.</p>
                 <p>It resonated near 98&nbsp;MHz, with a quality factor of 270–400. To check that against physics, I built COMSOL eigenfrequency models of a pure silicon beam (99.13&nbsp;MHz) and a silicon beam with an oxide shell (95.02&nbsp;MHz). The measurement sat between the two, and the model matched within 3%.</p>
-                <p>Driven harder, the resonance climbed by 3&nbsp;MHz. That is Duffing stiffening: the beam's effective stiffness rises with the size of its swing. I also wrote a critical review of a published method for modelling this nonlinear behaviour on identical devices. Fitting a Duffing model directly, rather than tracking how the peak moves, would describe that shift more accurately.</p>
+                <p>Driven harder, the resonance climbed by 3&nbsp;MHz. That is Duffing stiffening, where the beam's effective stiffness rises with the size of its swing. I also wrote a critical review of a published method for modelling this nonlinear behaviour on identical devices. Fitting a Duffing model directly, rather than tracking how the peak moves, would describe that shift more accurately.</p>
               </div>
             </div>
             <div class="more-figs">
@@ -815,7 +815,7 @@
           <div class="chips">
             <span class="chip">SolidWorks</span><span class="chip">3D printing</span><span class="chip">NI Multisim</span><span class="chip">LCR meter</span>
           </div>
-          <p class="p-body">I turned a bare piezoelectric disc into a working accelerometer: a 3D-printed housing and a two-stage charge amplifier, tested on a shaker from 0.5&nbsp;Hz to 5&nbsp;kHz. The biggest peak came at 850&nbsp;Hz, nowhere near the datasheet's 4.2&nbsp;kHz. Rather than blame the sensor, I traced the likely cause to <span class="callout">the shaker's own resonance</span>; a second peak at 2.5–2.7&nbsp;kHz, which appeared once mass was added, is most likely the disc's.</p>
+          <p class="p-body">I turned a bare piezoelectric disc into a working accelerometer, with a 3D-printed housing and a two-stage charge amplifier, and tested it on a shaker from 0.5&nbsp;Hz to 5&nbsp;kHz. The biggest peak came at 850&nbsp;Hz, nowhere near the datasheet's 4.2&nbsp;kHz. Rather than blame the sensor, I traced the likely cause to <span class="callout">the shaker's own resonance</span>. A second peak at 2.5–2.7&nbsp;kHz, which appeared once mass was added, is most likely the disc's.</p>
         </div>
       
         <details class="more">
@@ -823,13 +823,13 @@
           <div class="more-body has-figs">
             <div class="more-text">
               <div class="more-story">
-                <p>The goal was to turn a bare piezoelectric disc into a working accelerometer. I designed a 3D-printed housing and a two-stage charge amplifier with a gain of 20, and first checked the disc itself on an LCR meter: 18.44&nbsp;nF at 1&nbsp;kHz, within the datasheet tolerance.</p>
-                <p>The biggest peak was in the wrong place. On a shaker, from 0.5&nbsp;Hz to 5&nbsp;kHz with no added mass, 0.7&nbsp;g and 1.4&nbsp;g, the biggest peak sat near 850&nbsp;Hz, far from the datasheet's 4.2&nbsp;kHz. Rather than blame the sensor, I attributed it to the shaker's own resonance: lab shakers typically resonate at a few hundred hertz. With mass added, a second peak appeared at 2.5–2.7&nbsp;kHz and moved down as the mass grew, most likely the disc's own resonance.</p>
-                <p>Simulation and measurement didn't match exactly, and I could explain why: parasitics on the protoboard, a chain of series resistors standing in for one 10&nbsp;MΩ part, and loading from the probe. The lab had no 30&nbsp;MΩ resistor, so the low-frequency cutoff came out at 1.6&nbsp;Hz instead of the specified 0.5&nbsp;Hz. A reference accelerometer on the shaker is the first thing I'd add, to separate its response from the sensor's.</p>
+                <p>The goal was to turn a bare piezoelectric disc into a working accelerometer. I designed a 3D-printed housing and a two-stage charge amplifier with a gain of 20, and first checked the disc itself on an LCR meter, which measured 18.44&nbsp;nF at 1&nbsp;kHz, within the datasheet tolerance.</p>
+                <p>The biggest peak was in the wrong place. On a shaker, from 0.5&nbsp;Hz to 5&nbsp;kHz with no added mass, 0.7&nbsp;g and 1.4&nbsp;g, the biggest peak sat near 850&nbsp;Hz, far from the datasheet's 4.2&nbsp;kHz. Rather than blame the sensor, I attributed it to the shaker's own resonance, since lab shakers typically resonate at a few hundred hertz. With mass added, a second peak appeared at 2.5–2.7&nbsp;kHz and moved down as the mass grew, most likely the disc's own resonance.</p>
+                <p>Simulation and measurement didn't match exactly, and I could explain why. The protoboard added parasitics, a chain of series resistors stood in for one 10&nbsp;MΩ part, and the probe loaded the circuit. The lab had no 30&nbsp;MΩ resistor, so the low-frequency cutoff came out at 1.6&nbsp;Hz instead of the specified 0.5&nbsp;Hz. A reference accelerometer on the shaker is the first thing I'd add, to separate its response from the sensor's.</p>
               </div>
             </div>
             <div class="more-figs">
-              <figure class="p-media more-figure"><img src="p5-cad.png" width="826" height="612" loading="lazy" decoding="async" alt="SolidWorks model of the housing: internal ledge to seat the disc, central hole for the shaker rod, side windows for the wires"><figcaption>SolidWorks model of the housing: internal ledge to seat the disc, central hole for the shaker rod, side windows for the wires</figcaption></figure>
+              <figure class="p-media more-figure"><img src="p5-cad.png" width="826" height="612" loading="lazy" decoding="async" alt="SolidWorks model of the housing, with an internal ledge to seat the disc, a central hole for the shaker rod and side windows for the wires"><figcaption>SolidWorks model of the housing, with an internal ledge to seat the disc, a central hole for the shaker rod and side windows for the wires</figcaption></figure>
               <figure class="p-media more-figure"><img src="p5-protoboard.jpg" width="1200" height="900" loading="lazy" decoding="async" alt="The two-stage charge amplifier built on protoboard"><figcaption>The two-stage charge amplifier built on protoboard</figcaption></figure>
               <figure class="p-media more-figure"><img src="p5-freqresponse.png" width="800" height="474" loading="lazy" decoding="async" alt="Measured frequency response across three mass conditions, showing the resonance peak shift"><figcaption>Measured frequency response across three mass conditions, showing the resonance peak shift</figcaption></figure>
             </div>
@@ -850,7 +850,7 @@
           <div class="chips">
             <span class="chip">Python</span><span class="chip">scikit-learn</span><span class="chip">pandas</span><span class="chip">NumPy</span>
           </div>
-          <p class="p-body">Can a model spot fake social-media posts from their wording alone? On posts from the MediaEval dataset, I compared a tuned Support Vector Classifier with the much simpler Naive Bayes. The simple model won, F1 0.86 against 0.83, with a <span class="callout">smaller train–test gap</span>: it generalised better.</p>
+          <p class="p-body">Can a model spot fake social-media posts from their wording alone? On posts from the MediaEval dataset, I compared a tuned Support Vector Classifier with the much simpler Naive Bayes. The simple model won, F1 0.86 against 0.83, with a <span class="callout">smaller train–test gap</span>, so it generalised better.</p>
         </div>
       
         <details class="more">
@@ -863,7 +863,7 @@
               </div>
             </div>
             <div class="more-figs">
-              <figure class="p-media more-figure"><img src="p4-f1-gap.svg" width="800" height="360" loading="lazy" decoding="async" alt="Training versus test F1: the Support Vector Classifier drops from 0.98 to 0.83, while Naive Bayes holds closer, 0.92 to 0.86"><figcaption>Training versus test F1: the Support Vector Classifier drops from 0.98 to 0.83, while Naive Bayes holds closer, 0.92 to 0.86</figcaption></figure>
+              <figure class="p-media more-figure"><img src="p4-f1-gap.svg" width="800" height="360" loading="lazy" decoding="async" alt="Training versus test F1. The Support Vector Classifier drops from 0.98 to 0.83, while Naive Bayes holds closer, from 0.92 to 0.86"><figcaption>Training versus test F1. The Support Vector Classifier drops from 0.98 to 0.83, while Naive Bayes holds closer, from 0.92 to 0.86</figcaption></figure>
             </div>
           </div>
         </details>
@@ -900,16 +900,16 @@
           <div class="more-body has-figs">
             <div class="more-text">
               <div class="more-story">
-                <p>Three messages, three unknown ciphers, no keys. I wrote the attacks in Python, and every answer had to pass the same test: re-encrypting the plaintext had to reproduce the original ciphertext exactly.</p>
-                <p>The substitution cipher beat pure statistics. Its letter frequencies still followed the shape of English, but mapping the most common letters straight onto e, t, a and so on produced nonsense: 269 letters is too short for reliable rankings, and two letters were tied at 4.8%. Combining the frequencies with word patterns cracked it, and the finished key had a structure that explained why my first guess, a simple Caesar shift, had failed.</p>
+                <p>Three messages, three unknown ciphers, no keys. I wrote the attacks in Python, and every answer had to pass the same test. Re-encrypting the plaintext had to reproduce the original ciphertext exactly.</p>
+                <p>The substitution cipher beat pure statistics. Its letter frequencies still followed the shape of English, but mapping the most common letters straight onto e, t, a and so on produced nonsense. With only 269 letters the rankings were unreliable, and two letters were tied at 4.8%. Combining the frequencies with word patterns cracked it, and the finished key had a structure that explained why my first guess, a simple Caesar shift, had failed.</p>
                 <p>The hex file gave itself away by halves. A single-byte key, worked out from a hint about the first letter, turned every other character into English and left the rest garbled, and a brute force over all 256 single-byte keys confirmed none worked. The even and odd bytes also sat in different value ranges, which pointed to a 2-byte key, so I split the file into two streams and brute-forced each one separately.</p>
-                <p>The transposition took six attempts. The text's length, 84 letters, limited the possible grid sizes. Simple columnar, rail-fence, route, skip and row-rearrangement ciphers all failed; I ruled out every rail-fence setting with a quadgram fitness score, a measure of how English-like text is. Then I brute-forced every column order of a keyed columnar transposition, scored each the same way, and one produced English.</p>
+                <p>The transposition took six attempts. The text's length, 84 letters, limited the possible grid sizes. Simple columnar, rail-fence, route, skip and row-rearrangement ciphers all failed, and I ruled out every rail-fence setting with a quadgram fitness score, a measure of how English-like text is. Then I brute-forced every column order of a keyed columnar transposition, scored each the same way, and one produced English.</p>
               </div>
             </div>
             <div class="more-figs">
-              <figure class="p-media more-figure"><img src="p7-letter-freq.svg" width="640" height="390" loading="lazy" decoding="async" alt="Bar chart: the substitution cipher's letter frequencies, ranked from most to least common, follow the English curve closely; index of coincidence 0.067 against 0.065 for English and 0.038 for random letters"><figcaption>Substitution: the ranked letter frequencies follow English, and the index of coincidence (0.067) matches English (0.065), not random text (0.038)</figcaption></figure>
-              <figure class="p-media more-figure"><img src="p7-xor-keylength.svg" width="640" height="390" loading="lazy" decoding="async" alt="Bar chart: assuming a 1, 3, 5, 7 or 9-byte key decodes only about half of the 90-byte file into readable text; every even length decodes all of it, and 2 bytes is the shortest"><figcaption>XOR file: odd key lengths decode only half the file; every even length decodes all of it, so the key is 2 bytes</figcaption></figure>
-              <figure class="p-media more-figure"><img src="p7-transposition.svg" width="640" height="390" loading="lazy" decoding="async" alt="Dot plot of quadgram fitness: every rail-fence setting from 2 to 20 rails scores between −7.1 and −6.3; keyed columnar widths 2 to 9 score similarly except width 6, which scores −4.1, inside the range of ordinary English"><figcaption>Transposition: no rail-fence setting comes close to English; one columnar width does. Statistics recomputed for this page; keys and text are not shown</figcaption></figure>
+              <figure class="p-media more-figure"><img src="p7-letter-freq.svg" width="640" height="390" loading="lazy" decoding="async" alt="Bar chart of the substitution cipher's letter frequencies, ranked from most to least common, following the English curve closely, with an index of coincidence of 0.067 against 0.065 for English and 0.038 for random letters"><figcaption>Substitution. The ranked letter frequencies follow English, and the index of coincidence (0.067) matches English (0.065), not random text (0.038)</figcaption></figure>
+              <figure class="p-media more-figure"><img src="p7-xor-keylength.svg" width="640" height="390" loading="lazy" decoding="async" alt="Bar chart showing that a 1, 3, 5, 7 or 9-byte key decodes only about half of the 90-byte file into readable text, while every even length decodes all of it and 2 bytes is the shortest"><figcaption>XOR file. Odd key lengths decode only half the file and every even length decodes all of it, so the key is 2 bytes</figcaption></figure>
+              <figure class="p-media more-figure"><img src="p7-transposition.svg" width="640" height="390" loading="lazy" decoding="async" alt="Dot plot of quadgram fitness. Every rail-fence setting from 2 to 20 rails scores between −7.1 and −6.3, and keyed columnar widths 2 to 9 score similarly except width 6, which scores −4.1, inside the range of ordinary English"><figcaption>Transposition. No rail-fence setting comes close to English, but one columnar width does. Statistics recomputed for this page, with keys and text not shown</figcaption></figure>
             </div>
           </div>
         </details>
@@ -933,8 +933,8 @@
             <div class="more-body">
               <div class="more-text">
                 <div class="more-story">
-                <p>The challenge: review a two-stage photodiode amplifier board across its schematic, layout and bring-up, and say what's wrong. Instead of checking each part alone, I treated input capacitance, feedback resistance, compensation, bandwidth and noise as one connected problem, and checked my calculations against manufacturer data.</p>
-                <p>The biggest find was a mistake repeated across the board: a placeholder pattern that disabled the feedback and compensation networks. I also found a resistor on the summing node that most likely belonged on the guard buffer's output, too little phase margin in both stages (only 3–5° in the second), and no test points. To make the board testable, I proposed current-injection points and a step-by-step bring-up and validation plan covering gain, bandwidth, noise and stability.</p>
+                <p>The challenge was to review a two-stage photodiode amplifier board across its schematic, layout and bring-up, and say what's wrong. Instead of checking each part alone, I treated input capacitance, feedback resistance, compensation, bandwidth and noise as one connected problem, and checked my calculations against manufacturer data.</p>
+                <p>The biggest find was a placeholder pattern, repeated across the board, that disabled the feedback and compensation networks. I also found a resistor on the summing node that most likely belonged on the guard buffer's output, too little phase margin in both stages (only 3–5° in the second), and no test points. To make the board testable, I proposed current-injection points and a step-by-step bring-up and validation plan covering gain, bandwidth, noise and stability.</p>
                 <p>The reviewers' feedback taught me how to report, not just what to find. Next time I'd lead with a one-page list of board-stopping issues before the secondary findings, state the assumptions behind any component recommendation, and confirm layout findings in the native PCB viewer before reporting them.</p>
               </div>
               </div>
@@ -960,7 +960,7 @@
               </div>
               </div>
               <div class="more-figs">
-                <figure class="p-media more-figure"><img src="p8-hvdc-thd.svg" width="800" height="460" loading="lazy" decoding="async" alt="Bar chart of AC-side total harmonic distortion: 27.27% with no filter, 16.21% with a tuned 5th filter, 7.04% adding a tuned 7th, 7.13% adding a damped 12th"><figcaption>Bar chart of AC-side total harmonic distortion: 27.27% with no filter, 16.21% with a tuned 5th filter, 7.04% adding a tuned 7th, 7.13% adding a damped 12th</figcaption></figure>
+                <figure class="p-media more-figure"><img src="p8-hvdc-thd.svg" width="800" height="460" loading="lazy" decoding="async" alt="Bar chart of AC-side total harmonic distortion, 27.27% with no filter, 16.21% with a tuned 5th filter, 7.04% adding a tuned 7th, 7.13% adding a damped 12th"><figcaption>Bar chart of AC-side total harmonic distortion, 27.27% with no filter, 16.21% with a tuned 5th filter, 7.04% adding a tuned 7th, 7.13% adding a damped 12th</figcaption></figure>
               </div>
             </div>
           </details>
@@ -978,7 +978,7 @@
             <div class="more-body">
               <div class="more-text">
                 <div class="more-story">
-                <p>Across a series of labs, my partner and I attacked real hardware. We started with an access card: using libnfc tools, we recovered the secret keys from a MIFARE Classic tag.</p>
+                <p>Across a series of labs, my partner and I attacked real hardware. We started with an access card, using libnfc tools to recover the secret keys from a MIFARE Classic tag.</p>
                 <p>Then we read a chip through its power supply. With a ChipWhisperer, we matched a microcontroller's power traces to the loop iterations in its C code, recovered a password one character at a time from how the power changed, and extracted an AES key with correlation power analysis.</p>
                 <p>Our radio replay attack worked, with a catch. We recorded a 433.92&nbsp;MHz remote-control signal and replayed it to trigger a relay. It worked 96% of the time, but only within 6&nbsp;cm. Finally, we captured a test GSM network's broadcasts with the radio and decoded them in Wireshark, reading the temporary IDs phones are paged by and checking whether encryption was switched on.</p>
               </div>
@@ -992,7 +992,7 @@
     <div class="tier" aria-labelledby="tier-early">
       <h3 class="tier-title" id="tier-early">EARLIER WORK</h3>
       <ul class="early-list">
-        <li id="e-ens" data-skills="cpp"><h4 class="p-title">Embedded Networked Systems</h4> <span class="p-meta">team of 5 · 2023–24</span> — wrote the data-link and physical layers in C on an AVR microcontroller with an RFM12 radio: bit-stuffed framing, stop-and-wait retransmission with a 0.5&nbsp;s timeout, CRC-16 error checking. My layers sent and acknowledged messages between two boards, but a radio-library build error stopped the team's layers being joined up before the demo. Lesson: integrate early.</li>
+        <li id="e-ens" data-skills="cpp"><h4 class="p-title">Embedded Networked Systems</h4> <span class="p-meta">team of 5 · 2023–24</span> — wrote the data-link and physical layers in C on an AVR microcontroller with an RFM12 radio, including bit-stuffed framing, stop-and-wait retransmission with a 0.5&nbsp;s timeout and CRC-16 error checking. My layers sent and acknowledged messages between two boards, but a radio-library build error stopped the team's layers being joined up before the demo. The lesson was to integrate early.</li>
         <li id="e-tline" data-skills="multisim"><h4 class="p-title">Transmission Line Equivalent Circuit</h4> <span class="p-meta">2023</span> — modelled a coaxial line as a cascade of LC sections in Multisim from its geometry (Z₀&nbsp;≈&nbsp;74.9&nbsp;Ω) and compared lossless and lossy behaviour under different loads.</li>
         <li id="e-chaos"><h4 class="p-title">Chaotic Oscillator</h4> <span class="p-meta">lab, with a partner · 2023</span> — built an inductor–diode circuit and observed period-doubling bifurcation on its way to chaos.</li>
       </ul>
@@ -1333,7 +1333,7 @@
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'zoom';
-      btn.setAttribute('aria-label', 'Enlarge image: ' + img.alt);
+      btn.setAttribute('aria-label', 'Enlarge image. ' + img.alt);
       img.replaceWith(btn);
       btn.append(img);
       btn.addEventListener('click', () => {
@@ -1638,7 +1638,7 @@
           const sel = window.getSelection();
           sel.removeAllRanges();
           sel.addRange(range);
-          out.textContent = 'Selected: press Ctrl+C or ⌘C';
+          out.textContent = 'Selected, press Ctrl+C or ⌘C to copy';
         }
         clearTimeout(timer);
         timer = setTimeout(() => { out.textContent = ''; }, 2500);

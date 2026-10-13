@@ -688,7 +688,7 @@
               <div class="more-story">
                 <p>The brief was continuous breathing monitoring for patients outside intensive care, with nothing on the patient that needs a battery. Our team of five built a passive RFID tag that sticks to clothing. I led two parts of it, the sensor (a capaciflector) and the antenna, from the first simulations to the finished tags.</p>
                 <p>The first puzzle was the chip. It had a single sensing pin, and its datasheet only covered simple two-plate capacitors, but a capaciflector has three electrodes. Working from first principles, I routed the ground plane to the sensing pin so the chip drove both the reflector and the sensor electrode, and that went into the final design. I simulated the sensing principle in Multisim, and designed and simulated the antenna in ANSYS HFSS, including the effect of the wearer's body.</p>
-                <p>Then fabrication failed, twice. Our screen-printed sensors shorted because of air bubbles in the dielectric. I switched to Kapton–copper clad, which worked reliably, laid out ten flexible-PCB variants in KiCad, fixed their manufacturing-rule errors and assembled the tags by hand. Testing raised two more problems: long wires made the data noisy, and a more compact version lost read range because the sensor coupled to the antenna. A smaller sensor geometry fixed both.</p>
+                <p>Then fabrication failed, twice. Our screen-printed sensors shorted because of air bubbles in the dielectric, in week 7 and again in week 8. On my supervisor's advice I switched to Kapton–copper clad and made it work reliably. I designed ten flexible-PCB layouts in KiCad, chose the four most promising to manufacture, fixed their manufacturing-rule errors and assembled the tags by hand. Testing raised two more problems: long wires made the data noisy, and a more compact version lost read range because the sensor coupled to the antenna. A smaller sensor geometry fixed both.</p>
                 <p>In the end it read breathing clearly from a metre away. With breathing paced at 6 per minute by a metronome, we tested from 80 to 160&nbsp;cm. The pattern was clear up to 100&nbsp;cm, still recognisable at 120&nbsp;cm and weaker beyond. 100&nbsp;cm was the best balance between patient comfort and signal, with an average peak-to-peak swing of 75 raw counts. One reader can talk to many tags, so one reader could watch a whole ward; we only tested one.</p>
                 <p>If I did it again, I'd test the fabrication route in week 1, not week 7.</p>
               </div>
@@ -714,7 +714,7 @@
           <div class="chips">
             <span class="chip">SystemVerilog</span><span class="chip">Questa</span><span class="chip">Intel Quartus</span><span class="chip">Cyclone V</span>
           </div>
-          <p class="p-body">A processor with no instruction decoder: each instruction word is itself the set of control signals. I built one to run a Gaussian smoothing filter over a 256-sample waveform as cheaply as possible on an FPGA. It needed just <span class="callout">63 logic elements</span> and one multiplier, and ran correctly in simulation and on the board.</p>
+          <p class="p-body">A processor with no instruction decoder: each instruction word is itself the set of control signals. I built one to run a Gaussian smoothing filter over a 256-sample waveform as cheaply as possible on an FPGA. It used just <span class="callout">63 of the FPGA's logic blocks</span> and one multiplier, and ran correctly in simulation and on the board.</p>
         </div>
       
         <details class="more">
@@ -724,8 +724,8 @@
               <div class="more-story">
                 <p>The task was fixed: smooth a 256-sample waveform with a 5-tap Gaussian filter on a Cyclone&nbsp;V FPGA, scored on how little hardware the processor used. Most processors encode their instructions and then spend logic decoding them.</p>
                 <p>I went the other way. In a No-Instruction-Set Computer (NISC), each instruction word simply is the set of control signals, so there is no decoder at all. The program memory gets slightly wider, but removing the decoder saves more than that costs.</p>
-                <p>The whole filter came down to nine instructions. It produces one output sample every seven clock cycles, using 63 logic elements and one DSP multiplier. All eight test cases passed in Questa simulation, covering positive, negative and boundary indices, and the design ran correctly on the DE1-SoC board.</p>
-                <p>If I did it again, I'd check it with a self-checking testbench against a Python reference model, rather than checking each case by hand.</p>
+                <p>The whole filter came down to nine instructions. It produces one output sample every seven clock cycles, using 63 ALMs (the Cyclone V's basic logic blocks), one DSP multiplier and no block RAM. All eight test cases, covering positive, negative and boundary indices, passed in simulation and on the DE1-SoC board, each checked against a Python model of the exact hardware arithmetic.</p>
+                <p>If I did it again, I'd give the waveform memory a synchronous read so it could use block RAM, which might free logic, and pipeline the multiply-accumulate for a faster clock.</p>
               </div>
             </div>
             <div class="more-figs">
@@ -818,7 +818,7 @@
           <div class="chips">
             <span class="chip">SolidWorks</span><span class="chip">3D printing</span><span class="chip">NI Multisim</span><span class="chip">LCR meter</span>
           </div>
-          <p class="p-body">I turned a bare piezoelectric disc into a working accelerometer: a 3D-printed housing and a two-stage charge amplifier, tested on a shaker from 0.5&nbsp;Hz to 5&nbsp;kHz. The biggest peak came at 850&nbsp;Hz, nowhere near the datasheet's 4.2&nbsp;kHz. Rather than blame the sensor, I showed it was <span class="callout">the shaker's own resonance</span>, and found the disc's real peaks at 2.5–2.7&nbsp;kHz.</p>
+          <p class="p-body">I turned a bare piezoelectric disc into a working accelerometer: a 3D-printed housing and a two-stage charge amplifier, tested on a shaker from 0.5&nbsp;Hz to 5&nbsp;kHz. The biggest peak came at 850&nbsp;Hz, nowhere near the datasheet's 4.2&nbsp;kHz. Rather than blame the sensor, I traced the likely cause to <span class="callout">the shaker's own resonance</span>; a second peak at 2.5–2.7&nbsp;kHz, which appeared once mass was added, is most likely the disc's.</p>
         </div>
       
         <details class="more">
@@ -827,8 +827,8 @@
             <div class="more-text">
               <div class="more-story">
                 <p>The goal was to turn a bare piezoelectric disc into a working accelerometer. I designed a 3D-printed housing and a two-stage charge amplifier with a gain of 20, and first checked the disc itself on an LCR meter: 18.44&nbsp;nF at 1&nbsp;kHz, within the datasheet tolerance.</p>
-                <p>The first sweep didn't make sense. On a shaker, from 0.5&nbsp;Hz to 5&nbsp;kHz with three different test masses, the biggest peak sat near 850&nbsp;Hz, far from the datasheet's 4.2&nbsp;kHz. Rather than blame the sensor, I traced that peak to the shaker's own resonance. With it accounted for, the disc's own peaks appeared at 2.5–2.7&nbsp;kHz, shifting with the added mass.</p>
-                <p>Simulation and measurement didn't match exactly, and I could explain why: parasitics on the protoboard, a chain of series resistors standing in for one 10&nbsp;MΩ part, and loading from the probe.</p>
+                <p>The biggest peak was in the wrong place. On a shaker, from 0.5&nbsp;Hz to 5&nbsp;kHz with no added mass, 0.7&nbsp;g and 1.4&nbsp;g, the biggest peak sat near 850&nbsp;Hz, far from the datasheet's 4.2&nbsp;kHz. Rather than blame the sensor, I attributed it to the shaker's own resonance: lab shakers typically resonate at a few hundred hertz. With mass added, a second peak appeared at 2.5–2.7&nbsp;kHz and moved down as the mass grew, most likely the disc's own resonance. Without a reference accelerometer I couldn't fully separate the two.</p>
+                <p>Simulation and measurement didn't match exactly, and I could explain why: parasitics on the protoboard, a chain of series resistors standing in for one 10&nbsp;MΩ part, and loading from the probe. The lab had no 30&nbsp;MΩ resistor, so the low-frequency cutoff came out at 1.6&nbsp;Hz instead of the specified 0.5&nbsp;Hz.</p>
                 <p>If I did it again, I'd use a reference accelerometer to separate the shaker's response from the sensor's.</p>
               </div>
             </div>
@@ -862,7 +862,7 @@
           <div class="more-body has-figs">
             <div class="more-text">
               <div class="more-story">
-                <p>The question was whether a model can tell fake social-media posts from real ones using only their wording. I worked with posts from the MediaEval dataset, turned the text into TF-IDF word features, and compared single words (unigrams) with pairs of words (bigrams); the final models used unigrams.</p>
+                <p>The question was whether a model can tell fake social-media posts from real ones using only their wording. I worked with posts from the MediaEval dataset, turned the text into TF-IDF word features, and compared single words (unigrams) with pairs of words (bigrams). Unigrams scored higher, because hashtags carry their meaning as single words.</p>
                 <p>The simpler model won. I tuned a Support Vector Classifier and a Multinomial Naive Bayes model with a grid search, then evaluated both on a held-out test set using micro-averaged F1 and confusion matrices. Naive Bayes scored 0.86 against the classifier's 0.83, and its smaller gap between training and test scores showed it generalised better.</p>
               </div>
             </div>
@@ -878,13 +878,13 @@
           <figure class="attack-log">
             <dl>
               <dt>SUBSTITUTION</dt>
-              <dd>letter frequencies → statistical check <span class="ok">✓</span></dd>
+              <dd>frequencies alone <span class="no">✗</span> → frequencies + word patterns <span class="ok">✓</span></dd>
               <dt>REPEATING-KEY XOR (HEX FILE)</dt>
               <dd>1-byte brute force <span class="no">✗</span> → 2-byte key → solve each byte stream <span class="ok">✓</span></dd>
               <dt>KEYED COLUMNAR TRANSPOSITION</dt>
-              <dd>rail fence ruled out by quadgram score <span class="no">✗</span> → column order <span class="ok">✓</span></dd>
+              <dd>5 other transpositions ruled out <span class="no">✗</span> → column order by quadgram score <span class="ok">✓</span></dd>
             </dl>
-            <figcaption>Attack path for each cipher. Keys, ciphertexts and plaintexts are deliberately not shown.</figcaption>
+            <figcaption>Attack path for each cipher. Every answer was verified by re-encrypting it. Keys, ciphertexts and plaintexts are deliberately not shown.</figcaption>
           </figure>
         </div>
         <div class="p-content">
@@ -896,7 +896,7 @@
           <div class="chips">
             <span class="chip">Python</span><span class="chip">Frequency analysis</span><span class="chip">Cryptanalysis</span>
           </div>
-          <p class="p-body">Three secret messages, three unknown ciphers, no keys. I broke a substitution cipher, a repeating-key XOR cipher hidden in a hex file, and a keyed columnar transposition. Each break was <span class="callout">confirmed by a statistical test</span>, not by eye.</p>
+          <p class="p-body">Three secret messages, three unknown ciphers, no keys. I broke a substitution cipher, a repeating-key XOR cipher hidden in a hex file, and a keyed columnar transposition, and <span class="callout">proved each answer by re-encrypting it</span> back to the exact ciphertext.</p>
         </div>
       
         <details class="more">
@@ -904,10 +904,10 @@
           <div class="more-body has-figs">
             <div class="more-text">
               <div class="more-story">
-                <p>Three messages, three unknown ciphers, no keys: the only clue was the ciphertext itself. I wrote the attacks in Python, and each answer had to pass a statistical test, not just look right.</p>
-                <p>The substitution cipher gave itself away through its letter frequencies. They still followed the shape of English, which identified the cipher type and guided the solution.</p>
-                <p>The hex file resisted the obvious attack. A single-byte XOR brute force failed, which pointed to a longer key. With a 2-byte key, every other byte shares the same key byte, so I split the file into two streams and solved each one separately.</p>
-                <p>The transposition cipher needed ruling out first. I scored every rail-fence arrangement with quadgram fitness, a measure of how English-like text is, and none came close. That pointed to a keyed columnar transposition, and finding its column order produced English.</p>
+                <p>Three messages, three unknown ciphers, no keys. I wrote the attacks in Python, and every answer had to pass the same test: re-encrypting the plaintext had to reproduce the original ciphertext exactly.</p>
+                <p>The substitution cipher beat pure statistics. Its letter frequencies still followed the shape of English, but mapping the most common letters straight onto e, t, a and so on produced nonsense: 269 letters is too short for reliable rankings, and two letters were tied at 4.8%. Combining the frequencies with word patterns cracked it, and the finished key had a structure that explained why my first guess, a simple Caesar shift, had failed.</p>
+                <p>The hex file gave itself away by halves. A single-byte key, worked out from a hint about the first letter, turned every other character into English and left the rest garbled, and a brute force over all 256 single-byte keys confirmed none worked. The even and odd bytes also sat in different value ranges, which pointed to a 2-byte key, so I split the file into two streams and brute-forced each one separately.</p>
+                <p>The transposition took six attempts. The text's length, 84 letters, limited the possible grid sizes. Simple columnar, rail-fence, route, skip and row-rearrangement ciphers all failed; I ruled out every rail-fence setting with a quadgram fitness score, a measure of how English-like text is. Then I brute-forced every column order of a keyed columnar transposition, scored each the same way, and one produced English.</p>
               </div>
             </div>
             <div class="more-figs">
@@ -938,7 +938,7 @@
               <div class="more-text">
                 <div class="more-story">
                 <p>The challenge: review a two-stage photodiode amplifier board across its schematic, layout and bring-up, and say what's wrong. Instead of checking each part alone, I treated input capacitance, feedback resistance, compensation, bandwidth and noise as one connected problem, and checked my calculations against manufacturer data.</p>
-                <p>The biggest find was a mistake repeated across the board: a placeholder pattern that disabled the feedback and compensation networks. I also found a resistor on the summing node that most likely belonged on the guard buffer's output, marginal phase margin in both stages, and no test points. To make the board testable, I proposed current-injection points and a step-by-step bring-up and validation plan covering gain, bandwidth, noise and stability.</p>
+                <p>The biggest find was a mistake repeated across the board: a placeholder pattern that disabled the feedback and compensation networks. I also found a resistor on the summing node that most likely belonged on the guard buffer's output, too little phase margin in both stages (only 3–5° in the second), and no test points. To make the board testable, I proposed current-injection points and a step-by-step bring-up and validation plan covering gain, bandwidth, noise and stability.</p>
                 <p>The reviewers' feedback taught me how to report, not just what to find. Next time I'd lead with a one-page list of board-stopping issues before the secondary findings, state the assumptions behind any component recommendation, and confirm layout findings in the native PCB viewer before reporting them.</p>
               </div>
               </div>
@@ -976,15 +976,15 @@
         <div class="chips">
           <span class="chip">Software-defined radio</span><span class="chip">ChipWhisperer</span><span class="chip">NFC/RFID</span><span class="chip">GSM</span>
         </div>
-        <p class="p-body">Four attacks on real hardware. We recovered the secret keys from a MIFARE Classic access card, worked out what a microcontroller was doing from its power consumption alone, and replayed a 433.92&nbsp;MHz remote-control signal to trigger a relay. We also analysed how GSM phones identify themselves and encrypt calls.</p>
+        <p class="p-body">Four attacks on real hardware. We recovered the secret keys from a MIFARE Classic access card, recovered a password and an AES key from a microcontroller's power consumption, and replayed a 433.92&nbsp;MHz remote-control signal to trigger a relay. We also captured and decoded a test GSM network's broadcasts.</p>
         <details class="more">
             <summary>Read more</summary>
             <div class="more-body">
               <div class="more-text">
                 <div class="more-story">
                 <p>Across a series of labs, my partner and I attacked real hardware. We started with an access card: using libnfc tools, we recovered the secret keys from a MIFARE Classic tag.</p>
-                <p>Then we read a chip through its power supply. With a ChipWhisperer, we captured a microcontroller's power traces and matched their pattern to the loop iterations in the C code it was running.</p>
-                <p>Our radio replay attack worked, with a catch. We recorded a 433.92&nbsp;MHz remote-control signal and replayed it to trigger a relay. It worked 96% of the time, but only within 6&nbsp;cm. Finally, we analysed GSM: its A5 encryption variants and how phones identify subscribers.</p>
+                <p>Then we read a chip through its power supply. With a ChipWhisperer, we matched a microcontroller's power traces to the loop iterations in its C code, recovered a password one character at a time from how the power changed, and extracted an AES key with correlation power analysis.</p>
+                <p>Our radio replay attack worked, with a catch. We recorded a 433.92&nbsp;MHz remote-control signal and replayed it to trigger a relay. It worked 96% of the time, but only within 6&nbsp;cm. Finally, we captured a test GSM network's broadcasts with the radio and decoded them in Wireshark, reading the temporary IDs phones are paged by and checking whether encryption was switched on.</p>
               </div>
               </div>
             </div>
@@ -996,7 +996,7 @@
     <div class="tier" aria-labelledby="tier-early">
       <h3 class="tier-title" id="tier-early">EARLIER WORK</h3>
       <ul class="early-list">
-        <li id="e-ens" data-skills="cpp"><h4 class="p-title">Embedded Networked Systems</h4> <span class="p-meta">team of 5 · 2023–24</span> — wrote the data-link and physical layers in C on an AVR microcontroller with an RFM12 radio: bit-stuffed framing, stop-and-wait retransmission with a 0.5&nbsp;s timeout, CRC-16 error checking. Each layer worked on its own, but the stack was not integrated before the demo. Lesson: integrate early.</li>
+        <li id="e-ens" data-skills="cpp"><h4 class="p-title">Embedded Networked Systems</h4> <span class="p-meta">team of 5 · 2023–24</span> — wrote the data-link and physical layers in C on an AVR microcontroller with an RFM12 radio: bit-stuffed framing, stop-and-wait retransmission with a 0.5&nbsp;s timeout, CRC-16 error checking. My layers sent and acknowledged messages between two boards, but a radio-library build error stopped the team's layers being joined up before the demo. Lesson: integrate early.</li>
         <li id="e-tline" data-skills="multisim"><h4 class="p-title">Transmission Line Equivalent Circuit</h4> <span class="p-meta">2023</span> — modelled a coaxial line as a cascade of LC sections in Multisim from its geometry (Z₀&nbsp;≈&nbsp;74.9&nbsp;Ω) and compared lossless and lossy behaviour under different loads.</li>
         <li id="e-chaos"><h4 class="p-title">Chaotic Oscillator</h4> <span class="p-meta">lab, with a partner · 2023</span> — built an inductor–diode circuit and observed period-doubling bifurcation on its way to chaos.</li>
       </ul>

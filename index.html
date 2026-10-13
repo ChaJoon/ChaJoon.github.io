@@ -689,7 +689,7 @@
                 <p>The brief was continuous breathing monitoring for patients outside intensive care, with nothing on the patient that needs a battery. Our team of five built a passive RFID tag that sticks to clothing. I led two parts of it, the sensor (a capaciflector) and the antenna, from the first simulations to the finished tags.</p>
                 <p>The first puzzle was the chip. It had a single sensing pin, and its datasheet only covered simple two-plate capacitors, but a capaciflector has three electrodes. Working from first principles, I routed the ground plane to the sensing pin so the chip drove both the reflector and the sensor electrode, and that went into the final design. I simulated the sensing principle in Multisim, and designed and simulated the antenna in ANSYS HFSS, including the effect of the wearer's body.</p>
                 <p>Then fabrication failed, twice. Our screen-printed sensors shorted because of air bubbles in the dielectric, in week 7 and again in week 8. On my supervisor's advice I switched to Kapton–copper clad and made it work reliably. I designed ten flexible-PCB layouts in KiCad, chose the four most promising to manufacture, fixed their manufacturing-rule errors and assembled the tags by hand. Testing raised two more problems: long wires made the data noisy, and a more compact version lost read range because the sensor coupled to the antenna. A smaller sensor geometry fixed both.</p>
-                <p>In the end it read breathing clearly from a metre away. With breathing paced at 6 per minute by a metronome, we tested from 80 to 160&nbsp;cm. The pattern was clear up to 100&nbsp;cm, still recognisable at 120&nbsp;cm and weaker beyond. 100&nbsp;cm was the best balance between patient comfort and signal, with an average peak-to-peak swing of 75 raw counts. One reader can talk to many tags, so one reader could watch a whole ward; we only tested one.</p>
+                <p>In the end it read breathing clearly from a metre away. With breathing paced at 6 per minute by a metronome, we tested from 80 to 160&nbsp;cm. The pattern was clear up to 100&nbsp;cm, still recognisable at 120&nbsp;cm and weaker beyond. 100&nbsp;cm was the best balance between patient comfort and signal, with an average peak-to-peak swing of 75 raw counts. The reader picked up several tags at once, each with its own ID, so one reader could in principle watch a whole ward. We only had one working breathing sensor, though, so readings from several patients at once are still untested.</p>
                 <p>If I did it again, I'd test the fabrication route in week 1, not week 7.</p>
               </div>
             </div>
@@ -771,7 +771,7 @@
         </details>
       </article>
 
-      <article class="project reverse" id="p-nem" data-skills="lockin python comsol matlab" data-wave="resonance">
+      <article class="project reverse" id="p-nem" data-skills="lockin python comsol" data-wave="resonance">
         <div class="p-media">
           <img src="p3-comsol.png" width="800" height="642" loading="lazy" decoding="async" alt="COMSOL Euler-Bernoulli beam simulation showing the first bending mode of the NEM resonator">
         </div>
@@ -782,7 +782,7 @@
           </div>
           <p class="p-meta">Solo project · 2026</p>
           <div class="chips">
-            <span class="chip">Lock-in amplifier</span><span class="chip">Python</span><span class="chip">COMSOL</span><span class="chip">MATLAB</span>
+            <span class="chip">Lock-in amplifier</span><span class="chip">Python</span><span class="chip">COMSOL</span>
           </div>
           <p class="p-body">A 2&nbsp;µm silicon beam that vibrates about 98 million times a second. I measured how it rings with lock-in detection, fitted the response in Python, and built a COMSOL model that matched <span class="callout">within 3%</span>. Driving it harder pushed the resonance up by 3&nbsp;MHz: the beam stiffens as it swings further, like a string pulled tighter.</p>
         </div>
@@ -792,7 +792,7 @@
           <div class="more-body has-figs">
             <div class="more-text">
               <div class="more-story">
-                <p>The device was a 2&nbsp;µm silicon beam, a nanoelectromechanical (NEM) resonator, and the job was to find out how it really behaves. I measured it electrically with a lock-in amplifier, using a 1-ω mixing technique, while sweeping the back-gate bias from 0 to 2&nbsp;V and the drive power from 0 to −8&nbsp;dB. Fitting Lorentzian curves in Python gave the resonance frequency and quality factor.</p>
+                <p>The device was a 2&nbsp;µm silicon beam, a nanoelectromechanical (NEM) resonator, and the job was to find out how it really behaves. I measured it electrically with a lock-in amplifier, using a 1-ω mixing technique, while sweeping the back-gate bias from 0 to 2&nbsp;V and the drive power from 0 to −8&nbsp;dB. The lab's LabVIEW program logged each sweep, and fitting Lorentzian curves in Python gave the resonance frequency and quality factor.</p>
                 <p>It resonated near 98&nbsp;MHz, with a quality factor of 270–400. To check that against physics, I built COMSOL eigenfrequency models of a pure silicon beam (99.13&nbsp;MHz) and a silicon beam with an oxide shell (95.02&nbsp;MHz). The measurement sat between the two, and the model matched within 3%.</p>
                 <p>Driven harder, the resonance climbed by 3&nbsp;MHz. That is Duffing stiffening: the beam's effective stiffness rises with the size of its swing. I also wrote a critical review of a published method for modelling this nonlinear behaviour on identical devices.</p>
                 <p>If I did it again, I'd fit the Duffing model directly instead of tracking how the peak moves.</p>

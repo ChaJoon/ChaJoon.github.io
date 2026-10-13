@@ -9,7 +9,11 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="Syazwan S. D. Zulkepli — Engineering Portfolio">
 <meta property="og:description" content="MEng Electrical & Electronic Engineering graduate. Projects from hand-made RF sensors and analogue circuits to FPGA processors and machine learning.">
-<meta property="og:image" content="https://chajoon.github.io/hero.jpg">
+<meta property="og:image" content="https://chajoon.github.io/preview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="628">
+<meta property="og:image:alt" content="The welcome screen of Syazwan S. D. Zulkepli's engineering portfolio, with a live oscilloscope trace of breathing recorded by his RFID sensor">
+<meta property="og:url" content="https://chajoon.github.io/">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔧</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -173,6 +177,8 @@
   .hero h1 { font-size: 34px; line-height: 1.15; margin-bottom: 6px; }
   .hero .full-name { margin: -2px 0 8px; font-size: 13px; color: var(--muted); }
   .hero .role { color: var(--muted); font-size: 15px; margin-bottom: 20px; }
+  .hero .role span { display: block; }
+  .hero .interests { margin: 10px 0 0; font-size: 13.5px; line-height: 1.5; color: var(--muted); max-width: 56ch; }
   .hero p.lead { font-size: 17px; max-width: 52ch; }
   .hero .contact-line { margin-top: 22px; font-size: 13px; color: var(--muted); }
   .hero .contact-line a { color: var(--muted); text-decoration: underline; text-decoration-color: var(--rule); }
@@ -203,10 +209,19 @@
     .hero h1 { font-size: 30px; }
     .hero .role { font-size: 14px; margin-bottom: 12px; }
     .hero p.lead { font-size: 15px; line-height: 1.5; }
+    .hero .interests { margin-top: 8px; }
     .hero .contact-line { margin-top: 12px; }
     .index { padding: 12px 16px 10px; }
     .index li a { padding-block: 5px; font-size: 13.5px; }
     .index-more { margin-top: 6px; }
+  }
+  /* Very short laptop screens (around 720 px tall): tighten a little further */
+  @media (min-width: 1100px) and (max-height: 760px) {
+    .side { padding-block: 20px 14px; }
+    .hero .full-name { margin-bottom: 4px; }
+    .hero p.lead { font-size: 14.5px; line-height: 1.45; }
+    .hero .interests { font-size: 13px; line-height: 1.4; margin-top: 6px; }
+    .index li a { padding-block: 3.5px; }
   }
 
   /* ---------- Welcome hand-off (wide screens only; added by script as .welcome-mode) ----------
@@ -592,8 +607,9 @@
     <div class="hero">
       <h1>Syazwan S. D. Zulkepli</h1>
       <p class="full-name">Full name: Syazwan Shah Dinie bin Zulkepli</p>
-      <div class="role">MEng Electrical &amp; Electronic Engineering — University of Southampton — 2:1</div>
-      <p class="lead">Hi, I’m Syazwan. These are some of the projects I built during my degree, from hand-made RF sensors and analogue circuits to FPGA processors and machine learning. I like making things work, especially when a problem is new and I have to reason it out from the fundamentals.</p>
+      <div class="role"><span>MEng Electrical &amp; Electronic Engineering</span><span>University of Southampton — 2:1</span></div>
+      <p class="lead">Hi, I’m Syazwan, a recent graduate. These are some of the projects I built during my MEng, from hand-made RF sensors and analogue circuits to FPGA processors and machine learning. I love seeing an idea finally work, so I stay with a problem until it’s finished.</p>
+      <p class="interests">Outside engineering, I daily-drive Linux, get lost in Minecraft redstone, and love cycling and café hopping.</p>
       <div class="contact-line">
         <a href="mailto:syazwanzulkepli72@gmail.com">syazwanzulkepli72@gmail.com</a> &nbsp;·&nbsp;
         <a href="tel:+447379798069">+44 (0) 7379 798069</a> &nbsp;·&nbsp;

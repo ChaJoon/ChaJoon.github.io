@@ -79,7 +79,7 @@ ax.text(26.4, 8.6, f"index of coincidence\ncipher {sub['ioc_cipher']:.3f}\nEngli
         f"random {sub['ioc_random']:.3f}", ha="right", va="top", fontsize=10, family=MONO, color=MUTED,
         linespacing=1.5)
 titles(fig, "Cipher 1 keeps the shape of English",
-       f"Its {sub['n']} letters ranked by frequency; which letter is which is not shown")
+       f"Its {sub['n']} letters ranked by frequency, without showing which letter is which")
 save(fig, "p7-letter-freq.svg")
 
 # ---------- 2. Repeating-key XOR: only even key lengths decode the whole file ----------

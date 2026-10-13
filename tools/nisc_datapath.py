@@ -207,7 +207,7 @@ for i, (label, c) in enumerate([("data", DATA), ("address", ADDR)]):
     text(x + 5, LY, label, size=8.5, color=MUTED, ha="left")
 tag(LX + 28, LY, "field")
 text(LX + 31.6, LY, "control-word field wired straight to the pin", size=8.5, color=MUTED, ha="left")
-text(LX, LY - 2.6, "SW[9]: synchronous active-low reset for PC, ADDR and ACC", size=8.5, color=MUTED, ha="left")
+text(LX, LY - 2.6, "SW[9] is a synchronous active-low reset for PC, ADDR and ACC", size=8.5, color=MUTED, ha="left")
 
 fig.savefig(OUT.with_suffix(".svg"), facecolor=BG)
 # drop the DTD line: some hosts refuse SVGs that carry one

@@ -391,6 +391,7 @@
     background: var(--surface); transition: border-color .2s;
   }
   .p-media.hardware img { background: var(--surface-2); padding: 6px; }
+  .p-media picture { display: block; } /* light/dark pairs: the <img> inside still gets the rules above */
 
   /* Text figure for the cryptanalysis entry: the method, with no keys or ciphertext */
   .attack-log {
@@ -541,6 +542,16 @@
   .skills-grid { padding: 22px 24px; }
   .card { padding: 22px 24px; margin-top: 16px; }
   .card:last-child { border-bottom: 1px solid var(--rule); }
+  /* Cards with a picture: summary and "Read more" on the left, image on the right */
+  .card.has-media { display: grid; grid-template-columns: minmax(0, 1fr) 300px; column-gap: 28px; align-items: start; }
+  .card.has-media .p-body { max-width: 68ch; } /* a little wider, so the text reaches the image */
+  /* The image spans both rows, so "Read more" sits right under the summary even beside a tall image */
+  .card.has-media > .p-media { grid-column: 2; grid-row: 1 / span 2; }
+  .card.has-media > details { grid-column: 1; }
+  @media (max-width: 700px) {
+    .card.has-media { grid-template-columns: 1fr; }
+    .card.has-media > .p-media { grid-column: 1; grid-row: auto; order: -1; margin-bottom: 16px; }
+  }
   .early-list { padding: 0 24px; }
   .early-list li:first-child { border-top: 0; }
   .early-list li:last-child { border-bottom: 0; }
@@ -628,7 +639,7 @@
         <li><a href="#p-fakenews" data-wave="classes"><span class="idx-name">Fake news detection</span><span class="idx-tag">ML</span></a></li>
         <li><a href="#p-crypto" data-wave="letters"><span class="idx-name">Cryptanalysis of classical ciphers</span><span class="idx-tag">SECURITY</span></a></li>
       </ol>
-      <a class="index-more" href="#tier-more">+ 3 more projects and earlier work ↓</a>
+      <a class="index-more" href="#tier-more">+ 5 more projects and earlier work ↓</a>
     </nav>
   </aside>
   <!-- Shown only while the intro is centred on wide screens (see initWelcome) -->
@@ -658,7 +669,7 @@
       </div>
       <div class="skill-cat">
         <h3>DIGITAL &amp; EMBEDDED</h3>
-        <p><button type="button" class="skill" data-skill="rtl">SystemVerilog/Verilog</button> RTL design, <button type="button" class="skill" data-skill="fpga" data-label="FPGA implementation">FPGA implementation and verification</button> (Intel Quartus, Questa, Cyclone V), <button type="button" class="skill" data-skill="cpp" data-label="C/C++">embedded C/C++</button>, I2C/SPI/UART protocols.</p>
+        <p><button type="button" class="skill" data-skill="rtl">SystemVerilog/Verilog</button> RTL design, <button type="button" class="skill" data-skill="fpga" data-label="FPGA implementation">FPGA implementation and verification</button> (Intel Quartus, Questa, Cyclone V), <button type="button" class="skill" data-skill="ic-layout" data-label="IC layout">IC layout</button> (Tanner L-Edit, Calibre DRC, TSMC 65&nbsp;nm), <button type="button" class="skill" data-skill="cpp" data-label="C/C++">embedded C/C++</button>, I2C/SPI/UART protocols.</p>
       </div>
       <div class="skill-cat">
         <h3>SIMULATION &amp; INSTRUMENTATION</h3>
@@ -673,7 +684,7 @@
   </section>
 
   <section class="projects" id="projects">
-    <h2 class="section-title">Engineering projects <span class="title-note">2023–2026</span></h2>
+    <h2 class="section-title">Engineering projects <span class="title-note">2022–2026</span></h2>
     <p class="section-hint">Select any project to read the problem, the method and the result.</p>
 
     <!-- ===== Tier 1: Selected projects. data-wave picks the divider waveform ===== -->
@@ -935,7 +946,7 @@
     <!-- ===== Tier 2: More projects ===== -->
     <div class="tier" aria-labelledby="tier-more">
       <h3 class="tier-title" id="tier-more">MORE PROJECTS</h3>
-      <p class="tier-hint">A design review, a power-systems study and a security lab series.</p>
+      <p class="tier-hint">A design review, a power-systems study, a security lab series and two second-year team designs.</p>
 
       <article class="card" id="p-tia" data-skills="analogue">
         <h4 class="p-title">Photodiode Transimpedance Amplifier Design Review</h4>
@@ -958,16 +969,19 @@
           </details>
       </article>
 
-      <article class="card" id="p-hvdc" data-skills="matlab python">
-        <h4 class="p-title">2000&nbsp;MW HVDC Subsea Interconnector Design Study</h4>
-        <p class="p-meta">Team of 6 · I owned power quality · 2026</p>
-        <div class="chips">
-          <span class="chip">MATLAB/Simulink</span><span class="chip">Python</span><span class="chip">Power electronics</span><span class="chip">HVDC</span>
+      <article class="card has-media" id="p-hvdc" data-skills="matlab python">
+        <div class="p-content">
+          <h4 class="p-title">2000&nbsp;MW HVDC Subsea Interconnector Design Study</h4>
+          <p class="p-meta">Team of 6 · I owned power quality · 2026</p>
+          <div class="chips">
+            <span class="chip">MATLAB/Simulink</span><span class="chip">Python</span><span class="chip">Power electronics</span><span class="chip">HVDC</span>
+          </div>
+          <p class="p-body">How do you join two power grids that don't run in sync, under 200&nbsp;km of sea, carrying 2000&nbsp;MW at ±525&nbsp;kV? Our team chose the converters, ratings, cable and protection for a High-Voltage Direct Current (HVDC) link. I owned power quality, and showed that the Modular Multilevel Converter's (MMC) stepped output keeps distortion within the IEEE&nbsp;519 limit without banks of tuned filters. In my own simulations of a line-commutated converter, the filters I designed cut harmonic distortion from 27% to 7%.</p>
         </div>
-        <p class="p-body">How do you join two power grids that don't run in sync, under 200&nbsp;km of sea, carrying 2000&nbsp;MW at ±525&nbsp;kV? Our team chose the converters, ratings, cable and protection for a High-Voltage Direct Current (HVDC) link. I owned power quality, and showed that the Modular Multilevel Converter's (MMC) stepped output keeps distortion within the IEEE&nbsp;519 limit without banks of tuned filters. In my own simulations of a line-commutated converter, the filters I designed cut harmonic distortion from 27% to 7%.</p>
+        <div class="p-media"><img src="p8-hvdc-thd.svg" width="800" height="460" loading="lazy" decoding="async" alt="Bar chart of AC-side total harmonic distortion, 27.27% with no filter, 16.21% with a tuned 5th filter, 7.04% adding a tuned 7th, 7.13% adding a damped 12th"></div>
         <details class="more">
             <summary>Read more</summary>
-            <div class="more-body has-figs">
+            <div class="more-body">
               <div class="more-text">
                 <div class="more-story">
                 <p>The brief was a 2000&nbsp;MW link under 200&nbsp;km of sea between two power grids that don't run in sync. Our team of six chose the converter type, ratings, cable and protection, basing each decision on case studies of links already in operation. We settled on a ±525&nbsp;kV bipole using half-bridge Modular Multilevel Converters (MMC).</p>
@@ -975,20 +989,20 @@
                 <p>Separately, I simulated other converter types in MATLAB/Simulink. For a line-commutated converter (LCC), I modelled the output voltage, commutation overlap and harmonics, then designed tuned 5th and 7th and damped 12th AC filters that cut total harmonic distortion from 27.27% to 7.13%. I also simulated voltage-source converter power flow and a 3-level converter, and produced the plots in Python.</p>
               </div>
               </div>
-              <div class="more-figs">
-                <figure class="p-media more-figure"><img src="p8-hvdc-thd.svg" width="800" height="460" loading="lazy" decoding="async" alt="Bar chart of AC-side total harmonic distortion, 27.27% with no filter, 16.21% with a tuned 5th filter, 7.04% adding a tuned 7th, 7.13% adding a damped 12th"><figcaption>Bar chart of AC-side total harmonic distortion, 27.27% with no filter, 16.21% with a tuned 5th filter, 7.04% adding a tuned 7th, 7.13% adding a damped 12th</figcaption></figure>
-              </div>
             </div>
           </details>
       </article>
 
-      <article class="card" id="p-hwsec" data-skills="">
-        <h4 class="p-title">Hardware Security Labs</h4>
-        <p class="p-meta">Lab series with one partner · 2025</p>
-        <div class="chips">
-          <span class="chip">Software-defined radio</span><span class="chip">ChipWhisperer</span><span class="chip">NFC/RFID</span><span class="chip">GSM</span>
+      <article class="card has-media" id="p-hwsec" data-skills="">
+        <div class="p-content">
+          <h4 class="p-title">Hardware Security Labs</h4>
+          <p class="p-meta">Lab series with one partner · 2025</p>
+          <div class="chips">
+            <span class="chip">Software-defined radio</span><span class="chip">ChipWhisperer</span><span class="chip">NFC/RFID</span><span class="chip">GSM</span>
+          </div>
+          <p class="p-body">Four attacks on real hardware. We recovered the secret keys from a MIFARE Classic access card, recovered a password and an AES key from a microcontroller's power consumption, and replayed a 433.92&nbsp;MHz remote-control signal to trigger a relay. We also captured and decoded a test GSM network's broadcasts.</p>
         </div>
-        <p class="p-body">Four attacks on real hardware. We recovered the secret keys from a MIFARE Classic access card, recovered a password and an AES key from a microcontroller's power consumption, and replayed a 433.92&nbsp;MHz remote-control signal to trigger a relay. We also captured and decoded a test GSM network's broadcasts.</p>
+        <div class="p-media"><img src="p11-sdr-433mhz.jpg" width="1100" height="603" loading="lazy" decoding="async" alt="The remote control's signal at 433.92&nbsp;MHz, captured with a software-defined radio in Gqrx. The spectrum peaks at 433.92&nbsp;MHz and the bright band in the waterfall below is the transmission"></div>
         <details class="more">
             <summary>Read more</summary>
             <div class="more-body">
@@ -1002,12 +1016,61 @@
             </div>
           </details>
       </article>
+
+      <article class="card has-media" id="p-chip" data-skills="ic-layout">
+        <div class="p-content">
+          <h4 class="p-title">Digital Chip Layout on TSMC 65&nbsp;nm</h4>
+          <p class="p-meta">Team of 6 · I owned the layout · 2022–23</p>
+          <div class="chips">
+            <span class="chip">Tanner L-Edit</span><span class="chip">T-Spice</span><span class="chip">Calibre DRC</span><span class="chip">GDS II</span><span class="chip">IC layout</span>
+          </div>
+          <p class="p-body">Our team of six designed a small digital chip, had it fabricated by TSMC on a 65&nbsp;nm process, and tested it when it came back. I owned the layout. I drew the block layouts, including a ring oscillator, a 4-bit ALU and the stopwatch logic, and integrated them into the full chip. The ring oscillator had to hit a set frequency, so I tuned it against the parasitic capacitance extracted from the layout.</p>
+        </div>
+        <div class="p-media"><picture><source media="(prefers-color-scheme: dark)" srcset="p9-chip-layout-dark.png" width="1148" height="1131"><img src="p9-chip-layout.png" width="1148" height="1131" loading="lazy" decoding="async" alt="Full-chip layout rendered from the team's final layout file. A long row of cells near the top is the ring oscillator, two tall columns on the left are the ALU, and the stopwatch logic fills the rest, inside the course's pad frame"></picture></div>
+        <details class="more">
+            <summary>Read more</summary>
+            <div class="more-body">
+              <div class="more-text">
+                <div class="more-story">
+                <p>Each team designed a small digital chip to share space on a multi-project chip that TSMC fabricated on its 65&nbsp;nm process. Ours held an inverter, a ring oscillator with a target frequency set for our team, a 4-bit ALU, a button synchroniser, and the sequencer and seven-segment decoder for a stopwatch. The flow ran from schematics in Tanner S-Edit and simulation in T-Spice to layout in L-Edit, Calibre design-rule checks and a GDS&nbsp;II export for fabrication.</p>
+                <p>I was in charge of layout. I drew the block layouts and integrated them all into the full-chip layout. The ring oscillator was the fiddly part. Extraction counted parallel wires as capacitance, so every change to the layout moved the frequency. I tuned it by trial and error, changing wire lengths bit by bit and re-extracting each time, and weighed the number of inverters against the number of divider stages in a spreadsheet. Twenty-one of those extraction runs survive in my files, numbered up to 36.</p>
+                <p>The automated marking reported every block working at schematic, layout and chip level. After fabrication we tested the chip with test vectors on the university's IC tester and in a system test. It ran slightly slower than simulated.</p>
+              </div>
+              </div>
+            </div>
+          </details>
+      </article>
+
+      <article class="card has-media" id="p-meter" data-skills="cpp">
+        <div class="p-content">
+          <h4 class="p-title">Smart Meter Firmware</h4>
+          <p class="p-meta">Team of 6 · I led the firmware · 2023</p>
+          <div class="chips">
+            <span class="chip">Embedded C</span><span class="chip">AVR ATmega644P</span><span class="chip">ADC</span><span class="chip">PWM</span><span class="chip">TFT display</span>
+          </div>
+          <p class="p-body">A smart meter for a microgrid test bed that decides which loads to power from wind, solar, a battery and the mains. Our team of six built it, and I was software lead. I wrote the firmware, about 970 lines of C on an AVR microcontroller. It reads voltage, current and renewable inputs, controls the loads and mains demand with a priority algorithm, and drives a live status display.</p>
+        </div>
+        <div class="p-media"><img src="p10-meter-display.jpg" width="1400" height="753" loading="lazy" decoding="async" alt="The meter's TFT status screen in the team's housing, showing busbar voltage and current, wind and solar capacity, the mains request, load calls and battery status"></div>
+        <details class="more">
+            <summary>Read more</summary>
+            <div class="more-body">
+              <div class="more-text">
+                <div class="more-story">
+                <p>The brief was a mains-powered smart meter for a microgrid test bed. My teammates built the 3D-printed water-resistant housing, the capacitor-dropper power supply and the interface circuitry. The controller was an Il Matto board (ATmega644P) with a TFT display, and its firmware was mine.</p>
+                <p>The firmware reads the busbar voltage and current, and the available wind and solar capacity, through the ADC. It works out the RMS of the AC signals by peak detection, without rectifying them to DC first, and sets the power requested from the mains with a PWM output. A load-shedding algorithm reads which loads are calling for power, switches them, puts Load&nbsp;1 first, uses the battery and keeps mains use to a minimum. The display shows power, battery, loads and renewables live.</p>
+                <p>I built it with avr-gcc and flashed it with avrdude through a USBasp programmer.</p>
+              </div>
+              </div>
+            </div>
+          </details>
+      </article>
     </div>
 
     <!-- ===== Tier 3: Earlier work, one line each ===== -->
     <div class="tier" aria-labelledby="tier-early">
       <h3 class="tier-title" id="tier-early">EARLIER WORK</h3>
       <ul class="early-list">
+        <li id="e-uv" data-skills="cpp"><h4 class="p-title">UV Exposure Monitoring Wearable</h4> <span class="p-meta">individual project · 2024–25</span> — wrote the Arduino firmware in C++ and the Android app for a wearable that compares an uncovered UV sensor with one under clothing, using a proximity sensor over I2C to tell when it is covered and streaming readings over Bluetooth Low Energy. The covered sensor read almost nothing under every fabric, so the setup couldn't tell fabrics apart. Next time I'd hold the UV source steady and check the sensors against a calibrated UV meter before testing any fabric.</li>
         <li id="e-ens" data-skills="cpp"><h4 class="p-title">Embedded Networked Systems</h4> <span class="p-meta">team of 5 · 2023–24</span> — wrote the data-link and physical layers in C on an AVR microcontroller with an RFM12 radio, including bit-stuffed framing, stop-and-wait retransmission with a 0.5&nbsp;s timeout and CRC-16 error checking. My layers sent and acknowledged messages between two boards, but a radio-library build error stopped the team's layers being joined up before the demo. The lesson was to integrate early.</li>
         <li id="e-tline" data-skills="multisim"><h4 class="p-title">Transmission Line Equivalent Circuit</h4> <span class="p-meta">2023</span> — modelled a coaxial line as a cascade of LC sections in Multisim from its geometry (Z₀&nbsp;≈&nbsp;74.9&nbsp;Ω) and compared lossless and lossy behaviour under different loads.</li>
         <li id="e-chaos"><h4 class="p-title">Chaotic Oscillator</h4> <span class="p-meta">lab, with a partner · 2023</span> — built an inductor–diode circuit and observed period-doubling bifurcation on its way to chaos.</li>
@@ -1349,8 +1412,9 @@
       btn.type = 'button';
       btn.className = 'zoom';
       btn.setAttribute('aria-label', 'Enlarge image. ' + img.alt);
-      img.replaceWith(btn);
-      btn.append(img);
+      const target = img.closest('picture') || img; // keep a light/dark <picture> intact
+      target.replaceWith(btn);
+      btn.append(target);
       btn.addEventListener('click', () => {
         big.src = img.currentSrc || img.src;
         big.alt = img.alt;
